@@ -1,2 +1,4 @@
+include ':MidnightLibrary'
+include ':openCVLibrary3'
 include ':FtcRobotController'
-include ':TeamCode'
+include ':MaelstromCode'
