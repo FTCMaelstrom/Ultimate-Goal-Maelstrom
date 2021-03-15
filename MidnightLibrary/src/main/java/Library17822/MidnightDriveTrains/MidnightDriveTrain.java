@@ -9,9 +9,9 @@ import java.util.List;
 import Library17822.MidnightMotors.MidnightMotor;
 import Library17822.MidnightMotors.MidnightMotorModel;
 import Library17822.MidnightMotors.MidnightMotorSystem;
+import Library17822.MidnightSensors.MidnightEncoder;
 import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
 import Library17822.MinightResources.MidnightUtils;
-import Library17822.MidnightSensors.MidnightEncoder;
 
 
 public class MidnightDriveTrain implements MidnightHardware {
@@ -48,6 +48,14 @@ public class MidnightDriveTrain implements MidnightHardware {
         rightDrive.setVelocity(rightPower);
         leftDrive.setVelocity(leftPower);
     }
+
+    public void setVelocity(double leftFront, double leftBack, double rightFront, double rightBack) {
+        leftDrive.motor1.setVelocity(leftFront);
+        leftDrive.motor2.setVelocity(leftBack);
+        rightDrive.motor1.setVelocity(rightFront);
+        rightDrive.motor2.setVelocity(rightBack);
+    }
+
     public void setVelocity(double power){
         leftDrive.setVelocity(power);
         rightDrive.setVelocity(power);

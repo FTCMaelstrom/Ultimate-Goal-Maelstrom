@@ -1,6 +1,7 @@
 package Library17822.MidnightWrappers;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,4 +53,7 @@ public abstract class MidnightLinearOpMode extends LinearOpMode {
         }
     }
     public void sleep() {sleep(1.);}
+    public Gamepad getDefaultController() {
+        return gamepad1;
+    }
 }

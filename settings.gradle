@@ -1,4 +1,1 @@
-include ':MidnightLibrary'
-include ':openCVLibrary3'
-include ':FtcRobotController'
-include ':MaelstromCode'
+include ':FtcRobotController', ':Maelstrom3846Code', ':MidnightLibrary'

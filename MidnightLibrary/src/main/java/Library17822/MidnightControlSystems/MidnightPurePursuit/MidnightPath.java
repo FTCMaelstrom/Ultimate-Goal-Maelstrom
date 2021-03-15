@@ -3,9 +3,9 @@ package Library17822.MidnightControlSystems.MidnightPurePursuit;
 import java.util.Arrays;
 import java.util.List;
 
+import Library17822.MidnightWrappers.MidnightDashBoard;
 import Library17822.MinightResources.MasqMath.MidnightPoint;
 import Library17822.MinightResources.MasqMath.MidnightVector;
-import Library17822.MidnightWrappers.MidnightDashBoard;
 
 /**
  * Created by Archishmaan Peyyety on 8/11/18.
