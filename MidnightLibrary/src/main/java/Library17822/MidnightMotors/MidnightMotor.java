@@ -6,10 +6,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 import Library17822.MidnightSensors.MidnightClock;
+import Library17822.MidnightSensors.MidnightEncoder;
 import Library17822.MidnightSensors.MidnightLimitSwitch;
 import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
 import Library17822.MinightResources.MidnightUtils;
-import Library17822.MidnightSensors.MidnightEncoder;
 
 /**
  * This is a custom motor that includes stall detection and telemetry

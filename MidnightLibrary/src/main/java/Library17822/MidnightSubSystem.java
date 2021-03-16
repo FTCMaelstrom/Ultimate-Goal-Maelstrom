@@ -1,7 +1,7 @@
 package Library17822;
 
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
 import Library17822.MidnightWrappers.MidnightController;
+import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
 
 /**
  * Created by Archish on 2/12/18.

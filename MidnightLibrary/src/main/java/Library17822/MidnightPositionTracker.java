@@ -4,106 +4,188 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import Library17822.MidnightMotors.MidnightMotor;
 import Library17822.MidnightSensors.MidnightAdafruitIMU;
+import Library17822.MidnightSensors.MidnightClock;
 import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
 import Library17822.MinightResources.MidnightUtils;
+
+import static Library17822.MinightResources.MidnightUtils.adjustAngle;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.toRadians;
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 
 /**
  * Created by Archishmaan Peyyety on 8/9/18.
  * Project: MasqLib
  */
 
-public class MidnightPositionTracker implements MidnightHardware, Runnable {
-    private MidnightMotor xSystem, yLSystem, yRSystem;
+public class MidnightPositionTracker implements MidnightHardware {
     public MidnightAdafruitIMU imu;
-    private double heading, globalX, globalY, dH;
-    private boolean running = true;
-
-    private double prevX, prevYR, prevYL, xRadius, trackWidth, threadSleep = 0;
+    private MidnightMotor xSystem;
+    private MidnightMotor yLSystem;
+    private MidnightMotor yRSystem;
+    private MidnightMotor ySystem;
+    private double prevHeading, xDrift, yDrift;
+    private double globalX, globalY, prevX, prevY, prevYR, prevYL, xRadius, yRadius, trackWidth;
+    private DeadWheelPosition position;
+    //private final DashBoard dash = DashBoard.getDash();
 
     public MidnightPositionTracker(MidnightMotor xSystem, MidnightMotor yLSystem, MidnightMotor yRSystem, HardwareMap hardwareMap) {
         this.xSystem = xSystem;
         this.yLSystem = yLSystem;
         this.yRSystem = yRSystem;
         imu = new MidnightAdafruitIMU("imu", hardwareMap);
+        prevHeading = imu.getAbsoluteHeading();
+        MidnightUtils.setTracker(this);
         reset();
     }
 
-    public double getHeading () {
-        return Math.toDegrees(heading);
+    public MidnightPositionTracker(MidnightMotor xSystem, MidnightMotor ySystem, HardwareMap hardwareMap) {
+        this.xSystem = xSystem;
+        this.ySystem = ySystem;
+        imu = new MidnightAdafruitIMU("imu", hardwareMap);
+        prevHeading = imu.getAbsoluteHeading();
+        MidnightUtils.setTracker(this);
+        reset();
     }
 
-    public double getCalculated () {
-        return Math.toDegrees(heading);
-    }
-
-    public void reset() {
-        xSystem.resetEncoder();
-        yLSystem.resetEncoder();
-        yRSystem.resetEncoder();
+    public MidnightPositionTracker(HardwareMap hardwareMap) {
+        imu = new MidnightAdafruitIMU("imu", hardwareMap);
+        MidnightUtils.setTracker(this);
         imu.reset();
     }
 
-    private void updateSystem() {
-        three();
+    public double getHeading() {
+        return imu.getRelativeYaw();
+    }
+
+    public void updateSystem() {
+        switch (position) {
+            case BOTH_CENTER:
+                bothCenter();
+                break;
+            case BOTH_PERPENDICULAR:
+                bothPerpendicular();
+                break;
+            case THREE:
+                three();
+                break;
+        }
+    }
+
+    public void updateOverTime(double time) {
+        MidnightClock clock = new MidnightClock();/*
+        while (clock.hasNotPassed(time, SECONDS)) {
+            updateSystem();
+            dash.create(this);
+            dash.update();
+        }
+        */
+    }
+
+    public void reset() {
+        if (xSystem != null) {
+            xSystem.resetEncoder();
+            xSystem.setWheelDiameter(2);
+        }
+        if (ySystem != null) {
+            ySystem.resetEncoder();
+            ySystem.setWheelDiameter(2);
+        }
+        if (yLSystem != null && yRSystem != null) {
+            yLSystem.resetEncoder();
+            yRSystem.resetEncoder();
+            yLSystem.setWheelDiameter(2);
+            yRSystem.setWheelDiameter(2);
+        }
+
+        imu.reset();
+
+        globalX = 0;
+        globalY = 0;
+    }
+
+    private void bothCenter() {
+        double deltaX = (xSystem.getInches() - prevX);
+        double deltaY = (ySystem.getInches() - prevY);
+        double heading = toRadians(getHeading());
+        double x = deltaX * cos(heading) - deltaY * sin(heading);
+        double y = deltaX * sin(heading) + deltaY * cos(heading);
+        globalX += x;
+        globalY += y;
+        prevY = ySystem.getInches();
+        prevX = xSystem.getInches();
+    }
+
+    private void bothPerpendicular() {
+        double heading = toRadians(getHeading());
+        double xPosition = xSystem.getInches();
+        double yPosition = ySystem.getInches();
+        double dH = getDHeading();
+        double dX = xPosition - prevX;
+        prevX = xPosition;
+        double dY = yPosition - prevY;
+        prevY = yPosition;
+        double angularComponentY = yRadius * dH;
+        double angularComponentX = xRadius * dH;
+        double dTranslationalX = dX + angularComponentX;
+        double dTranslationalY = dY - angularComponentY;
+        double dGlobalX = dTranslationalX * cos(heading) + dTranslationalY * sin(heading);
+        double dGlobalY = dTranslationalY * cos(heading) - dTranslationalX * sin(heading);
+        globalX += dGlobalX;
+        globalY += dGlobalY;
     }
 
     private void three() {
+        double heading = toRadians(getHeading());
         double xPosition = xSystem.getInches();
         double yLPosition = yLSystem.getInches();
         double yRPosition = yRSystem.getInches();
-        heading = MidnightUtils.adjustAngleRad((yLPosition - yRPosition) / trackWidth);
         double dX = xPosition - prevX;
         prevX = xPosition;
         double dYR = yRPosition - prevYR;
         prevYR = yRPosition;
         double dYL = yLPosition - prevYL;
         prevYL = yLPosition;
-        dH = (dYL - dYR) / trackWidth;
-
+        double dH = (dYR - dYL) / trackWidth;
         double dTranslationalY = (dYR + dYL) / 2;
         double angularComponentX = xRadius * dH;
         double dTranslationalX = dX - angularComponentX;
-        if (Math.abs(dH) > 0) {
-            double radiusMov = (dYR+dYL) / (2 * dH);
-            double radiusStrafe = dTranslationalX/dH;
-            dTranslationalY = (radiusMov * Math.sin(dH)) - (radiusStrafe * (1 - Math.cos(dH)));
-            dTranslationalX = radiusMov * (1 - Math.cos(dH)) + (radiusStrafe * Math.sin(dH));
-        }
-        double dGlobalX = dTranslationalX * Math.cos(heading) + dTranslationalY * Math.sin(heading);
-        double dGlobalY = -dTranslationalX * Math.sin(heading) + dTranslationalY * Math.cos(heading);
+        double dGlobalX = dTranslationalX * cos(heading) + dTranslationalY * sin(heading);
+        double dGlobalY = dTranslationalY * cos(heading) - dTranslationalX * sin(heading);
         globalX += dGlobalX;
         globalY += dGlobalY;
     }
 
-    public double getYaw () {
-        return imu.getRelativeYaw();
-    }
-
-    public double getThreadSleep() {
-        return threadSleep;
-    }
-
-    public void setThreadSleep(double threadSleep) {
-        this.threadSleep = threadSleep;
+    public double getDHeading() {
+        double current = toRadians(getHeading());
+        double change = (current - prevHeading);
+        prevHeading = current;
+        return adjustAngle(change, RADIANS);
     }
 
     public double getGlobalX() {
-        return globalX;
+        return globalX + xDrift;
     }
+
     public double getGlobalY() {
-        return globalY;
+        return globalY + yDrift;
     }
 
     public void setXRadius(double xRadius) {
         this.xRadius = xRadius;
     }
 
+    public void setYRadius(double yRadius) {
+        this.yRadius = yRadius;
+    }
+
     public void setTrackWidth(double trackWidth) {
         this.trackWidth = trackWidth;
     }
 
-    public void setRunning(boolean running) {
-        this.running = running;
+    public void setPosition(DeadWheelPosition position) {
+        this.position = position;
     }
 
     @Override
@@ -113,18 +195,14 @@ public class MidnightPositionTracker implements MidnightHardware, Runnable {
 
     @Override
     public String[] getDash() {
-        return new String[] {
-                getName() +
+        return new String[]{
                 "GlobalX: " + globalX,
                 "GlobalY: " + globalY,
                 "Heading: " + getHeading(),
         };
     }
 
-    @Override
-    public void run() {
-        while (running && MidnightUtils.opModeIsActive()) {
-            updateSystem();
-        }
+    public enum DeadWheelPosition {
+        BOTH_CENTER, BOTH_PERPENDICULAR, THREE
     }
 }

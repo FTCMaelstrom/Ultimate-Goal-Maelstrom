@@ -11,9 +11,10 @@ import org.opencv.core.Rect;
 import java.util.Locale;
 
 import Library17822.MidnightControlSystems.MidnightPID.MidnightPIDController;
+import Library17822.MidnightPositionTracker;
 import Library17822.MidnightSensors.MidnightClock;
-import Library17822.MinightResources.MasqMath.MidnightVector;
 import Library17822.MidnightWrappers.MidnightLinearOpMode;
+import Library17822.MinightResources.MasqMath.MidnightVector;
 
 
 /**
@@ -45,6 +46,7 @@ public class MidnightUtils {
     public static MidnightPIDController velocityAutoController;
     public static MidnightPIDController angleController;
 
+    private static MidnightPositionTracker tracker;
     public enum  AngleUnits{DEGREE, RADIAN}
 
     public static void sleep() {
@@ -52,6 +54,10 @@ public class MidnightUtils {
     }
     public static void setLinearOpMode(MidnightLinearOpMode pLinearOpMode) {
         linearOpMode = pLinearOpMode;
+    }
+
+    public static double adjustAngle(double angle, AngleUnit angleUnit) {
+        return angleUnit.normalize(angle);
     }
 
     public static double adjustAngle(double angle) {
@@ -126,6 +132,29 @@ public class MidnightUtils {
         return new MidnightVector(
                 projection.getX() + (lookAhead * Math.cos(theta)),
                 projection.getY() + (lookAhead * Math.sin(theta)));
+    }
+
+    public static double[] negate(double[] values) {
+        double[] result = new double[values.length];
+        for (int i = 0; i < values.length; i++) {
+            result[i] = -values[i];
+        }
+        return result;
+    }
+
+    public static int[] negate(int[] values) {
+        int[] result = new int[values.length];
+        for (int i = 0; i < values.length; i++) {
+            result[i] = -values[i];
+        }
+        return result;
+    }
+
+    public static void setTracker(MidnightPositionTracker midnightPositionTracker) {
+        tracker = midnightPositionTracker;
+    }
+    public static MidnightPositionTracker getTracker() {
+        return tracker;
     }
 
 }

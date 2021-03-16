@@ -1,5 +1,6 @@
 package Library17822;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
@@ -12,26 +13,37 @@ import Library17822.MidnightControlSystems.MidnightPurePursuit.MidnightWayPoint;
 import Library17822.MidnightControlSystems.MidnightPurePursuit.MidnightWayPointLegacy;
 import Library17822.MidnightDriveTrains.MidnightMechanumDriveTrain;
 import Library17822.MidnightSensors.MidnightClock;
+import Library17822.MidnightWrappers.MidnightController;
+import Library17822.MidnightWrappers.MidnightDashBoard;
+import Library17822.MidnightWrappers.MidnightPredicate;
 import Library17822.MinightResources.MasqMath.MidnightPoint;
 import Library17822.MinightResources.MasqMath.MidnightVector;
 import Library17822.MinightResources.MidnightHelpers.Direction;
 import Library17822.MinightResources.MidnightUtils;
-import Library17822.MidnightWrappers.MidnightDashBoard;
-import Library17822.MidnightWrappers.MidnightController;
-import Library17822.MidnightWrappers.MidnightPredicate;
 
 import static Library17822.MidnightControlSystems.MidnightPurePursuit.MidnightWayPoint.PointMode.MECH;
 import static Library17822.MidnightControlSystems.MidnightPurePursuit.MidnightWayPoint.PointMode.SWITCH;
 import static Library17822.MinightResources.MidnightUtils.DEFAULT_SLEEP_TIME;
+import static Library17822.MinightResources.MidnightUtils.DEFAULT_SPEED_MULTIPLIER;
 import static Library17822.MinightResources.MidnightUtils.DEFAULT_TIMEOUT;
+import static Library17822.MinightResources.MidnightUtils.DEFAULT_TURN_MULTIPLIER;
 import static Library17822.MinightResources.MidnightUtils.angleController;
 import static Library17822.MinightResources.MidnightUtils.driveController;
+import static Library17822.MinightResources.MidnightUtils.getLinearOpMode;
+import static Library17822.MinightResources.MidnightUtils.max;
 import static Library17822.MinightResources.MidnightUtils.scaleNumber;
 import static Library17822.MinightResources.MidnightUtils.turnController;
 import static Library17822.MinightResources.MidnightUtils.velocityAutoController;
 import static Library17822.MinightResources.MidnightUtils.velocityTeleController;
 import static Library17822.MinightResources.MidnightUtils.xyAngleController;
 import static Library17822.MinightResources.MidnightUtils.xySpeedController;
+import static java.lang.Math.PI;
+import static java.lang.Math.abs;
+import static java.lang.Math.atan2;
+import static java.lang.Math.cos;
+import static java.lang.Math.hypot;
+import static java.lang.Math.sin;
+import static java.lang.Math.toRadians;
 
 
 /**
@@ -95,7 +107,7 @@ public abstract class MidnightRobot {
             powerAdjustment = Range.clip(powerAdjustment, -1.0, +1.0);
             leftPower = (direction.value * power) - powerAdjustment;
             rightPower = (direction.value * power) + powerAdjustment;
-            maxPower = MidnightUtils.max(Math.abs(leftPower), Math.abs(rightPower));
+            maxPower = max(Math.abs(leftPower), Math.abs(rightPower));
             if (maxPower > 1.0) {
                 leftPower /= maxPower;
                 rightPower /= maxPower;
@@ -138,7 +150,7 @@ public abstract class MidnightRobot {
             rightPower = power + powerAdjustment;
             leftPower*=direction.value;
             rightPower*=direction.value;
-            maxPower = MidnightUtils.max(Math.abs(leftPower), Math.abs(rightPower));
+            maxPower = max(Math.abs(leftPower), Math.abs(rightPower));
             if (maxPower > 1.0) {
                 leftPower /= maxPower;
                 rightPower /= maxPower;
@@ -265,7 +277,7 @@ public abstract class MidnightRobot {
             powerAdjustment *= direction.value;
             leftPower = power - powerAdjustment;
             rightPower = power + powerAdjustment;
-            maxPower = MidnightUtils.max(Math.abs(leftPower), Math.abs(rightPower));
+            maxPower = max(Math.abs(leftPower), Math.abs(rightPower));
             if (maxPower > 1.0) {
                 leftPower /= maxPower;
                 rightPower /= maxPower;
@@ -446,7 +458,7 @@ public abstract class MidnightRobot {
         float turn = c.rightStickX() * 0.7f;
         double left = move + turn;
         double right = move - turn;
-        double max = MidnightUtils.max(left, right);
+        double max = max(left, right);
         if(max > 1.0) {
             left /= max;
             right /= max;
@@ -459,7 +471,7 @@ public abstract class MidnightRobot {
         double right = -c.rightStickY();
         double leftRate = driveTrain.leftDrive.getVelocity();
         double rightRate = driveTrain.rightDrive.getVelocity();
-        double maxRate = MidnightUtils.max(Math.abs(leftRate/left), Math.abs(rightRate/right));
+        double maxRate = max(Math.abs(leftRate/left), Math.abs(rightRate/right));
         leftRate /= maxRate;
         rightRate /= maxRate;
         double leftError =  left - leftRate;
@@ -488,7 +500,7 @@ public abstract class MidnightRobot {
         double rightFront = (Math.cos(adjustedAngle) * speedMagnitude * speedMultiplier) + xR * turnMultiplier * direction.value;
         double rightBack = (Math.sin(adjustedAngle) * speedMagnitude * speedMultiplier) + xR * turnMultiplier * direction.value;
 
-        double max = MidnightUtils.max(Math.abs(leftFront), Math.abs(leftBack), Math.abs(rightFront), Math.abs(rightBack));
+        double max = max(Math.abs(leftFront), Math.abs(leftBack), Math.abs(rightFront), Math.abs(rightBack));
         if (max > 1) {
             leftFront /= Math.abs(max);
             leftBack /= Math.abs(max);
@@ -508,16 +520,16 @@ public abstract class MidnightRobot {
         }
     }
     public void MECH(MidnightController c, Direction direction) {
-        MECH(c, direction, false, MidnightUtils.DEFAULT_SPEED_MULTIPLIER, MidnightUtils.DEFAULT_TURN_MULTIPLIER, false);
+        MECH(c, direction, false, DEFAULT_SPEED_MULTIPLIER, DEFAULT_TURN_MULTIPLIER, false);
     }
     public void MECH(MidnightController c, boolean disabled) {
-        MECH(c, Direction.FORWARD, disabled, MidnightUtils.DEFAULT_SPEED_MULTIPLIER, MidnightUtils.DEFAULT_TURN_MULTIPLIER, false);
+        MECH(c, Direction.FORWARD, disabled, DEFAULT_SPEED_MULTIPLIER, DEFAULT_TURN_MULTIPLIER, false);
     }
     public void MECH(MidnightController c, boolean fieldCentric, boolean power) {
-        MECH(c, Direction.FORWARD, fieldCentric, MidnightUtils.DEFAULT_SPEED_MULTIPLIER, MidnightUtils.DEFAULT_TURN_MULTIPLIER, power);
+        MECH(c, Direction.FORWARD, fieldCentric, DEFAULT_SPEED_MULTIPLIER, DEFAULT_TURN_MULTIPLIER, power);
     }
     public void MECH(MidnightController c) {
-        MECH(c, Direction.FORWARD, false, MidnightUtils.DEFAULT_SPEED_MULTIPLIER, MidnightUtils.DEFAULT_TURN_MULTIPLIER, false);
+        MECH(c, Direction.FORWARD, false, DEFAULT_SPEED_MULTIPLIER, DEFAULT_TURN_MULTIPLIER, false);
     }
     public void MECH(MidnightController c, double speedMutliplier, double turnMultiplier) {
         MECH(c, Direction.FORWARD, false, speedMutliplier, turnMultiplier, false);
@@ -539,4 +551,48 @@ public abstract class MidnightRobot {
     public MidnightWayPointLegacy getCurrentWayPointLegacy() {
         return new MidnightWayPointLegacy(new MidnightPoint(tracker.getGlobalX(), tracker.getGlobalY(), tracker.getHeading()));
     }
+
+    public void MECH(Gamepad c, boolean fieldCentric, double speedMultiplier, double turnMultiplier) {
+        int disable = 0;
+        if (fieldCentric) disable = 1;
+
+        double x = c.left_stick_x;
+        double y = -c.left_stick_y;
+        double xR = c.right_stick_x;
+
+
+        double angle = atan2(x, y) + (toRadians(tracker.getHeading()) * disable);
+        double adjustedAngle = angle + PI / 4;
+
+        double speedMagnitude = hypot(x, y) * speedMultiplier;
+        double turnMagnitude = xR * turnMultiplier;
+
+        double leftFront = (sin(adjustedAngle) * speedMagnitude) + turnMagnitude;
+        double leftBack = (cos(adjustedAngle) * speedMagnitude) + turnMagnitude;
+        double rightFront = (cos(adjustedAngle) * speedMagnitude) - turnMagnitude;
+        double rightBack = (sin(adjustedAngle) * speedMagnitude) - turnMagnitude;
+
+        double max = max(abs(leftFront), abs(leftBack), abs(rightFront), abs(rightBack));
+        if (max > 1) {
+            leftFront /= abs(max);
+            leftBack /= abs(max);
+            rightFront /= abs(max);
+            rightBack /= abs(max);
+        }
+
+        driveTrain.setVelocity(leftFront, leftBack, rightFront, rightBack);
+    }
+
+    public void MECH(Gamepad c, boolean fieldCentric) {
+        MECH(c, fieldCentric, DEFAULT_SPEED_MULTIPLIER, DEFAULT_TURN_MULTIPLIER);
+    }
+
+    public void MECH(Gamepad c) {
+        MECH(c, false);
+    }
+
+    public void MECH() {
+        MECH(getLinearOpMode().getDefaultController());
+    }
+
 }
