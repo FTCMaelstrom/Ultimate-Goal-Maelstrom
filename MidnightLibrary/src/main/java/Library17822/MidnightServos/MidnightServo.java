@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import Library17822.MidnightSensors.MidnightLimitSwitch;
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
 
 /**
  * Created by Archish on 10/28/16.

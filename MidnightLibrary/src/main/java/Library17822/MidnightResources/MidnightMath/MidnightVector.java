@@ -1,6 +1,6 @@
-package Library17822.MinightResources.MasqMath;
+package Library17822.MidnightResources.MidnightMath;
 
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
 
 /**
  * Created by Archishmaan Peyyety on 8/13/18.

@@ -1,24 +1,24 @@
-package Library17822;
+package Library17822.MidnightResources;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import Library17822.MidnightMotors.MidnightMotor;
 import Library17822.MidnightSensors.MidnightAdafruitIMU;
 import Library17822.MidnightSensors.MidnightClock;
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
-import Library17822.MinightResources.MidnightUtils;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightUtils;
 
-import static Library17822.MinightResources.MidnightUtils.adjustAngle;
+import static Library17822.MidnightResources.MidnightUtils.adjustAngle;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
-
 /**
- * Created by Archishmaan Peyyety on 8/9/18.
- * Project: MasqLib
- */
-
+ * Created by Amogh Mehta
+ * Project: FtcRobotController_Ultimate-Goal_prod2
+ * Last Modified: 3/15/21 1:28 PM
+ * Last Updated: 3/16/21 3:48 PM
+ **/
 public class MidnightPositionTracker implements MidnightHardware {
     public MidnightAdafruitIMU imu;
     private MidnightMotor xSystem;

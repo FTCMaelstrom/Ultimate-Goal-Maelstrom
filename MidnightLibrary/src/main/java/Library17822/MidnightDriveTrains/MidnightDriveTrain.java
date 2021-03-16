@@ -10,8 +10,8 @@ import Library17822.MidnightMotors.MidnightMotor;
 import Library17822.MidnightMotors.MidnightMotorModel;
 import Library17822.MidnightMotors.MidnightMotorSystem;
 import Library17822.MidnightSensors.MidnightEncoder;
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
-import Library17822.MinightResources.MidnightUtils;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightUtils;
 
 
 public class MidnightDriveTrain implements MidnightHardware {

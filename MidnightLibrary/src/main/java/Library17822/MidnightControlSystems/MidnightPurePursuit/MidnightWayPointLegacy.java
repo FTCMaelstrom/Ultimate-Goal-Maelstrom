@@ -5,9 +5,9 @@ package Library17822.MidnightControlSystems.MidnightPurePursuit;
  * Project: MasqLib
  */
 
-import Library17822.MinightResources.MasqMath.MidnightPoint;
-import Library17822.MinightResources.MasqMath.MidnightVector;
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightMath.MidnightPoint;
+import Library17822.MidnightResources.MidnightMath.MidnightVector;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
 
 public class MidnightWayPointLegacy implements MidnightHardware {
     private double x, y, h, radius, velocity;

@@ -2,7 +2,7 @@ package Library17822.MidnightSensors;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
 
 public class MidnightTouchSensor implements MidnightHardware {
     private DigitalChannel touchSensor;

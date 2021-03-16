@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import Library17822.MidnightControlSystems.MidnightPID.MidnightPIDController;
 import Library17822.MidnightMotors.MidnightMotorModel;
 import Library17822.MidnightMotors.MidnightMotorSystem;
-import Library17822.MidnightPositionTracker;
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
-import Library17822.MinightResources.MidnightUtils;
+import Library17822.MidnightResources.MidnightPositionTracker;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightUtils;
 
 
 public class MidnightMechanumDriveTrain extends MidnightDriveTrain implements MidnightHardware {

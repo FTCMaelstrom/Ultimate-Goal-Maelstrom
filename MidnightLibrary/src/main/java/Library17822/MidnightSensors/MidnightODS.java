@@ -3,8 +3,8 @@ package Library17822.MidnightSensors;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
-import Library17822.MinightResources.MidnightUtils;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightUtils;
 
 
 /**

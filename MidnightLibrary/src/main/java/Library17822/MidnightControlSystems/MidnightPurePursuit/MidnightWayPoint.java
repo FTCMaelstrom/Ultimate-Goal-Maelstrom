@@ -1,8 +1,8 @@
 package Library17822.MidnightControlSystems.MidnightPurePursuit;
 
-import Library17822.MinightResources.MasqMath.MidnightPoint;
-import Library17822.MinightResources.MasqMath.MidnightVector;
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightMath.MidnightPoint;
+import Library17822.MidnightResources.MidnightMath.MidnightVector;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
 
 /**
  * Created by Archishmaan Peyyety on 2020-01-23.

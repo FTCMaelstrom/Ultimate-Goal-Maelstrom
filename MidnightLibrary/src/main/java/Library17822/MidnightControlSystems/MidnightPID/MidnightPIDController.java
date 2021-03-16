@@ -3,7 +3,7 @@ package Library17822.MidnightControlSystems.MidnightPID;
 import com.qualcomm.robotcore.util.Range;
 
 import Library17822.MidnightSensors.MidnightClock;
-import Library17822.MinightResources.MasqMath.MidnightIntegrator;
+import Library17822.MidnightResources.MidnightMath.MidnightIntegrator;
 
 /**
  * Created by Archish on 4/9/18.

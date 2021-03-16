@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Library17822.MidnightSensors.MidnightClock;
-import Library17822.MinightResources.MidnightUtils;
+import Library17822.MidnightResources.MidnightUtils;
 
 
 /**

@@ -3,7 +3,7 @@ package Library17822.MidnightWrappers;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import Library17822.MidnightSensors.MidnightClock;
-import Library17822.MinightResources.MidnightUtils;
+import Library17822.MidnightResources.MidnightUtils;
 
 /**
  * Created by Archish on 10/12/17.

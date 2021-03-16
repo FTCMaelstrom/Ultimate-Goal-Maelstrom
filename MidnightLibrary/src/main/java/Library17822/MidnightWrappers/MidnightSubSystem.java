@@ -1,12 +1,11 @@
-package Library17822;
+package Library17822.MidnightWrappers;
 
 import Library17822.MidnightWrappers.MidnightController;
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
 
 /**
  * Created by Archish on 2/12/18.
  */
-
 public interface MidnightSubSystem {
     void DriverControl(MidnightController controller) throws InterruptedException;
     String getName();

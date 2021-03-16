@@ -4,8 +4,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import Library17822.MidnightSubSystem;
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
 
 /**
  * This is a telemetry wrapper class.

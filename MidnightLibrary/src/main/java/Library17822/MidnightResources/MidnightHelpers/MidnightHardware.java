@@ -1,4 +1,4 @@
-package Library17822.MinightResources.MidnightHelpers;
+package Library17822.MidnightResources.MidnightHelpers;
 
 
 

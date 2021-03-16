@@ -2,7 +2,7 @@ package Library17822.MidnightSensors;
 
 import java.util.Locale;
 
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
 
 
 public class MidnightClock implements MidnightHardware {

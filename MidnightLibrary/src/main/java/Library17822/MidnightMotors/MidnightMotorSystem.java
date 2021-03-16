@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import Library17822.MidnightSensors.MidnightLimitSwitch;
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
 
 /**
  * MidnightMotorSystem That supports two or more motors and treats them as one

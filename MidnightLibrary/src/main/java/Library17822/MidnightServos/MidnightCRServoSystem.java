@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import Library17822.MidnightSensors.MidnightLimitSwitch;
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
 
 /**
  * Created by Archish on 10/9/17.

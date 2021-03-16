@@ -5,7 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Mako.Robot.Mako;
 
 import Library17822.MidnightWrappers.MidnightLinearOpMode;
-
+/**
+ * Created by Amogh Mehta
+ * Project: FtcRobotController_Ultimate-Goal_prod2
+ * Last Modified: 3/16/21 3:19 PM
+ * Last Updated: 3/16/21 3:29 PM
+ **/
 @TeleOp(name = "Mako1", group = "Mako")
 public class Mako1 extends MidnightLinearOpMode {
     private Mako mako = new Mako();

@@ -1,4 +1,4 @@
-package Library17822.MinightResources.MidnightHelpers;
+package Library17822.MidnightResources.MidnightHelpers;
 
 /**
  * Gives a positive or negative multiplier associated to the needed motor spin direction of the associated direction.

@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import Library17822.MinightResources.MidnightHelpers.MidnightHardware;
-import Library17822.MinightResources.MidnightUtils;
+import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightUtils;
 
 /**
  * Created by Archish on 9/7/17.
