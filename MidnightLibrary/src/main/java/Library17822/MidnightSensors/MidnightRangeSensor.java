@@ -6,9 +6,15 @@ import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 
-import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHardware;
 
 
+/**
+ * Created by Amogh Mehta
+ * Project: FtcRobotController_Ultimate-Goal_prod2
+ * Last Modified: 3/17/21 12:14 PM
+ * Last Updated: 3/17/21 12:18 PM
+ **/
 public class MidnightRangeSensor implements MidnightHardware {
 
     byte[] range1Cache;

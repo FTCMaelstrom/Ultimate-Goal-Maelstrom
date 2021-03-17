@@ -8,22 +8,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import Library17822.MidnightControlSystems.MidnightPID.MidnightPIDController;
-import Library17822.MidnightControlSystems.MidnightPurePursuit.MidnightWayPoint;
-import Library17822.MidnightControlSystems.MidnightPurePursuit.MidnightWayPointLegacy;
-import Library17822.MidnightDriveTrains.MidnightMechanumDriveTrain;
-import Library17822.MidnightResources.MidnightPositionTracker;
-import Library17822.MidnightSensors.MidnightClock;
-import Library17822.MidnightWrappers.MidnightController;
-import Library17822.MidnightWrappers.MidnightDashBoard;
-import Library17822.MidnightWrappers.MidnightPredicate;
-import Library17822.MidnightResources.MidnightMath.MidnightPoint;
-import Library17822.MidnightResources.MidnightMath.MidnightVector;
-import Library17822.MidnightResources.MidnightHelpers.Direction;
+import Library17822.MidnightMath.MidnightPIDController;
+import Library17822.MidnightMath.MidnightWayPoint;
+import Library17822.MidnightMovement.MidnightMechanumDriveTrain;
+import Library17822.MidnightMovement.MidnightPositionTracker;
+import Library17822.MidnightResources.MidnightClock;
+import Library17822.MidnightResources.MidnightController;
+import Library17822.MidnightResources.MidnightDashBoard;
+import Library17822.MidnightResources.MidnightPredicate;
+import Library17822.MidnightMath.MidnightPoint;
+import Library17822.MidnightMath.MidnightVector;
+import Library17822.MidnightResources.Direction;
 import Library17822.MidnightResources.MidnightUtils;
 
-import static Library17822.MidnightControlSystems.MidnightPurePursuit.MidnightWayPoint.PointMode.MECH;
-import static Library17822.MidnightControlSystems.MidnightPurePursuit.MidnightWayPoint.PointMode.SWITCH;
+import static Library17822.MidnightMath.MidnightWayPoint.PointMode.MECH;
+import static Library17822.MidnightMath.MidnightWayPoint.PointMode.SWITCH;
 import static Library17822.MidnightResources.MidnightUtils.DEFAULT_SLEEP_TIME;
 import static Library17822.MidnightResources.MidnightUtils.DEFAULT_SPEED_MULTIPLIER;
 import static Library17822.MidnightResources.MidnightUtils.DEFAULT_TIMEOUT;
@@ -60,7 +59,7 @@ public abstract class MidnightRobot {
     public MidnightMechanumDriveTrain driveTrain;
     public MidnightPositionTracker tracker;
     public MidnightDashBoard dash;
-    private MidnightClock timeoutClock = new MidnightClock();
+    private final MidnightClock timeoutClock = new MidnightClock();
 
     public static boolean opModeIsActive() {return MidnightUtils.opModeIsActive();}
 
@@ -549,10 +548,11 @@ public abstract class MidnightRobot {
     public MidnightWayPoint getCurrentWayPoint() {
         return new MidnightWayPoint().setPoint(new MidnightPoint(tracker.getGlobalX(), tracker.getGlobalY(), tracker.getHeading())).setName("Inital WayPoint");
     }
+    /*
     public MidnightWayPointLegacy getCurrentWayPointLegacy() {
         return new MidnightWayPointLegacy(new MidnightPoint(tracker.getGlobalX(), tracker.getGlobalY(), tracker.getHeading()));
     }
-
+    */
     public void MECH(Gamepad c, boolean fieldCentric, double speedMultiplier, double turnMultiplier) {
         int disable = 0;
         if (fieldCentric) disable = 1;

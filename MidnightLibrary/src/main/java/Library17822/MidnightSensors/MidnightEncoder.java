@@ -1,7 +1,7 @@
 package Library17822.MidnightSensors;
 
-import Library17822.MidnightMotors.MidnightMotor;
-import Library17822.MidnightMotors.MidnightMotorModel;
+import Library17822.MidnightMovement.MidnightMotor;
+import Library17822.MidnightMovement.MidnightMotorModel;
 
 /**
  * Created by Archish on 3/14/18.

@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHardware;
 
 import static Library17822.MidnightResources.MidnightUtils.formatAngle;
 

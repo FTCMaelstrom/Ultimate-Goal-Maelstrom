@@ -10,10 +10,9 @@ import org.opencv.core.Rect;
 
 import java.util.Locale;
 
-import Library17822.MidnightControlSystems.MidnightPID.MidnightPIDController;
-import Library17822.MidnightSensors.MidnightClock;
-import Library17822.MidnightWrappers.MidnightLinearOpMode;
-import Library17822.MidnightResources.MidnightMath.MidnightVector;
+import Library17822.MidnightMath.MidnightPIDController;
+import Library17822.MidnightMovement.MidnightPositionTracker;
+import Library17822.MidnightMath.MidnightVector;
 
 
 /**

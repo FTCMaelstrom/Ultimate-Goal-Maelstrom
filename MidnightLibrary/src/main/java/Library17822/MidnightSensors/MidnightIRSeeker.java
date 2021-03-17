@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 
-import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHardware;
 
 
 /**

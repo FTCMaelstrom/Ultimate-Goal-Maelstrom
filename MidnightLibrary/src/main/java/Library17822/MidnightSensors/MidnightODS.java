@@ -3,7 +3,7 @@ package Library17822.MidnightSensors;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
-import Library17822.MidnightResources.MidnightHelpers.MidnightHardware;
+import Library17822.MidnightResources.MidnightHardware;
 import Library17822.MidnightResources.MidnightUtils;
 
 
@@ -11,6 +11,12 @@ import Library17822.MidnightResources.MidnightUtils;
  * Created by Archish on 10/28/16.
  */
 
+/**
+ * Created by Amogh Mehta
+ * Project: FtcRobotController_Ultimate-Goal_prod2
+ * Last Modified: 3/17/21 12:14 PM
+ * Last Updated: 3/17/21 12:18 PM
+ **/
 public class MidnightODS implements MidnightHardware {
     private OpticalDistanceSensor ods;
     private String nameODSSensor;

@@ -2,13 +2,13 @@ package org.firstinspires.ftc.teamcode.Mako.Robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import Library17822.MidnightControlSystems.MidnightPID.MidnightPIDController;
-import Library17822.MidnightDriveTrains.MidnightMechanumDriveTrain;
-import Library17822.MidnightMotors.MidnightMotor;
-import Library17822.MidnightMotors.MidnightMotorModel;
-import Library17822.MidnightResources.MidnightPositionTracker;
+import Library17822.MidnightMath.MidnightPIDController;
+import Library17822.MidnightMovement.MidnightMechanumDriveTrain;
+import Library17822.MidnightMovement.MidnightMotor;
+import Library17822.MidnightMovement.MidnightMotorModel;
+import Library17822.MidnightMovement.MidnightPositionTracker;
 import Library17822.MidnightRobot;
-import Library17822.MidnightWrappers.MidnightDashBoard;
+import Library17822.MidnightResources.MidnightDashBoard;
 
 import static Library17822.MidnightResources.MidnightUtils.angleController;
 import static Library17822.MidnightResources.MidnightUtils.driveController;
@@ -35,8 +35,8 @@ public class Mako extends MidnightRobot {
     public void init(HardwareMap hardwareMap) {
         mapHardware(hardwareMap);
 
-        encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE,hardwareMap);
-        encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
+        encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBOREENCODER,hardwareMap);
+        encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBOREENCODER, hardwareMap);
         tracker = new MidnightPositionTracker(encoder1,encoder2,hardwareMap);
 
         tracker.setPosition(MidnightPositionTracker.DeadWheelPosition.BOTH_CENTER);
