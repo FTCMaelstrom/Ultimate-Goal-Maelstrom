@@ -2,18 +2,18 @@ package org.firstinspires.ftc.teamcode.Mako.Robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import Library17822.MidnightMath.MidnightPIDController;
-import Library17822.MidnightMovement.MidnightMechanumDriveTrain;
-import Library17822.MidnightMovement.MidnightMotor;
-import Library17822.MidnightMovement.MidnightMotorModel;
-import Library17822.MidnightMovement.MidnightPositionTracker;
-import Library17822.MidnightRobot;
-import Library17822.MidnightResources.MidnightDashBoard;
+import MidnightLibrary.MidnightMath.MidnightPIDController;
+import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
+import MidnightLibrary.MidnightMovement.MidnightMotor;
+import MidnightLibrary.MidnightMovement.MidnightMotorModel;
+import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
+import MidnightLibrary.MidnightRobot;
+import MidnightLibrary.MidnightResources.MidnightDashBoard;
 
-import static Library17822.MidnightResources.MidnightUtils.angleController;
-import static Library17822.MidnightResources.MidnightUtils.driveController;
-import static Library17822.MidnightResources.MidnightUtils.setTracker;
-import static Library17822.MidnightResources.MidnightUtils.turnController;
+import static MidnightLibrary.MidnightResources.MidnightUtils.angleController;
+import static MidnightLibrary.MidnightResources.MidnightUtils.driveController;
+import static MidnightLibrary.MidnightResources.MidnightUtils.setTracker;
+import static MidnightLibrary.MidnightResources.MidnightUtils.turnController;
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2

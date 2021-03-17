@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Mako.Robot.Mako;
 
-import Library17822.MidnightResources.MidnightLinearOpMode;
+import MidnightLibrary.MidnightResources.MidnightLinearOpMode;
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2
