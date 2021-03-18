@@ -1,23 +1,7 @@
 package org.firstinspires.ftc.teamcode.Mako.Robot;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-<<<<<<< Updated upstream
-import Library17822.MidnightControlSystems.MidnightPID.MidnightPIDController;
-import Library17822.MidnightDriveTrains.MidnightMechanumDriveTrain;
-import Library17822.MidnightMotors.MidnightMotor;
-import Library17822.MidnightMotors.MidnightMotorModel;
-import Library17822.MidnightPositionTracker;
-import Library17822.MidnightRobot;
-import Library17822.MidnightWrappers.MidnightDashBoard;
-
-import static Library17822.MinightResources.MidnightUtils.angleController;
-import static Library17822.MinightResources.MidnightUtils.driveController;
-import static Library17822.MinightResources.MidnightUtils.setTracker;
-import static Library17822.MinightResources.MidnightUtils.turnController;
-
-=======
 import MaelstromCV.CameraView;
 import MaelstromCV.UltimateGoalSpecific.RingHunter;
 import MidnightLibrary.MidnightMath.MidnightPIDController;
@@ -36,10 +20,9 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 3/17/21 7:13 PM
- * Last Updated: 3/17/21 10:47 PM
+ * Last Modified: 3/17/21 11:00 PM
+ * Last Updated: 3/17/21 11:01 PM
  **/
->>>>>>> Stashed changes
 public class Mako extends MidnightRobot {
     public MidnightMotor encoder1, encoder2;
 
@@ -57,8 +40,8 @@ public class Mako extends MidnightRobot {
     public void init(HardwareMap hardwareMap) {
         mapHardware(hardwareMap);
 
-        encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE,hardwareMap);
-        encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
+        encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBOREENCODER,hardwareMap);
+        encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBOREENCODER, hardwareMap);
         tracker = new MidnightPositionTracker(encoder1,encoder2,hardwareMap);
 
         tracker.setPosition(MidnightPositionTracker.DeadWheelPosition.BOTH_CENTER);
@@ -74,7 +57,8 @@ public class Mako extends MidnightRobot {
 
         driveTrain.setClosedLoop(true);
         driveTrain.resetEncoders();
-        driveTrain.setKp(1e-8);
+
+        driveTrain.setKp(1e-8);//Set to 1e-3 by default, which is too low for a drivetrain, keep at 1e-8 or shaking will occur
     }
 
     public void initCamera() {
