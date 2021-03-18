@@ -1,21 +1,25 @@
 package org.firstinspires.ftc.teamcode.Mako.Robot;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import Library17822.MidnightControlSystems.MidnightPID.MidnightPIDController;
-import Library17822.MidnightDriveTrains.MidnightMechanumDriveTrain;
-import Library17822.MidnightMotors.MidnightMotor;
-import Library17822.MidnightMotors.MidnightMotorModel;
-import Library17822.MidnightPositionTracker;
-import Library17822.MidnightRobot;
-import Library17822.MidnightWrappers.MidnightDashBoard;
+import MidnightLibrary.MidnightMath.MidnightPIDController;
+import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
+import MidnightLibrary.MidnightMovement.MidnightMotor;
+import MidnightLibrary.MidnightMovement.MidnightMotorModel;
+import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
+import MidnightLibrary.MidnightRobot;
+import MidnightLibrary.MidnightResources.MidnightDashBoard;
 
-import static Library17822.MinightResources.MidnightUtils.angleController;
-import static Library17822.MinightResources.MidnightUtils.driveController;
-import static Library17822.MinightResources.MidnightUtils.setTracker;
-import static Library17822.MinightResources.MidnightUtils.turnController;
-
+import static MidnightLibrary.MidnightResources.MidnightUtils.angleController;
+import static MidnightLibrary.MidnightResources.MidnightUtils.driveController;
+import static MidnightLibrary.MidnightResources.MidnightUtils.setTracker;
+import static MidnightLibrary.MidnightResources.MidnightUtils.turnController;
+/**
+ * Created by Amogh Mehta
+ * Project: FtcRobotController_Ultimate-Goal_prod2
+ * Last Modified: 3/16/21 3:19 PM
+ * Last Updated: 3/16/21 3:29 PM
+ **/
 public class Mako extends MidnightRobot {
     public MidnightMotor encoder1, encoder2;
 
@@ -31,8 +35,8 @@ public class Mako extends MidnightRobot {
     public void init(HardwareMap hardwareMap) {
         mapHardware(hardwareMap);
 
-        encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE,hardwareMap);
-        encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
+        encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBOREENCODER,hardwareMap);
+        encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBOREENCODER, hardwareMap);
         tracker = new MidnightPositionTracker(encoder1,encoder2,hardwareMap);
 
         tracker.setPosition(MidnightPositionTracker.DeadWheelPosition.BOTH_CENTER);
