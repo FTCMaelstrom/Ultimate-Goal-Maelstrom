@@ -6,28 +6,28 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import java.util.ArrayList;
 import java.util.List;
 
+import static MidnightLibrary.MidnightResources.MidnightUtils.DEFAULT_SLEEP_TIME;
+import static MidnightLibrary.MidnightResources.MidnightUtils.setLinearOpMode;
+
 
 /**
  * Custom Linear opMode
  */
 
 public abstract class MidnightLinearOpMode extends LinearOpMode {
-    protected MidnightDashBoard dash;
-    protected MidnightController controller1, controller2;
+    public MidnightDashBoard dash;
     protected MidnightClock timeoutClock = new MidnightClock();
     public final void runOpMode() throws InterruptedException {
         try {
             dash = new MidnightDashBoard(super.telemetry);
             dash.setNewFirst();
-            MidnightUtils.setLinearOpMode(this);
-            controller1 = new MidnightController(super.gamepad1, "controller1");
-            controller2 = new MidnightController(super.gamepad2, "controller2");
+            setLinearOpMode(this);
             runLinearOpMode();
         } finally {
             stopLinearOpMode();
         }
     }
-    public abstract void runLinearOpMode() throws InterruptedException;
+    public abstract void runLinearOpMode();
     public void stopLinearOpMode() {}
     public void runSimultaneously(Runnable... runnables) {
         List<Thread> threads = new ArrayList<>();
@@ -43,15 +43,6 @@ public abstract class MidnightLinearOpMode extends LinearOpMode {
             for(Thread t : threads) if (!t.isAlive()) count++;
         }
     }
-    public void sleep(double timeSeconds) {
-        try {
-            Thread.sleep((long) timeSeconds * 1000);
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-    }
-    public void sleep() {sleep(1.);}
-    public Gamepad getDefaultController() {
-        return gamepad1;
-    }
+    public void sleep() {sleep(DEFAULT_SLEEP_TIME);}
+    public Gamepad getDefaultController() {return gamepad1;}
 }

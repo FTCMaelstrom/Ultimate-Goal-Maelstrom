@@ -9,6 +9,11 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvWebcam;
+
+import static MaelstromCV.CameraView.Cam.PHONE;
+import static MaelstromCV.CameraView.Cam.WEBCAM;
+import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
+
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2
@@ -16,93 +21,66 @@ import org.openftc.easyopencv.OpenCvWebcam;
  * Last Updated: 3/17/21 3:45 PM
  **/
 public class CameraView {
-    private OpenCvCamera phoneCamera;
-    private OpenCvWebcam openCvWebcam;
-    public CVDetector cvDetector;
-    private OpenCvCameraRotation rotation;
+    private OpenCvCamera phoneCam;
+    private OpenCvWebcam webcam;
+    public CVDetector detector;
+    private Cam cam;
 
-    public enum CamSelect {
-        PHONECAMBACK, PHONECAMFRONT, WEBCAM
+    public enum Cam {
+        PHONE, WEBCAM
     }
 
-    private CamSelect cam;
-
-    public CameraView (CVDetector detector, CamSelect camera, HardwareMap hardwareMap) {
-        this.cam = camera;
-        this.cvDetector = detector;
+    public CameraView(CVDetector detector, Cam cam, HardwareMap hardwareMap) {
+        this.cam = cam;
+        this.detector = detector;
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-
-        if (cam.equals(CamSelect.PHONECAMBACK)) {
-            phoneCamera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-            phoneCamera.setPipeline(detector);
-        } else if (cam.equals(CamSelect.PHONECAMFRONT)) {
-            phoneCamera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.FRONT, cameraMonitorViewId);
-            phoneCamera.setPipeline(detector);
-        } else if (cam.equals(CamSelect.WEBCAM)) {
-            openCvWebcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);
-            openCvWebcam.setPipeline(detector);
+        if (cam.equals(PHONE)) {
+            phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+            phoneCam.setPipeline(detector);
+        } else if (cam.equals(WEBCAM)) {
+            webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+            webcam.setPipeline(detector);
         }
     }
 
-    public void start (OpenCvCameraRotation cameraRotation) {
-        this.rotation = cameraRotation;
-        if (cam.equals(CamSelect.PHONECAMBACK) || cam.equals(CamSelect.PHONECAMFRONT)) {
-            phoneCamera.openCameraDevice();
-            phoneCamera.startStreaming(320,240,cameraRotation);
-        } else if (cam.equals(CamSelect.WEBCAM)) {
-            openCvWebcam.openCameraDevice();
-            openCvWebcam.startStreaming(1280, 920, cameraRotation);
+    public void start(OpenCvCameraRotation rotation) {
+        if (cam.equals(PHONE)) {
+            phoneCam.openCameraDevice();
+            phoneCam.startStreaming(320, 240, rotation);
+        }
+        else {
+            webcam.openCameraDevice();
+            webcam.startStreaming(1280, 960, rotation);
         }
     }
 
     public void start() {
-        start(OpenCvCameraRotation.UPRIGHT);
-        rotation = OpenCvCameraRotation.UPRIGHT;
-    }
-
-    public void pause() {
-        if (cam.equals(CamSelect.PHONECAMFRONT) || cam.equals(CamSelect.PHONECAMBACK)) {
-            phoneCamera.pauseViewport();
-        } else if (cam.equals(CamSelect.WEBCAM)) {
-            openCvWebcam.pauseViewport();
-        }
-    }
-
-    public void resume() {
-        if (cam.equals(CamSelect.PHONECAMFRONT) || cam.equals(CamSelect.PHONECAMBACK)) {
-            phoneCamera.resumeViewport();
-        } else if (cam.equals(CamSelect.WEBCAM)) {
-            openCvWebcam.resumeViewport();
-        }
+        start(UPRIGHT);
     }
 
     public void stop() {
-        if (cam.equals(CamSelect.PHONECAMFRONT) || cam.equals(CamSelect.PHONECAMBACK)) {
-            phoneCamera.stopStreaming();
-            phoneCamera.closeCameraDevice();
-        } else if (cam.equals(CamSelect.WEBCAM)) {
-            openCvWebcam.stopStreaming();
-            openCvWebcam.closeCameraDevice();
+        if (cam.equals(PHONE)) {
+            phoneCam.stopStreaming();
+            phoneCam.closeCameraDevice();
+        } else if (cam.equals(WEBCAM)) {
+            webcam.stopStreaming();
+            webcam.closeCameraDevice();
         }
     }
 
-    public void pipelineSwitcher(CVDetector cameraViewDetector) {
-        if (cam == CamSelect.PHONECAMFRONT || cam == CamSelect.PHONECAMBACK) {
-            phoneCamera.stopStreaming();
-            phoneCamera.setPipeline(cameraViewDetector);
-            phoneCamera.startStreaming(320,240,rotation);
-        } else if (cam == CamSelect.WEBCAM) {
-            openCvWebcam.stopStreaming();
-            openCvWebcam.setPipeline(cameraViewDetector);
-            openCvWebcam.startStreaming(1280,920,rotation);
-        }
+    public void pause() {
+        if (cam.equals(PHONE)) phoneCam.pauseViewport();
+        else if (cam.equals(WEBCAM)) webcam.pauseViewport();
+    }
+
+    public void resume() {
+        if (cam.equals(PHONE)) phoneCam.resumeViewport();
+        else if (cam.equals(WEBCAM)) webcam.resumeViewport();
     }
 
     public OpenCvCamera getCamera() {
-        if (cam.equals(CamSelect.PHONECAMFRONT) || cam.equals(CamSelect.PHONECAMBACK)) {
-            return phoneCamera;
-        } else return openCvWebcam;
+        if (cam.equals(PHONE)) return phoneCam;
+        else return webcam;
     }
-
 }

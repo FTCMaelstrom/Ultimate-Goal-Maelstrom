@@ -5,15 +5,14 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
 
 import java.util.List;
 
-import MaelstromCV.CVDetector;
-import MaelstromCV.MidnightCVFilters.MidnightCVColorFilter;
-import MaelstromCV.MidnightCVFilters.YCbCrLuminanceFilter;
-import MidnightLibrary.MidnightMath.MidnightPoint;
+import MasqVision.LumaFilter;
+import MasqVision.MasqCVColorFilter;
+import MasqVision.MasqCVDetector;
 import MidnightLibrary.MidnightMath.MidnightVector;
+
 
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
@@ -22,28 +21,26 @@ import static org.opencv.core.Core.extractChannel;
 import static org.opencv.core.Core.mean;
 import static org.opencv.imgproc.Imgproc.COLOR_RGB2YCrCb;
 import static org.opencv.imgproc.Imgproc.cvtColor;
+
 /**
- * Created by Amogh Mehta
- * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 3/17/21 6:01 PM
- * Last Updated: 3/17/21 10:47 PM
- **/
-public class RingHunter extends CVDetector {
+ * Created by Keval Kataria on 6/1/2020
+ */
+
+public class RingDetector extends MasqCVDetector {
     double top, control, bottom;
-    private MidnightCVColorFilter lumaFilter = new YCbCrLuminanceFilter(100);
+    private MasqCVColorFilter lumaFilter = new LumaFilter(100);
     double prevTime = 0;
     private boolean init = true;
 
     private double ratio = 1;
     private double x0 = 0;
     private double y0 = 0;
-    private MidnightPoint ring1 = new MidnightPoint(0,0), ring2 = new MidnightPoint(0,0);
 
     @Override
     public Mat processFrame(Mat input) {
         double time = System.nanoTime();
 
-        if(time - prevTime > 3e9) {
+        if(time - prevTime > 1e8) {
             if(init) {
                 prevTime = time;
                 workingMat = input.clone();
@@ -55,12 +52,9 @@ public class RingHunter extends CVDetector {
                 Rect topRect = new Rect(tl, new Point(br.x, tl.y + (br.y - tl.y) * 3.0 / 4));
                 Rect bottomRect = new Rect(new Point(tl.x, topRect.br().y), br);
                 Rect controlRect = new Rect(new Point(tl.x, br.y), new Point(br.x, br.y + topRect.height + bottomRect.height));
-
+                control = mean(workingMat.clone().submat(controlRect)).val[0];
                 top = mean(workingMat.clone().submat(topRect)).val[0];
                 bottom = mean(workingMat.clone().submat(bottomRect)).val[0];
-
-                control = mean(workingMat.clone().submat(controlRect)).val[0];
-
 
                 workingMat.release();
 
@@ -76,9 +70,9 @@ public class RingHunter extends CVDetector {
                 List<MatOfPoint> contoursBright = findContours(lumaFilter, workingMat.clone());
                 List<Rect> rectsBright = contoursToRects(contoursBright);
                 List<List<Rect>> listsOfBrightBlobs = groupIntoBlobs(rectsBright, 10);
-                Rect[] rings = chooseTwoRects(listsOfBrightBlobs);
-                Rect bestRect = rings[0];
-                Rect second = rings[0];
+                List<Rect> rings = chooseRects(listsOfBrightBlobs);
+                Rect bestRect = rings.get(0);
+                Rect second = rings.get(1);
 
                 drawContours(contoursBright, new Scalar(80, 80, 80));
 
@@ -110,21 +104,22 @@ public class RingHunter extends CVDetector {
     public enum TargetZone {A,B,C}
 
     public TargetZone findZone () {
-        if (abs(getTop()- getBottom()) > 15) return TargetZone.B;
+        if (abs(getTop()- getBottom()) > 10) return TargetZone.B;
         else if (abs(((getTop() + getBottom()) / 2 - getControl())) > 10) return TargetZone.C;
         else return TargetZone.A;
     }
 
-    public MidnightPoint[] findRings() {
-        if(isFound()) {
-            ring1 = new MidnightPoint(getCenterPoint(getFoundRect()).x - 480 + x0,
+    public MidnightVector[] findRings() {
+        MidnightVector ring1 = null, ring2 = null;
+        if(isFound() && isFound2()) {
+            ring1 = new MidnightVector("Ring1", getCenterPoint(getFoundRect()).x - 480 + x0,
                     sqrt(pow(getFoundRect().height * ratio, 2) - pow(getCenterPoint(getFoundRect()).x, 2)) + y0);
-            ring2 = new MidnightPoint(getCenterPoint(getSecondRect()).x - 480 + x0,
+            ring2 = new MidnightVector("Ring 2", getCenterPoint(getSecondRect()).x - 480 + x0,
                     sqrt(pow(getSecondRect().height * ratio, 2) - pow(getCenterPoint(getSecondRect()).x, 2)) + y0);
         }
-        else if(isFound2()) ring1 = new MidnightPoint(getCenterPoint(getSecondRect()).x - 480 + x0,
+        else if(isFound()) ring2 = new MidnightVector("Ring 2", getCenterPoint(getSecondRect()).x - 480 + x0,
                 sqrt(pow(getSecondRect().height * ratio, 2) - pow(getCenterPoint(getSecondRect()).x, 2)) + y0);
-        return new MidnightPoint[] {ring1, ring2};
+        return new MidnightVector[] {ring1, ring2};
     }
 
     public void setRatio(double ratio) {this.ratio = ratio;}

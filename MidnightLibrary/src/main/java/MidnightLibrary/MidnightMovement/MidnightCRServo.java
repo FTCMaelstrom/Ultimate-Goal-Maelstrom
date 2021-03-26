@@ -3,8 +3,8 @@ package MidnightLibrary.MidnightMovement;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 import MidnightLibrary.MidnightResources.MidnightHardware;
+import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 
 /**
  * Created by Archish on 11/4/16.

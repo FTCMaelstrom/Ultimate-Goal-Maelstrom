@@ -1,25 +1,18 @@
-package MaelstromCV;
+package MasqVision;
 
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
+import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-import MaelstromCV.MidnightCVFilters.MidnightCVColorFilter;
+import static MidnightLibrary.MidnightResources.MidnightDashBoard.getDash;
+
 /**
- * Created by Amogh Mehta
- * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 3/17/21 6:06 PM
- * Last Updated: 3/17/21 10:48 PM
- **/
-public class CVDetector extends OpenCvPipeline {
+ * Created by Keval Kataria on 6/1/2020.
+ */
+
+public abstract class MasqCVDetector extends OpenCvPipeline {
     protected int minimumArea = 1;
     protected int imageWidth = 1280;
     protected int imageHeight = 960;
@@ -29,13 +22,12 @@ public class CVDetector extends OpenCvPipeline {
     protected Mat workingMat;
     protected Mat displayMat;
 
-    protected boolean found = false;
-    protected boolean found2 = false;
+    protected boolean found, found2;
 
     protected Point tl, br;
-    public int offset = 0;
+    public int offset;
 
-    protected List<MatOfPoint> findContours(MidnightCVColorFilter filter, Mat mask) {
+    protected List<MatOfPoint> findContours(MasqCVColorFilter filter, Mat mask) {
         filter.process(workingMat,mask);
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.findContours(mask, contours, new Mat(), Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
@@ -61,7 +53,7 @@ public class CVDetector extends OpenCvPipeline {
                 currentBlob.add(currentRect);
 
                 for (int i = 0; i < unusedRects.size(); i++) {
-                    if (distance(getCenterPoint(currentRect), getCenterPoint(unusedRects.get(i))) < blobDistanceThreshold) {
+                    if (currentRect != null && distance(getCenterPoint(currentRect), getCenterPoint(unusedRects.get(i))) < blobDistanceThreshold) {
                         toProcess.add(unusedRects.remove(i));
                         i--;
                     }
@@ -72,41 +64,19 @@ public class CVDetector extends OpenCvPipeline {
 
         return listOfBlobs;
     }
-    protected Rect chooseBestRect(List<List<Rect>> listOfBlobs) {
-        Rect bestRect = new Rect();
-        try {
-            bestRect = boundingRect(listOfBlobs.get(0));
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-        for (List<Rect> blob : listOfBlobs) {
-            Rect blobBound = boundingRect(blob);
-            drawRect(blobBound, new Scalar(0, 150, 0), false);
 
-            if (blobBound.area() > bestRect.area()) {
-                bestRect = blobBound;
-            }
-        }
-        return bestRect;
-    }
-    protected Rect[] chooseTwoRects(List<List<Rect>> listOfBlobs) {
-        Rect bestRect = new Rect();
-        Rect secondRect = new Rect();
+    protected List<Rect> chooseRects(List<List<Rect>> listOfBlobs) {
+        List<Rect> rects = new ArrayList<>();
         try {
-            bestRect = boundingRect(listOfBlobs.get(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (List<Rect> blob : listOfBlobs) {
-            Rect blobBound = boundingRect(blob);
-            drawRect(blobBound, new Scalar(0, 150, 0), false);
-
-            if (blobBound.area() > bestRect.area()) {
-                secondRect = bestRect;
-                bestRect = blobBound;
+            rects.add(boundingRect(listOfBlobs.get(0)));
+            for(List<Rect> blob : listOfBlobs) {
+                Rect blobBound = boundingRect(blob);
+                drawRect(blobBound, new Scalar(0, 150, 0), false);
+                if(blobBound.area() > rects.get(0).area()) rects.add(0, blobBound);
             }
-        }
-        return new Rect[] {bestRect, secondRect};
+        } catch (Exception e) {getDash().create("Blobs List is Empty!");}
+
+        return rects;
     }
     protected void drawContours(List<MatOfPoint> contours, Scalar color) {
         Imgproc.drawContours(displayMat, contours, -1, color, 1);
@@ -121,11 +91,7 @@ public class CVDetector extends OpenCvPipeline {
 
     protected List<Rect> filterByBound(List<Rect> rects, Rect boundingRect) {
         List<Rect> rectsInsideBound = new ArrayList<>();
-        for (Rect rect : rects) {
-            if (boundingRect.contains(getCenterPoint(rect))) {
-                rectsInsideBound.add(rect);
-            }
-        }
+        for (Rect rect : rects) if (boundingRect.contains(getCenterPoint(rect))) rectsInsideBound.add(rect);
         return rectsInsideBound;
     }
     public Point getCenterPoint(Rect rect) {
@@ -134,31 +100,16 @@ public class CVDetector extends OpenCvPipeline {
     public Rect getFoundRect() {return foundRect;}
     public Rect getSecondRect() {return secondRect;}
 
-    public void setClippingMargins(Point tl, Point br) {
-        this.tl = tl;
-        this.br = br;
-        imageWidth = (int) (br.x - tl.x);
-        imageHeight = (int) (tl.y - br.y);
-        offset = (int) tl.x;
-    }
     public void setClippingMargins(int top, int left, int bottom, int right) {
         tl = new Point(left, top);
-        br = new Point(1280 - right,960 - bottom);
-        imageWidth = 1280 - right - left;
-        imageHeight = 960 - top - bottom;
+        br = new Point(640 - right,480 - bottom);
+        imageWidth = 640 - right - left;
+        imageHeight = 480 - top - bottom;
         offset = left;
     }
 
-    public int getImageWidth() {
-        return imageWidth;
-    }
-    public int getImageHeight() {
-        return imageHeight;
-    }
     public boolean isFound() {return found;}
-
     public boolean isFound2() {return found2;}
-
 
     private Rect boundingRect(List<Rect> rects) {
         int minX = 999;
@@ -178,6 +129,7 @@ public class CVDetector extends OpenCvPipeline {
     private double distance(Point a, Point b) {
         return Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
     }
+
     @Override
     public Mat processFrame(Mat input) {return input;}
     @Override

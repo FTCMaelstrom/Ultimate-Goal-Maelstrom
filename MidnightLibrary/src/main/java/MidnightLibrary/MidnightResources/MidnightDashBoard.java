@@ -33,6 +33,11 @@ public class MidnightDashBoard {
     public void create(String string, Object data) {
         telemetry.addData(string, data);
     }
+    public void create(Object... data) {
+        for (Object dash : data) {
+            telemetry.addLine(dash.toString());
+        }
+    }
     public void create(final MidnightHardware hardware) {
         dashLength = hardware.getDash().length;
         for (int i = 0; i < dashLength; i++) {
@@ -46,7 +51,7 @@ public class MidnightDashBoard {
     }
     public void create(final MidnightSubSystem subSystem) {
         for (MidnightHardware hardware : subSystem.getComponents()) {
-            create(hardware.getDash());
+            create((Object) hardware.getDash());
         }
     }
 
@@ -104,5 +109,20 @@ public class MidnightDashBoard {
     public void clear(){
         telemetry.clearAll();
     }
-
+    public void close () {
+        open = false;
+    }
+    public void open () {
+        open = true;
+    }
+    public void startUpdate (){
+        Runnable main = () -> {
+            while (MidnightUtils.opModeIsActive() && open) {
+                update();
+                MidnightUtils.sleep(100);
+            }
+        };
+        Thread t = new Thread(main);
+        t.start();
+    }
 }

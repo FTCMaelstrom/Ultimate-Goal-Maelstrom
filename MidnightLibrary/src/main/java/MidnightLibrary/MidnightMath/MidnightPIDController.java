@@ -1,8 +1,11 @@
 package MidnightLibrary.MidnightMath;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import MidnightLibrary.MidnightResources.MidnightClock;
+
+import static com.qualcomm.robotcore.util.Range.clip;
 
 /**
  * Created by Archish on 4/9/18.
@@ -10,12 +13,10 @@ import MidnightLibrary.MidnightResources.MidnightClock;
 
 public class MidnightPIDController {
     private MidnightIntegrator integrator = new MidnightIntegrator();
-    private double kp;
+    private double kp = 0;
     private double ki = 0;
     private double kd = 0;
     private double prevError = 0;
-    private double prevD = 0;
-    private double deriv, timeChange = 0;
     private MidnightClock clock = new MidnightClock();
 
     public MidnightPIDController(double kp, double ki, double kd) {
@@ -30,22 +31,17 @@ public class MidnightPIDController {
     public MidnightPIDController(double kp) {
         this.kp = kp;
     }
+    public MidnightPIDController() {}
 
-    //For testing
-    public double getOutput (double error, double timeChange) {
-        this.timeChange = timeChange;
-        clock.reset();
-        deriv = (error - prevError) / timeChange;
-        prevError = error;
-        prevD = deriv;
-        return Range.clip((error * kp) +
-                (ki * integrator.getIntegral(error, timeChange)) +
-                (kd * deriv), -1, 1);
-    }
-
-    //For normal use
     public double getOutput (double error) {
-        return getOutput(error,clock.seconds());
+        double timeChange = clock.seconds();
+        double derivative = (error - prevError) / timeChange;
+        double integral = integrator.getIntegral(error);
+        clock.reset();
+        prevError = error;
+        return clip((error * kp) +
+                (ki * integral) +
+                (kd * derivative), -1, 1);
     }
 
     public double[] getConstants() {
@@ -76,9 +72,6 @@ public class MidnightPIDController {
         this.kd = kd;
     }
 
-    public MidnightClock getClock() {
-        return clock;
-    }
     public double getKp() {
         return kp;
     }

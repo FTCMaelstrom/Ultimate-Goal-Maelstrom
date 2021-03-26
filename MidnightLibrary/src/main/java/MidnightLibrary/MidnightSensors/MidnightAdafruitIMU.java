@@ -1,5 +1,7 @@
 package MidnightLibrary.MidnightSensors;
 
+import androidx.annotation.NonNull;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -9,16 +11,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-import MidnightLibrary.MidnightResources.MidnightHardware;
+import MidnightLibrary.MidnightResources.MidnightUtils;
 
 import static MidnightLibrary.MidnightResources.MidnightUtils.formatAngle;
+import static com.qualcomm.hardware.bosch.BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+import static com.qualcomm.hardware.bosch.BNO055IMU.SensorMode.IMU;
+import static java.util.Locale.US;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.ZYX;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.INTRINSIC;
 
 
 /**
  * Created by Archish on 1/8/18.
  */
 
-public class MidnightAdafruitIMU implements MidnightHardware {
+public class MidnightAdafruitIMU {
     BNO055IMU imu;
     Orientation angles;
     double zeroPos = 0;
@@ -37,7 +44,7 @@ public class MidnightAdafruitIMU implements MidnightHardware {
     }
     public double getAbsoluteHeading() {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        return formatAngle(angles.angleUnit, angles.firstAngle);
+        return -formatAngle(angles.angleUnit, angles.firstAngle);
     }
     public double getRelativeYaw() {
         return getAbsoluteHeading() - zeroPos;

@@ -4,7 +4,7 @@ import MidnightLibrary.MidnightResources.MidnightHardware;
 
 /**
  * Created by Archishmaan Peyyety on 10/6/18.
- * Project: MasqLib
+ * Project: MidnightLib
  */
 
 public class MidnightPoint implements MidnightHardware {
@@ -51,13 +51,13 @@ public class MidnightPoint implements MidnightHardware {
 
     @Override
     public String getName() {
-        return null;
+        return "Point";
     }
 
     @Override
     public String[] getDash() {
         return new String[]{
-          "X: " + Double.toString(getX()),
+                "X: " + Double.toString(getX()),
                 "Y: " + Double.toString(getY())
         };
     }

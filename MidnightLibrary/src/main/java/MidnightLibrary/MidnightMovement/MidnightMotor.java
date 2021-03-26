@@ -1,49 +1,56 @@
 package MidnightLibrary.MidnightMovement;
 
+import androidx.annotation.NonNull;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
-import MidnightLibrary.MidnightResources.MidnightClock;
+import MidnightLibrary.MidnightResources.MidnightUtils;
 import MidnightLibrary.MidnightSensors.MidnightEncoder;
 import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
-import MidnightLibrary.MidnightResources.MidnightHardware;
-import MidnightLibrary.MidnightResources.MidnightUtils;
+import MidnightLibrary.MidnightSensors.MidnightTouchSensor;
+
+import static MidnightLibrary.MidnightResources.MidnightUtils.getHardwareMap;
+import static MidnightLibrary.MidnightResources.MidnightUtils.opModeIsActive;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
+import static com.qualcomm.robotcore.util.Range.clip;
+import static java.lang.Math.PI;
+import static java.lang.Math.abs;
+import static java.lang.System.nanoTime;
+import static java.util.Locale.US;
 
 /**
  * This is a custom motor that includes stall detection and telemetry
  */
 
-public class MidnightMotor implements MidnightHardware {
+public class MidnightMotor {
     private double minPower = 0;
     public DcMotor motor;
     private boolean stallDetection = false;
     private String nameMotor;
     private double targetPower;
     private boolean velocityControlState = false;
-    public double error;
-    private double kp = 0.1, ki = 0, kd = 0;
+    private double kp = 0.001, ki = 0, kd = 0;
     public MidnightEncoder encoder;
     private double prevPos = 0;
     private boolean stalled = false;
     private double previousTime = 0;
-    public double destination = 0;
     private double motorPower;
     private double currentMax, currentMin;
-    private double currentZero;
     public double rpmIntegral = 0;
     public double rpmDerivative = 0;
     private double rpmPreviousError = 0;
     private int stalledRPMThreshold = 10;
-    private double prevRate = 0;
+    private boolean reversedEncoder = false;
     private Runnable
-            stallAction = () -> {
-
-            },
-            unStalledAction = () -> {
-
-            };
+            stallAction,
+            unStalledAction;
     private double minPosition, maxPosition;
     private boolean
             limitDetection,
@@ -97,76 +104,50 @@ public class MidnightMotor implements MidnightHardware {
         return this;
     }
 
-    public void runWithoutEncoders () {motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);}
+    public void runWithoutEncoder() {
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor.setZeroPowerBehavior(FLOAT);
+    }
+    public void runUsingEncoder() {
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setZeroPowerBehavior(BRAKE);
+    }
+
     public void resetEncoder() {
         encoder.resetEncoder();
     }
 
-    public void runUsingEncoder() {motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);}
-    public void setDistance (double distance) {
-        resetEncoder();
-        destination = distance;
-    }
-    public void runToPosition(int inches, double speed){
-        MidnightClock clock = new MidnightClock();
-        resetEncoder();
-        double clicks = -inches * encoder.getClicksPerInch();
-        motor.setTargetPosition((int) clicks);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setVelocity(speed);
-        while (opModeIsActive() && motor.isBusy() &&
-                !clock.elapsedTime(5, MidnightClock.Resolution.SECONDS)) {}
-        setVelocity(0);
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
     boolean isBusy () {
         return motor.isBusy();
-    }
-    public void setBreakMode () {
-        motor.setPower(0);
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
-    public void unBreakMode () {
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     public double getCurrentPosition() {
         return encoder.getRelativePosition();
     }
     public double getAbsolutePosition () {
+        if(reversedEncoder) return -motor.getCurrentPosition();
         return motor.getCurrentPosition();
     }
-    public double getVelocity(double deltaPosition, double tChange, double CPR) {
-        previousTime = System.nanoTime();
-        tChange = tChange / 1e9;
+    public double getVelocity() {
+        double deltaPosition = getCurrentPosition() - prevPos;
+        previousTime = nanoTime();
+        double tChange = (nanoTime() - previousTime) / 1e9;
         prevPos = getCurrentPosition();
         double rate = deltaPosition / tChange;
-        rate = (rate * 60) / CPR;
-        if (rate != 0) return rate;
-        else {
-            prevRate = rate;
-            return rate;
-        }
+        rate = (rate * 60) / encoder.getClicksPerRotation() / encoder.getRPM();
+        return rate;
     }
-    public double getVelocity() {
-        return getVelocity(getCurrentPosition() - prevPos,System.nanoTime() - previousTime,encoder.getClicksPerRotation());
-    }
-    public double getAngle (double currentPosition, double CPR) {
-        return (currentPosition * CPR) / 360;
-    }
-    public double getAngle() {
-        return getAngle(motor.getCurrentPosition(), encoder.getClicksPerRotation());
-    }
-    public double setPower (double power) {
+
+    public void setPower (double power) {
         power = Range.clip(power, -1, 1);
         motorPower = power;
         motor.setPower(power);
-        return power;
     }
-    public double setVelocity(double power, double error, double tChange) {
+    public void setVelocity(double power) {
         targetPower = power;
-        motorPower = calculateVelocityCorrection(power, error, tChange);
+        motorPower = calculateVelocityCorrection(power);
         if (!closedLoop) motorPower = power;
+        double currentZero;
         if (limitDetection) {
             if (minLim != null && minLim.isPressed() && power < 0 ||
                     maxLim != null && maxLim.isPressed() && power > 0)
@@ -198,25 +179,20 @@ public class MidnightMotor implements MidnightHardware {
             if (maxLim != null && maxLim.isPressed() && power >0) motorPower = 0;
             else if (motor.getCurrentPosition() < currentMin && power < 0) motorPower = 0;
         }
-        if (Math.abs(motorPower) < minPower && minPower != 0) motorPower = 0;
+        if (abs(motorPower) < minPower && minPower != 0) motorPower = 0;
         motor.setPower(motorPower);
-        return motor.getPower();
     }
-
-    public double setVelocity(double power) {
-        return setVelocity(power, (encoder.getRPM() * power) - getVelocity(), (System.nanoTime() - previousTime)/1e9);
-    }
-    //For testing purposes input parameters for error and time
-    public  double calculateVelocityCorrection(double power, double error, double tChange) {
-        this.error = error;
+    public  double calculateVelocityCorrection(double power) {
+        double tChange = (nanoTime() - previousTime) / 1e9;
+        double error = encoder.getRPM() * (power - getVelocity());
         rpmIntegral += error * tChange;
         rpmDerivative = (error - rpmPreviousError) / tChange;
-        double p = error*kp;
-        double i = rpmIntegral*ki;
-        double d = rpmDerivative*kd;
+        double p = error * kp;
+        double i = rpmIntegral * ki;
+        double d = rpmDerivative * kd;
         double motorPower = power + (p + i + d);
         rpmPreviousError = error;
-        previousTime = System.nanoTime();
+        previousTime = nanoTime();
         return motorPower;
     }
 
@@ -226,21 +202,14 @@ public class MidnightMotor implements MidnightHardware {
     public void startVelocityControl () {
         setVelocityControlState(true);
         Runnable velocityControl = () -> {
-            while (opModeIsActive() && velocityControlState) {
-                setVelocity(targetPower);
-            }
+            while (opModeIsActive() && velocityControlState) setVelocity(targetPower);
         };
         Thread velocityThread = new Thread(velocityControl);
         velocityThread.start();
     }
 
-    //Use this one for testing
-    public boolean getStalled(double deltaPosition, double tChange, double CPR) {
-        return Math.abs(getVelocity(deltaPosition, tChange, CPR)) < stalledRPMThreshold;
-    }
-    //Use for normal use
     private boolean getStalled() {
-        return Math.abs(getVelocity()) < stalledRPMThreshold;
+        return abs(getVelocity() * encoder.getRPM()) < stalledRPMThreshold;
     }
     public void setStalledAction(Runnable action) {
         stallAction = action;
@@ -253,39 +222,20 @@ public class MidnightMotor implements MidnightHardware {
     public synchronized boolean isStalled() {
         return stalled;
     }
-    public int getStalledRPMThreshold() {
-        return stalledRPMThreshold;
-    }
     public void setStalledRPMThreshold(int stalledRPMThreshold) {
         this.stalledRPMThreshold = stalledRPMThreshold;
     }
-    //For testing
-    public void enableStallDetection(double deltaPosition, double tChange, double CPR) {
+    public void enableStallDetection() {
         setStallDetection(true);
         Runnable mainRunnable = () -> {
             while (opModeIsActive()) {
-                stalled = getStalled(deltaPosition, tChange, CPR);
+                stalled = getStalled();
                 if (getStallDetection()) {
                     if (stalled) stallAction.run();
                     else unStalledAction.run();
                 }
-                MidnightUtils.sleep(100, MidnightClock.Resolution.MILLISECONDS);
-            }
-        };
-        Thread thread = new Thread(mainRunnable);
-        thread.start();
-    }
-    //For normal use
-    public void enableStallDetection() {
-        setStallDetection(true);
-        Runnable mainRunnable = () -> { while (opModeIsActive()) {
-            stalled = getStalled();
-            if (getStallDetection()) {
-                if (stalled) stallAction.run();
-                else unStalledAction.run();
-            }
-            MidnightUtils.sleep(100, MidnightClock.Resolution.MILLISECONDS);
-        }};
+                MidnightUtils.sleep(100);
+            }};
         Thread thread = new Thread(mainRunnable);
         thread.start();
     }
@@ -302,56 +252,31 @@ public class MidnightMotor implements MidnightHardware {
         return encoder;
     }
 
-    public double getKp() {return kp;}
     public void setKp(double kp) {
         this.kp = kp;
     }
-    public double getKi() {return ki;}
-    public void setKi(double ki) {
-        this.ki = ki;
-    }
-    public double getKd() {return kd;}
-    public void setKd(double kd) {
-        this.kd = kd;
-    }
+    public DcMotorController getController () {return motor.getController();}
+    public int getPortNumber () {return motor.getPortNumber();}
 
-    private boolean opModeIsActive() {
-        return MidnightUtils.opModeIsActive();
-    }
-    public DcMotorController getController () {
-        return motor.getController();
-    }
-    public int getPortNumber () {
-        return motor.getPortNumber();
-    }
+    public void setMotorModel (MidnightMotorModel model) {encoder.setModel(model);}
 
-    public void setMotorModel (MidnightMotorModel model) {
-        encoder.setModel(model);
-    }
+    public boolean isClosedLoop() {return closedLoop;}
 
-    public boolean isClosedLoop() {
-        return closedLoop;
-    }
+    public double getMinPower() {return minPower;}
 
-    public double getMinPower() {
-        return minPower;
-    }
+    public void setMinPower(double power) {minPower = power;}
 
-    public void setMinPower(double minPower) {
-        this.minPower = minPower;
-    }
+    public void setWheelDiameter(double diameter) {encoder.setWheelDiameter(diameter);}
 
-    public void setWheelDiameter(double diameter) {
-        encoder.setWheelDiameter(diameter);
-    }
+    public double getInches() {return encoder.getInches();}
 
-    public double getInches() {
-        return encoder.getInches();
-    }
+    public double getTargetPower() {return targetPower;}
 
-    public String getName() {
-        return nameMotor;
-    }
+    public void reverseEncoder() {reversedEncoder = !reversedEncoder;}
+
+    public void setDirection(DcMotor.Direction direction) {motor.setDirection(direction);}
+
+    public String getName() {return nameMotor;}
     public String[] getDash() {
         return new String[] {
                 "Current Position: " + getCurrentPosition(),

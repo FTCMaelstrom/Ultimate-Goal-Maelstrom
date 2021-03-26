@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.Arrays;
 import java.util.List;
 
-import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 import MidnightLibrary.MidnightResources.MidnightHardware;
+import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 
 /**
  * Created by Archish on 10/10/17.
