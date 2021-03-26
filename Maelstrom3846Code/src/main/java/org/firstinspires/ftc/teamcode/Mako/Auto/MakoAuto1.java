@@ -1,23 +1,15 @@
 package org.firstinspires.ftc.teamcode.Mako.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Mako.Robot.Mako;
 
-import MaelstromCV.CVDetector;
-import MaelstromCV.UltimateGoalSpecific.RingDetector;
-import MaelstromCV.UltimateGoalSpecific.RingHunter;
+import MasqVision.RingDetector;
 import MidnightLibrary.MidnightMath.MidnightWayPoint;
 import MidnightLibrary.MidnightResources.MidnightLinearOpMode;
 
-import static MaelstromCV.UltimateGoalSpecific.RingHunter.TargetZone.A;
-import static MaelstromCV.UltimateGoalSpecific.RingHunter.TargetZone.B;
-import static MaelstromCV.UltimateGoalSpecific.RingHunter.TargetZone.C;
-import static MidnightLibrary.MidnightMath.MidnightWayPoint.PointMode.MECH;
 import static MidnightLibrary.MidnightMath.MidnightWayPoint.PointMode.SWITCH;
 import static MidnightLibrary.MidnightMath.MidnightWayPoint.PointMode.TANK;
-import static MidnightLibrary.MidnightResources.MidnightUtils.turnController;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 
 /**

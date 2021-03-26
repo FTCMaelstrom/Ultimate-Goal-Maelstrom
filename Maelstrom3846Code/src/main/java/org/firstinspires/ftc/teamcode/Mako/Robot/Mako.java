@@ -1,38 +1,28 @@
 package org.firstinspires.ftc.teamcode.Mako.Robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Hardware;
 
-import MaelstromCV.CameraView;
-import MaelstromCV.UltimateGoalSpecific.RingDetector;
-import MaelstromCV.UltimateGoalSpecific.RingHunter;
-import MasqVision.MasqCVDetector;
+import MasqVision.RingDetector;
 import MasqVision.MasqCamera;
 import MidnightLibrary.MidnightMath.MidnightPIDController;
-import MidnightLibrary.MidnightMovement.MidnightDriveTrain;
 import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
-import MidnightLibrary.MidnightMovement.MidnightMotor;
-import MidnightLibrary.MidnightMovement.MidnightMotorModel;
+import MidnightLibrary.MidnightMotor.MidnightMotor;
+import MidnightLibrary.MidnightMotor.MidnightMotorModel;
 import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
 import MidnightLibrary.MidnightResources.MidnightDashBoard;
 import MidnightLibrary.MidnightRobot;
 
 import static MidnightLibrary.MidnightResources.MidnightUtils.angleController;
-import static MidnightLibrary.MidnightResources.MidnightUtils.driveController;
-import static MidnightLibrary.MidnightResources.MidnightUtils.getHardwareMap;
 import static MidnightLibrary.MidnightResources.MidnightUtils.setTracker;
 import static MidnightLibrary.MidnightResources.MidnightUtils.turnController;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
-import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.openftc.easyopencv.OpenCvCameraRotation.SIDEWAYS_LEFT;
 import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
 
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 3/17/21 11:00 PM
- * Last Updated: 3/17/21 11:01 PM
+ * Last Modified: 3/26/21 10:54 AM
+ * Last Updated: 3/26/21 10:57 AM
  **/
 public class Mako extends MidnightRobot {
     public MidnightMotor encoder1, encoder2;
@@ -74,14 +64,18 @@ public class Mako extends MidnightRobot {
             driveTrain.setKp(5e-8);
             initCamera();
         }
-        else driveTrain.setKp(5e-9);
+        else driveTrain.setKp(1e-8);
 
-        driveTrain.setKp(1e-8);//Set to 1e-3 by default, which is too low for a drivetrain, keep at 1e-8 or shaking will occur
+        //driveTrain.setKp(1e-8);//Set to 1e-3 by default, which is too low for a drivetrain, keep at 1e-8 or shaking will occur
     }
 
     public void initCamera() {
+        /*
+        OpenCV Supported Resolutions:
+        1280x960, 1280x720, 960x720, 960x540, 864x480, 768x432, 720x480, 640x480, 320x240, 176x144
+         */
         RingDetector ringFinder = new RingDetector();
-        ringFinder.setClippingMargins(200,225,80,215);
+        ringFinder.setClippingMargins(96,55,70,55);
         cameraView = new MasqCamera(ringFinder);
         cameraView.start(UPRIGHT);
     }

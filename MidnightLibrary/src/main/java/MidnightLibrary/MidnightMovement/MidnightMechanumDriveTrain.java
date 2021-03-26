@@ -2,6 +2,8 @@ package MidnightLibrary.MidnightMovement;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import MidnightLibrary.MidnightMotor.MidnightMotorModel;
+import MidnightLibrary.MidnightMotor.MidnightMotorSystem;
 import MidnightLibrary.MidnightResources.MidnightHardware;
 import MidnightLibrary.MidnightResources.MidnightUtils;
 

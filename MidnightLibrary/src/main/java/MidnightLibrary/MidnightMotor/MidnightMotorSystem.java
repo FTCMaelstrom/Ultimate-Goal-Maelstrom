@@ -1,6 +1,4 @@
-package MidnightLibrary.MidnightMovement;
-
-import androidx.annotation.NonNull;
+package MidnightLibrary.MidnightMotor;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,9 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
-import MidnightLibrary.MidnightSensors.MidnightTouchSensor;
-
-import static java.util.Locale.US;
 
 /**
  * MidnightMotorSystem That supports two or more motors and treats them as one

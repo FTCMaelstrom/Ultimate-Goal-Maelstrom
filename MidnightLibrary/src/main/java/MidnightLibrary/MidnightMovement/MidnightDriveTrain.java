@@ -2,10 +2,12 @@ package MidnightLibrary.MidnightMovement;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import MidnightLibrary.MidnightMotor.MidnightMotorModel;
+import MidnightLibrary.MidnightMotor.MidnightMotorSystem;
 import MidnightLibrary.MidnightSensors.MidnightEncoder;
 
 
-import static MidnightLibrary.MidnightMovement.MidnightMotorModel.REVHDHEX20;
+import static MidnightLibrary.MidnightMotor.MidnightMotorModel.REVHDHEX20;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 import static java.lang.Math.abs;
 

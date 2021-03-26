@@ -1,29 +1,20 @@
-package MidnightLibrary.MidnightMovement;
-
-import androidx.annotation.NonNull;
+package MidnightLibrary.MidnightMotor;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 import MidnightLibrary.MidnightResources.MidnightUtils;
 import MidnightLibrary.MidnightSensors.MidnightEncoder;
 import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
-import MidnightLibrary.MidnightSensors.MidnightTouchSensor;
 
-import static MidnightLibrary.MidnightResources.MidnightUtils.getHardwareMap;
 import static MidnightLibrary.MidnightResources.MidnightUtils.opModeIsActive;
-import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
-import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 import static com.qualcomm.robotcore.util.Range.clip;
-import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 import static java.lang.System.nanoTime;
-import static java.util.Locale.US;
 
 /**
  * This is a custom motor that includes stall detection and telemetry

@@ -1,9 +1,8 @@
 package MidnightLibrary.MidnightMovement;
 
-import androidx.annotation.NonNull;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import MidnightLibrary.MidnightMotor.MidnightMotor;
 import MidnightLibrary.MidnightResources.MidnightClock;
 import MidnightLibrary.MidnightResources.MidnightDashBoard;
 import MidnightLibrary.MidnightResources.MidnightHardware;
@@ -15,8 +14,6 @@ import static MidnightLibrary.MidnightResources.MidnightUtils.adjustAngle;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
-import static java.util.Locale.US;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 /**
  * Created by Amogh Mehta

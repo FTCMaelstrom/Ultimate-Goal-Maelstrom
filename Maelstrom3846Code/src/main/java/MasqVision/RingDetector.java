@@ -1,4 +1,4 @@
-package MaelstromCV.UltimateGoalSpecific;
+package MasqVision;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -40,7 +40,7 @@ public class RingDetector extends MasqCVDetector {
     public Mat processFrame(Mat input) {
         double time = System.nanoTime();
 
-        if(time - prevTime > 1e8) {
+        if(time - prevTime > 1e5) {
             if(init) {
                 prevTime = time;
                 workingMat = input.clone();

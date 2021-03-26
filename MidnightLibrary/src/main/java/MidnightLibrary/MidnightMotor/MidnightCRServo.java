@@ -1,4 +1,4 @@
-package MidnightLibrary.MidnightMovement;
+package MidnightLibrary.MidnightMotor;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;

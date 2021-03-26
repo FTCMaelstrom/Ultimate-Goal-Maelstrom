@@ -15,8 +15,6 @@ import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
  * Created by Keval Kataria on 6/1/2020
  */
 
-//OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-
 public class MasqCamera {
     private OpenCvCamera camera;
     public MasqCVDetector detector;
@@ -24,14 +22,15 @@ public class MasqCamera {
 
     public MasqCamera(MasqCVDetector detector) {
         this.detector = detector;
-        int cameraMonitorViewId = getHardwareMap().appContext.getResources().getIdentifier("cameraMonitorViewId", "id", getHardwareMap().appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        int cameraMonitorViewId = getHardwareMap().appContext.getResources().getIdentifier("cameraMonitorViewId", "id",
+                getHardwareMap().appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.FRONT, cameraMonitorViewId);
         camera.setPipeline(detector);
     }
 
     public void start(OpenCvCameraRotation rotation) {
         camera.openCameraDevice();
-        camera.startStreaming(640, 480, rotation);
+        camera.startStreaming(176, 144, rotation);
         streaming = true;
     }
 

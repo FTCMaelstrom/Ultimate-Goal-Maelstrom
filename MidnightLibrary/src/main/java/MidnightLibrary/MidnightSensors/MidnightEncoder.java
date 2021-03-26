@@ -1,7 +1,7 @@
 package MidnightLibrary.MidnightSensors;
 
-import MidnightLibrary.MidnightMovement.MidnightMotor;
-import MidnightLibrary.MidnightMovement.MidnightMotorModel;
+import MidnightLibrary.MidnightMotor.MidnightMotor;
+import MidnightLibrary.MidnightMotor.MidnightMotorModel;
 
 import static java.lang.Math.PI;
 
