@@ -7,6 +7,7 @@ import MidnightLibrary.MidnightMotor.MidnightMotorSystem;
 import MidnightLibrary.MidnightSensors.MidnightEncoder;
 
 
+import static MidnightLibrary.MidnightMotor.MidnightMotorModel.ORBITAL20;
 import static MidnightLibrary.MidnightMotor.MidnightMotorModel.REVHDHEX20;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
 import static java.lang.Math.abs;
@@ -15,16 +16,16 @@ public class MidnightDriveTrain {
     public MidnightMotorSystem leftDrive, rightDrive;
 
     public MidnightDriveTrain(String name1, String name2, String name3, String name4, HardwareMap hardwareMap) {
-        leftDrive = new MidnightMotorSystem(name1, REVERSE, name2, REVERSE, "LEFTDRIVE", hardwareMap, REVHDHEX20);
-        rightDrive = new MidnightMotorSystem(name3, FORWARD, name4, FORWARD, "RIGHTDRIVE", hardwareMap, REVHDHEX20);
+        leftDrive = new MidnightMotorSystem(name1, REVERSE, name2, REVERSE, "LEFTDRIVE", hardwareMap, ORBITAL20);
+        rightDrive = new MidnightMotorSystem(name3, FORWARD, name4, FORWARD, "RIGHTDRIVE", hardwareMap, ORBITAL20);
     }
     public MidnightDriveTrain(String name1, String name2, String name3, String name4, HardwareMap hardwareMap, MidnightMotorModel MidnightMotorModel) {
         leftDrive = new MidnightMotorSystem(name1, REVERSE, name2, REVERSE, "LEFTDRIVE", hardwareMap, MidnightMotorModel);
         rightDrive = new MidnightMotorSystem(name3, FORWARD, name4, FORWARD, "RIGHTDRIVE", hardwareMap, MidnightMotorModel);
     }
     public MidnightDriveTrain(HardwareMap hardwareMap){
-        leftDrive = new MidnightMotorSystem("leftFront", FORWARD, "leftBack", FORWARD, "LEFTDRIVE", hardwareMap, REVHDHEX20);
-        rightDrive = new MidnightMotorSystem("rightFront", REVERSE, "rightBack", REVERSE, "RIGHTDRIVE", hardwareMap, REVHDHEX20);
+        leftDrive = new MidnightMotorSystem("leftFront", FORWARD, "leftBack", FORWARD, "LEFTDRIVE", hardwareMap, ORBITAL20);
+        rightDrive = new MidnightMotorSystem("rightFront", REVERSE, "rightBack", REVERSE, "RIGHTDRIVE", hardwareMap, ORBITAL20);
     }
     public MidnightDriveTrain(HardwareMap hardwareMap, MidnightMotorModel motorModel){
         leftDrive = new MidnightMotorSystem("leftFront", FORWARD, "leftBack", FORWARD, "LEFTDRIVE", hardwareMap, motorModel);

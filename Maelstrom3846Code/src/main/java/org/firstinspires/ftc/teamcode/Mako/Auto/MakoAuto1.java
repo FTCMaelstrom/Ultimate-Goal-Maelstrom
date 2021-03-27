@@ -8,6 +8,8 @@ import MasqVision.RingDetector;
 import MidnightLibrary.MidnightMath.MidnightWayPoint;
 import MidnightLibrary.MidnightResources.MidnightLinearOpMode;
 
+import static MasqVision.RingDetector.TargetZone.B;
+import static MasqVision.RingDetector.TargetZone.C;
 import static MidnightLibrary.MidnightMath.MidnightWayPoint.PointMode.SWITCH;
 import static MidnightLibrary.MidnightMath.MidnightWayPoint.PointMode.TANK;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
@@ -52,6 +54,19 @@ public class MakoAuto1 extends MidnightLinearOpMode {
         timeoutClock.reset();
         robot.cameraView.stop();
         robot.tracker.reset();
+
+        /* Here we are setting the zone target coordinates*/
+        if (zone == B) {
+            iterations =1;
+            target.setPoint(-4,-85,0);
+        } else if (zone == C) {
+            iterations =3;
+            target.setPoint(-8,-110,42);
+        } else {
+            target.setPoint(-7,-62,50);
+        }
+
+
 
         robot.xyPath(new MidnightWayPoint(7,-64, 180).setTimeout(5).setDriveCorrectionSpeed(0.008).setAngularCorrectionSpeed(0.07));
 

@@ -273,4 +273,5 @@ public class MidnightMotor {
                 "Current Position: " + getCurrentPosition(),
                 "Velocity: " + getVelocity()};
     }
+
 }

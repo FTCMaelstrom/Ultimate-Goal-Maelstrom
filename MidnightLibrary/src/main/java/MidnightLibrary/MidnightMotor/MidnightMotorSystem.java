@@ -1,5 +1,7 @@
 package MidnightLibrary.MidnightMotor;
 
+import androidx.annotation.NonNull;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -8,6 +10,9 @@ import java.util.Collections;
 import java.util.List;
 
 import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
+import MidnightLibrary.MidnightSensors.MidnightTouchSensor;
+
+import static java.util.Locale.US;
 
 /**
  * MidnightMotorSystem That supports two or more motors and treats them as one
@@ -37,9 +42,9 @@ public class MidnightMotorSystem {
         numMotors = 2;
     }
     public MidnightMotorSystem(String name1, DcMotor.Direction direction,
-                           String name2, DcMotor.Direction direction2,
-                           String name3, DcMotor.Direction direction3, String systemName,
-                           HardwareMap hardwareMap, MidnightMotorModel encoder) {
+                               String name2, DcMotor.Direction direction2,
+                               String name3, DcMotor.Direction direction3, String systemName,
+                               HardwareMap hardwareMap, MidnightMotorModel encoder) {
         this.systemName = systemName;
         motor1 = new MidnightMotor(name1, encoder, direction, hardwareMap);
         motor2 = new MidnightMotor(name2, encoder, direction2, hardwareMap);

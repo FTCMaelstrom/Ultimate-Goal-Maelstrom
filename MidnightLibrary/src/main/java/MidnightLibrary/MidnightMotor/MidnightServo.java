@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import MidnightLibrary.MidnightResources.MidnightHardware;
 import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 
+import static MidnightLibrary.MidnightResources.MidnightUtils.opModeIsActive;
+
 /**
  * Created by Archish on 10/28/16.
  */
@@ -16,7 +18,9 @@ public class MidnightServo implements MidnightHardware {
     private double max = 1, min = 0;
     private MidnightLimitSwitch limMin, limMax;
     private boolean limDetection;
-    private double adjustedPosition;
+    private double position;
+    private boolean prevState = false, taskState = false, currState = false;
+    private boolean positionControlState = false;
 
 
     public MidnightServo(String name, HardwareMap hardwareMap) {
@@ -29,8 +33,8 @@ public class MidnightServo implements MidnightHardware {
         servo.setDirection(direction);
     }
     public void setPosition (double position) {
-        adjustedPosition = ((max - min) * position) + min;
-        servo.setPosition(adjustedPosition);
+        this.position = position;
+        servo.setPosition(position);
     }
     public void setDirection(Servo.Direction direction) {
         servo.setDirection(direction);
@@ -46,17 +50,38 @@ public class MidnightServo implements MidnightHardware {
     public double getPosition () {
         return servo.getPosition();
     }
-    public double getRawPosition() {
-        return adjustedPosition;
-    }
-    public void setMax(double max){this.max = max;}
-    public void setMin(double min){this.min = min;}
     public void scaleRange (double min, double max) {
         servo.scaleRange(min, max);
     }
     public void sleep (int time) throws InterruptedException {
         servo.wait(time);
     }
+
+    public void toggle(boolean button, double pos1, double pos2) {
+        currState = false;
+
+        if (button) currState = true;
+        else if (prevState) taskState = !taskState;
+
+        prevState = currState;
+
+        if (taskState) setPosition(pos1);
+        else setPosition(pos2);
+    }
+    public void toggle (boolean button) {toggle(button, 0, 1);}
+    public void setPositionControlState(boolean positionControlState) {
+        this.positionControlState = positionControlState;
+    }
+
+    public void startPositionControl() {
+        positionControlState = true;
+        Runnable positionControl = () -> {
+            while (opModeIsActive() && positionControlState) setPosition(position);
+        };
+        Thread positionThread = new Thread(positionControl);
+        positionThread.start();
+    }
+
     public String getName() {
         return name;
     }
@@ -66,5 +91,4 @@ public class MidnightServo implements MidnightHardware {
                 "Current Position:" + servo.getPosition()
         };
     }
-
 }

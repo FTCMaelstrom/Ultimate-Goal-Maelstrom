@@ -130,4 +130,12 @@ public class MidnightUtils {
         }
         return result;
     }
+
+    public static void sleep(double time, MidnightClock.Resolution resolution) {
+        try {
+            Thread.sleep((long) ((time * resolution.multiplier) / MidnightClock.Resolution.MILLISECONDS.multiplier));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

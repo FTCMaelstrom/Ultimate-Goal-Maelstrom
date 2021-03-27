@@ -2,9 +2,12 @@ package org.firstinspires.ftc.teamcode.Mako.Robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Mako.Subsystems.Claw;
+
 import MasqVision.RingDetector;
 import MasqVision.MasqCamera;
 import MidnightLibrary.MidnightMath.MidnightPIDController;
+import MidnightLibrary.MidnightMotor.MidnightServo;
 import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
 import MidnightLibrary.MidnightMotor.MidnightMotor;
 import MidnightLibrary.MidnightMotor.MidnightMotorModel;
@@ -25,15 +28,21 @@ import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
  * Last Updated: 3/26/21 10:57 AM
  **/
 public class Mako extends MidnightRobot {
-    public MidnightMotor encoder1, encoder2;
+    public MidnightMotor encoder1, encoder2, intake, rotator;
     public MasqCamera cameraView;
+    public Claw claw;
+
 
 
     @Override
     public void mapHardware (HardwareMap hardwareMap) {
         driveTrain = new MidnightMechanumDriveTrain(hardwareMap, MidnightMotorModel.ORBITAL20);
 
+        intake = new MidnightMotor("intake", MidnightMotorModel.ORBITAL20, hardwareMap);
 
+        rotator = new MidnightMotor("rotator", MidnightMotorModel.ORBITAL20, hardwareMap);
+
+        claw = new Claw(hardwareMap);
 
         encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE,hardwareMap);
         encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE,hardwareMap);
@@ -61,7 +70,7 @@ public class Mako extends MidnightRobot {
         driveTrain.resetEncoders();
 
         if(opMode == AUTO) {
-            driveTrain.setKp(5e-8);
+            driveTrain.setKp(1e-9);
             initCamera();
         }
         else driveTrain.setKp(1e-8);
@@ -80,6 +89,5 @@ public class Mako extends MidnightRobot {
         cameraView.start(UPRIGHT);
     }
 
-    public int getRings() {return 0;}
 
 }

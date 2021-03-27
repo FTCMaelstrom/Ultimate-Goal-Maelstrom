@@ -9,6 +9,9 @@ import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
 import MidnightLibrary.MidnightResources.MidnightLinearOpMode;
 import MidnightLibrary.MidnightRobot;
 
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
+
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2
@@ -18,6 +21,9 @@ import MidnightLibrary.MidnightRobot;
 @TeleOp(name = "Mako1", group = "Mako")
 public class Mako1 extends MidnightLinearOpMode {
     private Mako mako = new Mako();
+    //boolean enabled = false;
+    double rotatorSpeed = 0.50;
+
 
     @Override
     public void runLinearOpMode() {
@@ -25,7 +31,6 @@ public class Mako1 extends MidnightLinearOpMode {
 
         while (!opModeIsActive()) {
             dash.create("Ready to go");
-
             dash.update();
         }
 
@@ -39,7 +44,24 @@ public class Mako1 extends MidnightLinearOpMode {
             dash.create("rightFront: ", mako.driveTrain.getPowerRightFront());
             dash.create("rightBack: ", mako.driveTrain.getPowerRightBack());
 
+            /*
+            if (!enabled) {
+                mako.intake.setVelocity(gamepad1.right_trigger-gamepad1.left_trigger);
+            }*/
+            mako.intake.setVelocity(gamepad1.right_trigger-gamepad1.left_trigger);
 
+            if (gamepad1.dpad_down) {
+                mako.rotator.setDirection(REVERSE);
+                mako.rotator.setVelocity(rotatorSpeed);
+            }
+            if (gamepad1.dpad_up) {
+                mako.rotator.setDirection(FORWARD);
+                mako.rotator.setVelocity(rotatorSpeed);
+            }
+
+            mako.claw.driverControl(gamepad1);
+
+            dash.create("Rotator Speed: ", rotatorSpeed);
             dash.update();
         }
     }
