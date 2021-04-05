@@ -10,6 +10,7 @@ public enum MidnightMotorModel {
     public static double CPR(MidnightMotorModel motorModel) {
         switch (motorModel){
             case ORBITAL20:
+                return 537.6;
             case REVHDHEX20:
                 return 560;
             case NEVEREST40:

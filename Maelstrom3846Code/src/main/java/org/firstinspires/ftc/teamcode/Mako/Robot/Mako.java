@@ -24,21 +24,21 @@ import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 3/26/21 10:54 AM
- * Last Updated: 3/26/21 10:57 AM
+ * Last Modified: 4/5/21 12:23 PM
+ * Last Updated: 4/5/21 12:31 PM
  **/
+
 public class Mako extends MidnightRobot {
-    public MidnightMotor encoder1, encoder2, intake, rotator;
+    public MidnightMotor encoder1, encoder2, rotator;
     public MasqCamera cameraView;
     public Claw claw;
-
 
 
     @Override
     public void mapHardware (HardwareMap hardwareMap) {
         driveTrain = new MidnightMechanumDriveTrain(hardwareMap, MidnightMotorModel.ORBITAL20);
 
-        intake = new MidnightMotor("intake", MidnightMotorModel.ORBITAL20, hardwareMap);
+        //intake = new MidnightMotor("intake", MidnightMotorModel.ORBITAL20, hardwareMap);
 
         rotator = new MidnightMotor("rotator", MidnightMotorModel.ORBITAL20, hardwareMap);
 
@@ -46,7 +46,7 @@ public class Mako extends MidnightRobot {
 
         encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE,hardwareMap);
         encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE,hardwareMap);
-        tracker = new MidnightPositionTracker(encoder1,encoder2,hardwareMap);
+        tracker = new MidnightPositionTracker(encoder1, encoder2, hardwareMap);
 
         dash = MidnightDashBoard.getDash();
 
@@ -74,8 +74,6 @@ public class Mako extends MidnightRobot {
             initCamera();
         }
         else driveTrain.setKp(1e-8);
-
-        //driveTrain.setKp(1e-8);//Set to 1e-3 by default, which is too low for a drivetrain, keep at 1e-8 or shaking will occur
     }
 
     public void initCamera() {
