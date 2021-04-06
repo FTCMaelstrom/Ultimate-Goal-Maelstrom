@@ -71,9 +71,14 @@ public class Mako extends MidnightRobot {
 
         if(opMode == AUTO) {
             driveTrain.setKp(1e-9);
+            //driveTrain.setKi(0);
+            //driveTrain.setKd(0);
             initCamera();
+        } else {
+            driveTrain.setKp(1e-8);
+            //driveTrain.setKi(0);
+            //driveTrain.setKd(0);
         }
-        else driveTrain.setKp(1e-8);
     }
 
     public void initCamera() {
@@ -86,6 +91,4 @@ public class Mako extends MidnightRobot {
         cameraView = new MasqCamera(ringFinder);
         cameraView.start(UPRIGHT);
     }
-
-
 }

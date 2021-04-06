@@ -298,4 +298,10 @@ public class MidnightMotor {
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    public void accessoryMotorConditioner() {
+        setStopMotor();
+        resetEncoder();
+        runWithoutEncoderNoZeroPowerSet();
+        brakeMode();
+    }
 }
