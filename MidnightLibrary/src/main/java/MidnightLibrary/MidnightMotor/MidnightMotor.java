@@ -134,6 +134,8 @@ public class MidnightMotor {
         motorPower = power;
         motor.setPower(power);
     }
+
+
     public void setVelocity(double power) {
         targetPower = power;
         motorPower = calculateVelocityCorrection(power);
@@ -246,6 +248,15 @@ public class MidnightMotor {
     public void setKp(double kp) {
         this.kp = kp;
     }
+
+    public void setKi(double ki) {
+        this.ki = ki;
+    }
+
+    public void setKd(double kd) {
+        this.kd = kd;
+    }
+
     public DcMotorController getController () {return motor.getController();}
     public int getPortNumber () {return motor.getPortNumber();}
 
@@ -274,4 +285,23 @@ public class MidnightMotor {
                 "Velocity: " + getVelocity()};
     }
 
+    public void setStopMotor() {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void brakeMode() {
+        motor.setZeroPowerBehavior(BRAKE);
+    }
+
+
+    public void runWithoutEncoderNoZeroPowerSet() {
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void accessoryMotorConditioner() {
+        setStopMotor();
+        resetEncoder();
+        runWithoutEncoderNoZeroPowerSet();
+        brakeMode();
+    }
 }

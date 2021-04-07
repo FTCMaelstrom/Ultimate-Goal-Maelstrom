@@ -49,6 +49,11 @@ public class MidnightDriveTrain {
         leftDrive.setVelocity(power);
         rightDrive.setVelocity(power);
     }
+
+    public void setPower(double power) {
+        leftDrive.setPower(power);
+        rightDrive.setPower(power);
+    }
     public void setVelocity(double leftFront, double leftBack, double rightFront, double rightBack) {
         leftDrive.motor1.setVelocity(leftFront);
         leftDrive.motor2.setVelocity(leftBack);
@@ -83,6 +88,16 @@ public class MidnightDriveTrain {
     public void setKp(double kp){
         leftDrive.setKp(kp);
         rightDrive.setKp(kp);
+    }
+
+    public void setKi (double ki) {
+        leftDrive.setKi(ki);
+        rightDrive.setKi(ki);
+    }
+
+    public void setKd (double kd) {
+        leftDrive.setKd(kd);
+        rightDrive.setKd(kd);
     }
 
     public void startVelocityControl() {

@@ -7,6 +7,7 @@ import MidnightLibrary.MidnightMotor.MidnightMotorSystem;
 import MidnightLibrary.MidnightResources.MidnightHardware;
 import MidnightLibrary.MidnightResources.MidnightUtils;
 
+import static MidnightLibrary.MidnightResources.MidnightUtils.BOOST_SPEED_MULTIPLIER;
 import static MidnightLibrary.MidnightResources.MidnightUtils.DEFAULT_SPEED_MULTIPLIER;
 import static MidnightLibrary.MidnightResources.MidnightUtils.adjustAngle;
 import static MidnightLibrary.MidnightResources.MidnightUtils.angleController;
@@ -33,9 +34,9 @@ public class MidnightMechanumDriveTrain extends MidnightDriveTrain implements Mi
         double turnPower = angleController.getOutput(adjustAngle(targetHeading - getTracker().getHeading()));
         angle = toRadians(angle);
         double adjustedAngle = angle + Math.PI/4;
-        double leftFront = (sin(adjustedAngle) * speed * DEFAULT_SPEED_MULTIPLIER) + turnPower * MidnightUtils.DEFAULT_TURN_MULTIPLIER;
+        double leftFront = (sin(adjustedAngle) * speed * BOOST_SPEED_MULTIPLIER) + turnPower * BOOST_SPEED_MULTIPLIER;
         double leftBack = (cos(adjustedAngle) * speed * DEFAULT_SPEED_MULTIPLIER) + turnPower * MidnightUtils.DEFAULT_TURN_MULTIPLIER;
-        double rightFront = (cos(adjustedAngle) * speed * DEFAULT_SPEED_MULTIPLIER) - turnPower * MidnightUtils.DEFAULT_TURN_MULTIPLIER;
+        double rightFront = (cos(adjustedAngle) * speed * BOOST_SPEED_MULTIPLIER) - turnPower * BOOST_SPEED_MULTIPLIER;
         double rightBack = (sin(adjustedAngle) * speed * DEFAULT_SPEED_MULTIPLIER) - turnPower * MidnightUtils.DEFAULT_TURN_MULTIPLIER;
         double max = max(max(abs(leftFront), abs(leftBack)), max(abs(rightFront), abs(rightBack)));
 
@@ -55,20 +56,15 @@ public class MidnightMechanumDriveTrain extends MidnightDriveTrain implements Mi
         setVelocityMECH(angle, speed, getTracker().getHeading());
     }
 
-    public double getPowerLeftFront() {
-        return (leftDrive.motor1.getVelocity());
-    }
+    //getters designed to get the velocity control that is being exerted on the drivetrain system motors
+    public double getVelocityLeftFront() {return (leftDrive.motor1.getVelocity());}
+    public double getVelocityLeftBack() {return (leftDrive.motor2.getVelocity());}
+    public double getVelocityRightFront() {return (rightDrive.motor1.getVelocity());}
+    public double getVelocityRightBack() {return (rightDrive.motor2.getVelocity());}
 
-    public double getPowerLeftBack() {
-        return (leftDrive.motor2.getVelocity());
-    }
-
-    public double getPowerRightFront() {
-        return (rightDrive.motor1.getVelocity());
-    }
-
-    public double getPowerRightBack() {
-        return (rightDrive.motor2.getVelocity());
-    }
-
+    //getters designed to get the pure power values that the drivetrain system motors are giving
+    public double getPowerLeftFront() {return (leftDrive.motor1.getPower());}
+    public double getPowerLeftBack() {return (leftDrive.motor2.getPower());}
+    public double getPowerRightFront() {return(rightDrive.motor1.getPower());}
+    public double getPowerRightBack() {return (rightDrive.motor2.getPower());}
 }

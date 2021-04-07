@@ -34,6 +34,7 @@ public class MidnightUtils {
     public static final long DEFAULT_SLEEP_TIME = 500;
     public static final double DEFAULT_TIMEOUT = 2;
     public static final double DEFAULT_SPEED_MULTIPLIER = Math.sqrt(2);
+    public static final double BOOST_SPEED_MULTIPLIER = 2;
     public static final double DEFAULT_TURN_MULTIPLIER = 1;
     public static final double ODS_WHITE = 0.7, ODS_BLACK = 0.3;
     public static final String VUFORIA_KEY = "Ac5sAIr/////AAABmeUEovYOek9pkuVkMLDtWVGIkr+aSwnxHoPcO" +

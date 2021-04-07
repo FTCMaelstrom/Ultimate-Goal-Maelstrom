@@ -85,6 +85,21 @@ public class MidnightMotorSystem {
         this.kp = kp;
         for (MidnightMotor MidnightMotor: motors) MidnightMotor.setKp(kp);
     }
+
+    public void setKi(double ki) {
+        this.ki = ki;
+        for (MidnightMotor MidnightMotor: motors) {
+            MidnightMotor.setKi(ki);
+        }
+    }
+
+    public void setKd(double kd) {
+        this.kd= kd;
+        for (MidnightMotor MidnightMotor: motors) {
+            MidnightMotor.setKd(kd);
+        }
+    }
+
     public double getPower() {
         double num = 0, sum = 0;
         for (MidnightMotor MidnightMotor: motors) {
@@ -106,6 +121,10 @@ public class MidnightMotorSystem {
     }
     public void setVelocity(double power) {
         for (MidnightMotor MidnightMotor : motors) MidnightMotor.setVelocity(power);
+    }
+
+    public void setPower(double power) {
+        for (MidnightMotor MidnightMotor : motors) MidnightMotor.setPower(power);
     }
     public void setClosedLoop (boolean closedLoop) {
         for (MidnightMotor MidnightMotor : motors) {
