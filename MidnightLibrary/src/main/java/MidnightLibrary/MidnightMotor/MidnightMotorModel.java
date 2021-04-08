@@ -7,8 +7,10 @@ package MidnightLibrary.MidnightMotor;
 public enum MidnightMotorModel {
     ORBITAL20, NEVEREST40, NEVEREST60, USDIGITAL_E4T, REVHDHEX40, NEVERREST_CLASSIC, NEVERREST256, REVHDHEX20, REVTHROUGHBORE, NEVERREST37, REVHDHEX1;
     public static double DEFAULT_CPR = 537.6;
+    public static int DEFAULT_RPM = 150;
+
     public static double CPR(MidnightMotorModel motorModel) {
-        switch (motorModel){
+        switch (motorModel) {
             case ORBITAL20:
                 return 537.6;
             case REVHDHEX20:
@@ -33,8 +35,7 @@ public enum MidnightMotorModel {
         }
         return DEFAULT_CPR;
     }
-    public double CPR () {return CPR(this);}
-    public static int DEFAULT_RPM = 150;
+
     public static int RPM(MidnightMotorModel motorModel) {
         switch (motorModel) {
             case ORBITAL20:
@@ -56,5 +57,12 @@ public enum MidnightMotorModel {
         }
         return DEFAULT_RPM;
     }
-    public int RPM () {return RPM(this);}
+
+    public double CPR() {
+        return CPR(this);
+    }
+
+    public int RPM() {
+        return RPM(this);
+    }
 }

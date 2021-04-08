@@ -2,10 +2,10 @@ package MasqVision;
 
 import androidx.annotation.NonNull;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.openftc.easyopencv.*;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import static MidnightLibrary.MidnightResources.MidnightUtils.getHardwareMap;
 import static java.util.Locale.US;
@@ -16,8 +16,8 @@ import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
  */
 
 public class MasqCamera {
-    private OpenCvCamera camera;
     public MasqCVDetector detector;
+    private final OpenCvCamera camera;
     private boolean streaming = false;
 
     public MasqCamera(MasqCVDetector detector) {

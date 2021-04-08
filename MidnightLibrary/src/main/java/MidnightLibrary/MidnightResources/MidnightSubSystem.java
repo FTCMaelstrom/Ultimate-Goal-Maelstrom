@@ -7,7 +7,9 @@ import com.qualcomm.robotcore.hardware.Gamepad;
  */
 
 public interface MidnightSubSystem {
-    void driverControl(Gamepad controller) ;
+    void driverControl(Gamepad controller);
+
     String getName();
+
     MidnightHardware[] getComponents();
 }

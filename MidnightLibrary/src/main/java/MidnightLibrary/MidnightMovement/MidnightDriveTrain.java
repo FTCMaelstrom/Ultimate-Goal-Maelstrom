@@ -6,10 +6,9 @@ import MidnightLibrary.MidnightMotor.MidnightMotorModel;
 import MidnightLibrary.MidnightMotor.MidnightMotorSystem;
 import MidnightLibrary.MidnightSensors.MidnightEncoder;
 
-
 import static MidnightLibrary.MidnightMotor.MidnightMotorModel.ORBITAL20;
-import static MidnightLibrary.MidnightMotor.MidnightMotorModel.REVHDHEX20;
-import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.*;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static java.lang.Math.abs;
 
 public class MidnightDriveTrain {
@@ -19,24 +18,28 @@ public class MidnightDriveTrain {
         leftDrive = new MidnightMotorSystem(name1, REVERSE, name2, REVERSE, "LEFTDRIVE", hardwareMap, ORBITAL20);
         rightDrive = new MidnightMotorSystem(name3, FORWARD, name4, FORWARD, "RIGHTDRIVE", hardwareMap, ORBITAL20);
     }
+
     public MidnightDriveTrain(String name1, String name2, String name3, String name4, HardwareMap hardwareMap, MidnightMotorModel MidnightMotorModel) {
         leftDrive = new MidnightMotorSystem(name1, REVERSE, name2, REVERSE, "LEFTDRIVE", hardwareMap, MidnightMotorModel);
         rightDrive = new MidnightMotorSystem(name3, FORWARD, name4, FORWARD, "RIGHTDRIVE", hardwareMap, MidnightMotorModel);
     }
-    public MidnightDriveTrain(HardwareMap hardwareMap){
+
+    public MidnightDriveTrain(HardwareMap hardwareMap) {
         leftDrive = new MidnightMotorSystem("leftFront", FORWARD, "leftBack", FORWARD, "LEFTDRIVE", hardwareMap, ORBITAL20);
         rightDrive = new MidnightMotorSystem("rightFront", REVERSE, "rightBack", REVERSE, "RIGHTDRIVE", hardwareMap, ORBITAL20);
     }
-    public MidnightDriveTrain(HardwareMap hardwareMap, MidnightMotorModel motorModel){
+
+    public MidnightDriveTrain(HardwareMap hardwareMap, MidnightMotorModel motorModel) {
         leftDrive = new MidnightMotorSystem("leftFront", FORWARD, "leftBack", FORWARD, "LEFTDRIVE", hardwareMap, motorModel);
         rightDrive = new MidnightMotorSystem("rightFront", REVERSE, "rightBack", REVERSE, "RIGHTDRIVE", hardwareMap, motorModel);
     }
+
     public MidnightDriveTrain(MidnightMotorSystem left, MidnightMotorSystem right) {
         leftDrive = left;
         rightDrive = right;
     }
 
-    public void resetEncoders () {
+    public void resetEncoders() {
         leftDrive.resetEncoders();
         rightDrive.resetEncoders();
     }
@@ -45,15 +48,7 @@ public class MidnightDriveTrain {
         rightDrive.setVelocity(rightPower);
         leftDrive.setVelocity(leftPower);
     }
-    public void setVelocity(double power){
-        leftDrive.setVelocity(power);
-        rightDrive.setVelocity(power);
-    }
 
-    public void setPower(double power) {
-        leftDrive.setPower(power);
-        rightDrive.setPower(power);
-    }
     public void setVelocity(double leftFront, double leftBack, double rightFront, double rightBack) {
         leftDrive.motor1.setVelocity(leftFront);
         leftDrive.motor2.setVelocity(leftBack);
@@ -61,41 +56,55 @@ public class MidnightDriveTrain {
         rightDrive.motor2.setVelocity(rightBack);
     }
 
-    public double getInches() {return (leftDrive.getInches() + rightDrive.getInches())/2;}
+    public double getInches() {
+        return (leftDrive.getInches() + rightDrive.getInches()) / 2;
+    }
 
     public double getVelocity() {
-        return (leftDrive.getVelocity() + rightDrive.getVelocity())/2;
+        return (leftDrive.getVelocity() + rightDrive.getVelocity()) / 2;
     }
+
+    public void setVelocity(double power) {
+        leftDrive.setVelocity(power);
+        rightDrive.setVelocity(power);
+    }
+
     public double getPower() {
-        return (leftDrive.getPower() + rightDrive.getPower()) /2;
+        return (leftDrive.getPower() + rightDrive.getPower()) / 2;
+    }
+
+    public void setPower(double power) {
+        leftDrive.setPower(power);
+        rightDrive.setPower(power);
     }
 
     public int getCurrentPosition() {
-        return (leftDrive.getCurrentPosition() + rightDrive.getCurrentPosition())/2;
+        return (leftDrive.getCurrentPosition() + rightDrive.getCurrentPosition()) / 2;
     }
+
     public double getCurrentPositionPositive() {
         return (abs(leftDrive.motor1.getCurrentPosition()) +
                 abs(leftDrive.motor2.getCurrentPosition()) +
                 abs(rightDrive.motor1.getCurrentPosition()) +
-                abs(rightDrive.motor1.getCurrentPosition()))/4;
+                abs(rightDrive.motor1.getCurrentPosition())) / 4;
     }
 
-    public void setClosedLoop (boolean closedLoop) {
+    public void setClosedLoop(boolean closedLoop) {
         leftDrive.setClosedLoop(closedLoop);
         rightDrive.setClosedLoop(closedLoop);
     }
 
-    public void setKp(double kp){
+    public void setKp(double kp) {
         leftDrive.setKp(kp);
         rightDrive.setKp(kp);
     }
 
-    public void setKi (double ki) {
+    public void setKi(double ki) {
         leftDrive.setKi(ki);
         rightDrive.setKi(ki);
     }
 
-    public void setKd (double kd) {
+    public void setKd(double kd) {
         leftDrive.setKd(kd);
         rightDrive.setKd(kd);
     }
@@ -109,17 +118,23 @@ public class MidnightDriveTrain {
         leftDrive.runUsingEncoder();
         rightDrive.runUsingEncoder();
     }
+
     public void runWithoutEncoder() {
         leftDrive.runWithoutEncoder();
         rightDrive.runWithoutEncoder();
     }
 
-    public MidnightEncoder getEncoder () {return rightDrive.motor1.getEncoder();}
+    public MidnightEncoder getEncoder() {
+        return rightDrive.motor1.getEncoder();
+    }
 
-    public String getName() {return "DRIVETRAIN";}
+    public String getName() {
+        return "DRIVETRAIN";
+    }
+
     public String[] getDash() {
         return new String[]{
-                "Rate "+ getVelocity(),
+                "Rate " + getVelocity(),
                 "Left Position: " + leftDrive.getAbsolutePosition(),
                 "Right Position: " + rightDrive.getAbsolutePosition(),
         };

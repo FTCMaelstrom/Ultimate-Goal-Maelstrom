@@ -1,8 +1,5 @@
 package MidnightLibrary.MidnightMath;
 
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-
 import MidnightLibrary.MidnightResources.MidnightClock;
 
 import static com.qualcomm.robotcore.util.Range.clip;
@@ -12,28 +9,32 @@ import static com.qualcomm.robotcore.util.Range.clip;
  */
 
 public class MidnightPIDController {
-    private MidnightIntegrator integrator = new MidnightIntegrator();
+    private final MidnightIntegrator integrator = new MidnightIntegrator();
     private double kp = 0;
     private double ki = 0;
     private double kd = 0;
     private double prevError = 0;
-    private MidnightClock clock = new MidnightClock();
+    private final MidnightClock clock = new MidnightClock();
 
     public MidnightPIDController(double kp, double ki, double kd) {
         this.kp = kp;
         this.ki = ki;
         this.kd = kd;
     }
+
     public MidnightPIDController(double kp, double ki) {
         this.kp = kp;
         this.ki = ki;
     }
+
     public MidnightPIDController(double kp) {
         this.kp = kp;
     }
-    public MidnightPIDController() {}
 
-    public double getOutput (double error) {
+    public MidnightPIDController() {
+    }
+
+    public double getOutput(double error) {
         double timeChange = clock.seconds();
         double derivative = (error - prevError) / timeChange;
         double integral = integrator.getIntegral(error);
@@ -60,28 +61,28 @@ public class MidnightPIDController {
         this.kd = kd;
     }
 
-    public void setKp(double kp) {
-        this.kp = kp;
-    }
-
-    public void setKi(double ki) {
-        this.ki = ki;
-    }
-
-    public void setKd(double kd) {
-        this.kd = kd;
-    }
-
     public double getKp() {
         return kp;
+    }
+
+    public void setKp(double kp) {
+        this.kp = kp;
     }
 
     public double getKi() {
         return ki;
     }
 
+    public void setKi(double ki) {
+        this.ki = ki;
+    }
+
     public double getKd() {
         return kd;
+    }
+
+    public void setKd(double kd) {
+        this.kd = kd;
     }
 
 }

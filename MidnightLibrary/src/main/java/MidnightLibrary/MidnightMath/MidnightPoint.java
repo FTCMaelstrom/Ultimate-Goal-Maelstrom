@@ -15,6 +15,7 @@ public class MidnightPoint implements MidnightHardware {
         this.x = x;
         this.y = y;
     }
+
     public MidnightPoint(double x, double y, double h) {
         this.x = x;
         this.y = y;
@@ -57,8 +58,8 @@ public class MidnightPoint implements MidnightHardware {
     @Override
     public String[] getDash() {
         return new String[]{
-                "X: " + Double.toString(getX()),
-                "Y: " + Double.toString(getY())
+                "X: " + getX(),
+                "Y: " + getY()
         };
     }
 }

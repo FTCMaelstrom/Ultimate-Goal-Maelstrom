@@ -13,12 +13,12 @@ import static org.firstinspires.ftc.teamcode.Mako.Subsystems.Constants.ROTATOR_P
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 4/6/21 1:33 PM
- * Last Updated: 4/6/21 1:35 PM
+ * Last Modified: 4/8/21 3:17 PM
+ * Last Updated: 4/8/21 3:22 PM
  **/
 @TeleOp(name = "Mako1", group = "Mako")
 public class Mako1 extends MidnightLinearOpMode {
-    private Mako mako = new Mako();
+    private final Mako mako = new Mako();
 
     @Override
     public void runLinearOpMode() {
@@ -31,7 +31,7 @@ public class Mako1 extends MidnightLinearOpMode {
 
         waitForStart();
 
-        while(opModeIsActive()) {
+        while (opModeIsActive()) {
             mako.MECH();
 
             boolean endgameModeEnabled = false;
@@ -56,7 +56,7 @@ public class Mako1 extends MidnightLinearOpMode {
             //Pressing a on gamepad activates endgameMode, pressing b on gamepad deactivates endgameMode
             if (gamepad1.a) {
                 endgameModeEnabled = true;
-            } else if (gamepad1.b){
+            } else if (gamepad1.b) {
                 endgameModeEnabled = false;
             }
 
@@ -64,9 +64,10 @@ public class Mako1 extends MidnightLinearOpMode {
             dash.update();
 
             if (!endgameModeEnabled) {
+                dash.create("endgameModeDisabled");
                 //There's nothing here because we don't have an intake, flywheel, or flicker
-
             } else if (endgameModeEnabled) {
+                dash.create("endgameModeEnabled");
                 mako.claw.driverControl(gamepad1);
 
                 /*// This is the button based rotator control
@@ -93,12 +94,12 @@ public class Mako1 extends MidnightLinearOpMode {
                 } else if (gamepad1.left_bumper) {
                     mako.claw.open();
                 }
-
-                packet.put("Rotator Speed: ", ROTATOR_POWER);
-                packet.put("Rotator Motor Power: ", mako.rotator.getPower());
-                packet.put("Rotator Velocity: ", mako.rotator.getVelocity());
-                dashboard.sendTelemetryPacket(packet);
             }
+            packet.put("Rotator Speed: ", ROTATOR_POWER);
+            packet.put("Rotator Motor Power: ", mako.rotator.getPower());
+            packet.put("Rotator Velocity: ", mako.rotator.getVelocity());
+            dashboard.sendTelemetryPacket(packet);
+
             dash.clear();
         }
     }

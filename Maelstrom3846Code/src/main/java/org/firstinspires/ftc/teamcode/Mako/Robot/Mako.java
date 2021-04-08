@@ -4,13 +4,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Mako.Subsystems.Claw;
 
-import MasqVision.RingDetector;
 import MasqVision.MasqCamera;
+import MasqVision.RingDetector;
 import MidnightLibrary.MidnightMath.MidnightPIDController;
-import MidnightLibrary.MidnightMotor.MidnightServo;
-import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
 import MidnightLibrary.MidnightMotor.MidnightMotor;
 import MidnightLibrary.MidnightMotor.MidnightMotorModel;
+import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
 import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
 import MidnightLibrary.MidnightResources.MidnightDashBoard;
 import MidnightLibrary.MidnightRobot;
@@ -20,14 +19,12 @@ import static MidnightLibrary.MidnightResources.MidnightUtils.setTracker;
 import static MidnightLibrary.MidnightResources.MidnightUtils.turnController;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
-
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 4/5/21 12:23 PM
- * Last Updated: 4/5/21 12:31 PM
+ * Last Modified: 4/8/21 3:17 PM
+ * Last Updated: 4/8/21 3:22 PM
  **/
-
 public class Mako extends MidnightRobot {
     public MidnightMotor encoder1, encoder2, rotator;
     public MasqCamera cameraView;
@@ -35,7 +32,7 @@ public class Mako extends MidnightRobot {
 
 
     @Override
-    public void mapHardware (HardwareMap hardwareMap) {
+    public void mapHardware(HardwareMap hardwareMap) {
         driveTrain = new MidnightMechanumDriveTrain(hardwareMap, MidnightMotorModel.ORBITAL20);
 
         //intake = new MidnightMotor("intake", MidnightMotorModel.ORBITAL20, hardwareMap);
@@ -44,8 +41,8 @@ public class Mako extends MidnightRobot {
 
         claw = new Claw(hardwareMap);
 
-        encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE,hardwareMap);
-        encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE,hardwareMap);
+        encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
+        encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
         tracker = new MidnightPositionTracker(encoder1, encoder2, hardwareMap);
 
         dash = MidnightDashBoard.getDash();
@@ -69,7 +66,7 @@ public class Mako extends MidnightRobot {
 
         driveTrain.resetEncoders();
 
-        if(opMode == AUTO) {
+        if (opMode == AUTO) {
             driveTrain.setKp(1e-9);
             //driveTrain.setKi(0);
             //driveTrain.setKd(0);
@@ -87,7 +84,7 @@ public class Mako extends MidnightRobot {
         1280x960, 1280x720, 960x720, 960x540, 864x480, 768x432, 720x480, 640x480, 320x240, 176x144
          */
         RingDetector ringFinder = new RingDetector();
-        ringFinder.setClippingMargins(96,55,70,55);
+        ringFinder.setClippingMargins(96, 55, 70, 55);
         cameraView = new MasqCamera(ringFinder);
         cameraView.start(UPRIGHT);
     }

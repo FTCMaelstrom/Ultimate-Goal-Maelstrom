@@ -12,7 +12,6 @@ import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 import static MidnightLibrary.MidnightResources.MidnightUtils.opModeIsActive;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
-import static com.qualcomm.robotcore.util.Range.clip;
 import static java.lang.Math.abs;
 import static java.lang.System.nanoTime;
 
@@ -21,21 +20,21 @@ import static java.lang.System.nanoTime;
  */
 
 public class MidnightMotor {
-    private double minPower = 0;
     public DcMotor motor;
+    public MidnightEncoder encoder;
+    public double rpmIntegral = 0;
+    public double rpmDerivative = 0;
+    private double minPower = 0;
     private boolean stallDetection = false;
-    private String nameMotor;
+    private final String nameMotor;
     private double targetPower;
     private boolean velocityControlState = false;
     private double kp = 0.001, ki = 0, kd = 0;
-    public MidnightEncoder encoder;
     private double prevPos = 0;
     private boolean stalled = false;
     private double previousTime = 0;
     private double motorPower;
     private double currentMax, currentMin;
-    public double rpmIntegral = 0;
-    public double rpmDerivative = 0;
     private double rpmPreviousError = 0;
     private int stalledRPMThreshold = 10;
     private boolean reversedEncoder = false;
@@ -57,6 +56,7 @@ public class MidnightMotor {
         motor = hardwareMap.get(DcMotor.class, name);
         encoder = new MidnightEncoder(this, model);
     }
+
     public MidnightMotor(String name, MidnightMotorModel model, DcMotor.Direction direction, HardwareMap hardwareMap) {
         limitDetection = positionDetection = false;
         this.nameMotor = name;
@@ -65,31 +65,41 @@ public class MidnightMotor {
         encoder = new MidnightEncoder(this, model);
     }
 
-    public void setLimits(MidnightLimitSwitch min, MidnightLimitSwitch max){
-        maxLim = max; minLim = min;
+    public void setLimits(MidnightLimitSwitch min, MidnightLimitSwitch max) {
+        maxLim = max;
+        minLim = min;
         limitDetection = true;
     }
+
     public MidnightMotor setLimit(MidnightLimitSwitch min) {
-        minLim = min; maxLim = null;
+        minLim = min;
+        maxLim = null;
         limitDetection = true;
         return this;
     }
-    public MidnightMotor setPositionLimits (double min, double max) {
-        minPosition = min; maxPosition = max;
+
+    public MidnightMotor setPositionLimits(double min, double max) {
+        minPosition = min;
+        maxPosition = max;
         positionDetection = true;
         return this;
     }
-    public MidnightMotor setHalfLimits(MidnightLimitSwitch min, double max){
+
+    public MidnightMotor setHalfLimits(MidnightLimitSwitch min, double max) {
         maxPosition = max;
-        minLim = min; halfDetectionMin = true;
+        minLim = min;
+        halfDetectionMin = true;
         return this;
     }
-    public MidnightMotor setHalfLimits(double min, MidnightLimitSwitch max){
+
+    public MidnightMotor setHalfLimits(double min, MidnightLimitSwitch max) {
         minPosition = min;
-        maxLim = max; halfDetectionMax = true;
+        maxLim = max;
+        halfDetectionMax = true;
         return this;
     }
-    public MidnightMotor setPositionLimit (double min) {
+
+    public MidnightMotor setPositionLimit(double min) {
         minPosition = min;
         positionDetection = true;
         return this;
@@ -99,6 +109,7 @@ public class MidnightMotor {
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor.setZeroPowerBehavior(FLOAT);
     }
+
     public void runUsingEncoder() {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setZeroPowerBehavior(BRAKE);
@@ -108,17 +119,19 @@ public class MidnightMotor {
         encoder.resetEncoder();
     }
 
-    boolean isBusy () {
+    boolean isBusy() {
         return motor.isBusy();
     }
 
     public double getCurrentPosition() {
         return encoder.getRelativePosition();
     }
-    public double getAbsolutePosition () {
-        if(reversedEncoder) return -motor.getCurrentPosition();
+
+    public double getAbsolutePosition() {
+        if (reversedEncoder) return -motor.getCurrentPosition();
         return motor.getCurrentPosition();
     }
+
     public double getVelocity() {
         double deltaPosition = getCurrentPosition() - prevPos;
         previousTime = nanoTime();
@@ -128,13 +141,6 @@ public class MidnightMotor {
         rate = (rate * 60) / encoder.getClicksPerRotation() / encoder.getRPM();
         return rate;
     }
-
-    public void setPower (double power) {
-        power = Range.clip(power, -1, 1);
-        motorPower = power;
-        motor.setPower(power);
-    }
-
 
     public void setVelocity(double power) {
         targetPower = power;
@@ -148,34 +154,32 @@ public class MidnightMotor {
             else if (minLim != null && minLim.isPressed()
                     && power < 0 && maxLim == null)
                 motorPower = 0;
-        }
-        else if (positionDetection) {
+        } else if (positionDetection) {
             if ((motor.getCurrentPosition() < minPosition && power < 0) ||
                     (motor.getCurrentPosition() > maxPosition && power > 0))
                 motorPower = 0;
             else if (motor.getCurrentPosition() < minPosition && power < 0)
                 motorPower = 0;
-        }
-        else if (halfDetectionMin) {
+        } else if (halfDetectionMin) {
             if (minLim.isPressed()) {
                 currentZero = motor.getCurrentPosition();
                 currentMax = currentZero + maxPosition;
             }
             if (minLim != null && minLim.isPressed() && power < 0) motorPower = 0;
             else if (motor.getCurrentPosition() > currentMax && power > 0) motorPower = 0;
-        }
-        else if (halfDetectionMax) {
+        } else if (halfDetectionMax) {
             if (maxLim.isPressed()) {
                 currentZero = motor.getCurrentPosition();
                 currentMin = currentZero - minPosition;
             }
-            if (maxLim != null && maxLim.isPressed() && power >0) motorPower = 0;
+            if (maxLim != null && maxLim.isPressed() && power > 0) motorPower = 0;
             else if (motor.getCurrentPosition() < currentMin && power < 0) motorPower = 0;
         }
         if (abs(motorPower) < minPower && minPower != 0) motorPower = 0;
         motor.setPower(motorPower);
     }
-    public  double calculateVelocityCorrection(double power) {
+
+    public double calculateVelocityCorrection(double power) {
         double tChange = (nanoTime() - previousTime) / 1e9;
         double error = encoder.getRPM() * (power - getVelocity());
         rpmIntegral += error * tChange;
@@ -192,7 +196,8 @@ public class MidnightMotor {
     public void setVelocityControlState(boolean velocityControlState) {
         this.velocityControlState = velocityControlState;
     }
-    public void startVelocityControl () {
+
+    public void startVelocityControl() {
         setVelocityControlState(true);
         Runnable velocityControl = () -> {
             while (opModeIsActive() && velocityControlState) setVelocity(targetPower);
@@ -204,20 +209,31 @@ public class MidnightMotor {
     private boolean getStalled() {
         return abs(getVelocity() * encoder.getRPM()) < stalledRPMThreshold;
     }
+
     public void setStalledAction(Runnable action) {
         stallAction = action;
     }
+
     public void setUnStalledAction(Runnable action) {
         unStalledAction = action;
     }
-    public void setStallDetection(boolean bool) {stallDetection = bool;}
-    private boolean getStallDetection () {return stallDetection;}
+
+    private boolean getStallDetection() {
+        return stallDetection;
+    }
+
+    public void setStallDetection(boolean bool) {
+        stallDetection = bool;
+    }
+
     public synchronized boolean isStalled() {
         return stalled;
     }
+
     public void setStalledRPMThreshold(int stalledRPMThreshold) {
         this.stalledRPMThreshold = stalledRPMThreshold;
     }
+
     public void enableStallDetection() {
         setStallDetection(true);
         Runnable mainRunnable = () -> {
@@ -228,20 +244,23 @@ public class MidnightMotor {
                     else unStalledAction.run();
                 }
                 MidnightUtils.sleep(100);
-            }};
+            }
+        };
         Thread thread = new Thread(mainRunnable);
         thread.start();
     }
 
-    public void setClosedLoop(boolean closedLoop) {
-        this.closedLoop = closedLoop;
-    }
-
-    public double getPower () {
+    public double getPower() {
         return motorPower;
     }
 
-    public MidnightEncoder getEncoder () {
+    public void setPower(double power) {
+        power = Range.clip(power, -1, 1);
+        motorPower = power;
+        motor.setPower(power);
+    }
+
+    public MidnightEncoder getEncoder() {
         return encoder;
     }
 
@@ -257,30 +276,60 @@ public class MidnightMotor {
         this.kd = kd;
     }
 
-    public DcMotorController getController () {return motor.getController();}
-    public int getPortNumber () {return motor.getPortNumber();}
+    public DcMotorController getController() {
+        return motor.getController();
+    }
 
-    public void setMotorModel (MidnightMotorModel model) {encoder.setModel(model);}
+    public int getPortNumber() {
+        return motor.getPortNumber();
+    }
 
-    public boolean isClosedLoop() {return closedLoop;}
+    public void setMotorModel(MidnightMotorModel model) {
+        encoder.setModel(model);
+    }
 
-    public double getMinPower() {return minPower;}
+    public boolean isClosedLoop() {
+        return closedLoop;
+    }
 
-    public void setMinPower(double power) {minPower = power;}
+    public void setClosedLoop(boolean closedLoop) {
+        this.closedLoop = closedLoop;
+    }
 
-    public void setWheelDiameter(double diameter) {encoder.setWheelDiameter(diameter);}
+    public double getMinPower() {
+        return minPower;
+    }
 
-    public double getInches() {return encoder.getInches();}
+    public void setMinPower(double power) {
+        minPower = power;
+    }
 
-    public double getTargetPower() {return targetPower;}
+    public void setWheelDiameter(double diameter) {
+        encoder.setWheelDiameter(diameter);
+    }
 
-    public void reverseEncoder() {reversedEncoder = !reversedEncoder;}
+    public double getInches() {
+        return encoder.getInches();
+    }
 
-    public void setDirection(DcMotor.Direction direction) {motor.setDirection(direction);}
+    public double getTargetPower() {
+        return targetPower;
+    }
 
-    public String getName() {return nameMotor;}
+    public void reverseEncoder() {
+        reversedEncoder = !reversedEncoder;
+    }
+
+    public void setDirection(DcMotor.Direction direction) {
+        motor.setDirection(direction);
+    }
+
+    public String getName() {
+        return nameMotor;
+    }
+
     public String[] getDash() {
-        return new String[] {
+        return new String[]{
                 "Current Position: " + getCurrentPosition(),
                 "Velocity: " + getVelocity()};
     }

@@ -5,14 +5,17 @@ package MidnightLibrary.MidnightResources;
  */
 
 public enum Direction {
-    FORWARD (+1),
-    BACKWARD (-1),
-    LEFT (+1),
-    RIGHT (-1),
+    FORWARD(+1),
+    BACKWARD(-1),
+    LEFT(+1),
+    RIGHT(-1),
     DOWN(-1),
     UP(+1),
     IN(+1),
     OUT(-1);
     public final double value;
-    Direction (double value) {this.value = value;}
+
+    Direction(double value) {
+        this.value = value;
+    }
 }

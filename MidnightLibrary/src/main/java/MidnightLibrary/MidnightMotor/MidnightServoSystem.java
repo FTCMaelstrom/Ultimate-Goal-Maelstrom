@@ -15,9 +15,10 @@ import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 
 public class MidnightServoSystem implements MidnightHardware {
     public final MidnightServo servo1, servo2, servo3, servo4;
-    private int offset;
     public final List<MidnightServo> servos;
+    private int offset;
     private double position;
+
     public MidnightServoSystem(String name1, String name2, HardwareMap hardwareMap) {
         this(new MidnightServo(name1, hardwareMap), new MidnightServo(name2, hardwareMap));
     }
@@ -55,23 +56,41 @@ public class MidnightServoSystem implements MidnightHardware {
     }
 
     public MidnightServoSystem(MidnightServo one, MidnightServo two) {
-        servo1 = one; servo2 = two; servo3 = null; servo4 = null;
+        servo1 = one;
+        servo2 = two;
+        servo3 = null;
+        servo4 = null;
         servos = Arrays.asList(servo1, servo2);
     }
 
     public MidnightServoSystem(MidnightServo one, MidnightServo two, MidnightServo three) {
-        servo1 = one; servo2 = two; servo3 = three; servo4 = null;
+        servo1 = one;
+        servo2 = two;
+        servo3 = three;
+        servo4 = null;
         servos = Arrays.asList(servo1, servo2, servo3);
     }
 
     public MidnightServoSystem(MidnightServo one, MidnightServo two, MidnightServo three, MidnightServo four) {
-        servo1 = one; servo2 = two; servo3 = three; servo4 = four;
+        servo1 = one;
+        servo2 = two;
+        servo3 = three;
+        servo4 = four;
         servos = Arrays.asList(servo1, servo2, servo3, servo4);
     }
 
     public double getPosition() {
         return position;
     }
+
+    public void setPosition(double position) {
+        this.position = position;
+        int i = 0;
+        for (MidnightServo s : servos) {
+            s.setPosition(position + (i * offset));
+        }
+    }
+
     public MidnightServoSystem setLimits(MidnightLimitSwitch min, MidnightLimitSwitch max) {
         for (MidnightServo s : servos) s.setLimits(min, max);
         return this;
@@ -81,24 +100,17 @@ public class MidnightServoSystem implements MidnightHardware {
         this.offset = offset;
     }
 
-
-    public void setPosition(double position) {
-        this.position = position;
-        int i = 0;
-        for (MidnightServo s : servos) {
-            s.setPosition(position + (i * offset));
-        }
-    }
-    public void scaleRange (double min, double max) {
+    public void scaleRange(double min, double max) {
         for (MidnightServo servo : servos) {
             servo.scaleRange(min, max);
         }
     }
-    public void setServo1Pos (double position) {
+
+    public void setServo1Pos(double position) {
         servo1.setPosition(position);
     }
 
-    public void setServo2Pos (double position) {
+    public void setServo2Pos(double position) {
         servo2.setPosition(position);
     }
 

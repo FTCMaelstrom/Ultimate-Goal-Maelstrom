@@ -12,34 +12,42 @@ import MidnightLibrary.MidnightResources.MidnightUtils;
  */
 
 public class MidnightODS implements MidnightHardware {
-    private OpticalDistanceSensor ods;
-    private String nameODSSensor;
+    private final OpticalDistanceSensor ods;
+    private final String nameODSSensor;
 
-    public MidnightODS(String name, HardwareMap hardwareMap){
+    public MidnightODS(String name, HardwareMap hardwareMap) {
         this.nameODSSensor = name;
         ods = hardwareMap.opticalDistanceSensor.get(name);
     }
+
     public void enableLED() {
         ods.enableLed(true);
     }
+
     public void disableLED() {
         ods.enableLed(false);
     }
-    public double lightDetected () {
+
+    public double lightDetected() {
         return ods.getLightDetected();
     }
-    public double rawLight () {
+
+    public double rawLight() {
         return ods.getRawLightDetected();
     }
-    public boolean isWhite () {
+
+    public boolean isWhite() {
         return lightDetected() <= MidnightUtils.ODS_WHITE;
     }
-    public boolean isBlack () {
+
+    public boolean isBlack() {
         return lightDetected() >= MidnightUtils.ODS_BLACK;
     }
+
     public String getName() {
         return nameODSSensor;
     }
+
     public String[] getDash() {
         return new String[]{
                 "Light Detected" + lightDetected(),

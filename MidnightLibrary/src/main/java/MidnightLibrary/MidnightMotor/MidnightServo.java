@@ -13,13 +13,15 @@ import static MidnightLibrary.MidnightResources.MidnightUtils.opModeIsActive;
  */
 
 public class MidnightServo implements MidnightHardware {
-    private Servo servo;
-    private String name;
-    private double max = 1, min = 0;
+    private final Servo servo;
+    private final String name;
+    private final double max = 1;
+    private final double min = 0;
     private MidnightLimitSwitch limMin, limMax;
     private boolean limDetection;
     private double position;
-    private boolean prevState = false, taskState = false, currState = false;
+    private boolean prevState = false;
+    private boolean taskState = false;
     private boolean positionControlState = false;
 
 
@@ -27,38 +29,47 @@ public class MidnightServo implements MidnightHardware {
         this.name = name;
         servo = hardwareMap.servo.get(name);
     }
-    public MidnightServo(String name, Servo.Direction direction, HardwareMap hardwareMap){
+
+    public MidnightServo(String name, Servo.Direction direction, HardwareMap hardwareMap) {
         this.name = name;
         servo = hardwareMap.servo.get(name);
         servo.setDirection(direction);
     }
-    public void setPosition (double position) {
-        this.position = position;
-        servo.setPosition(position);
-    }
+
     public void setDirection(Servo.Direction direction) {
         servo.setDirection(direction);
     }
-    public void setLimits (MidnightLimitSwitch min, MidnightLimitSwitch max){
-        limMin = min; limMax = max;
+
+    public void setLimits(MidnightLimitSwitch min, MidnightLimitSwitch max) {
+        limMin = min;
+        limMax = max;
         limDetection = true;
     }
-    private boolean limitPressed () {
-        if (limDetection) return  limMin.isPressed() || limMax.isPressed();
+
+    private boolean limitPressed() {
+        if (limDetection) return limMin.isPressed() || limMax.isPressed();
         return false;
     }
-    public double getPosition () {
+
+    public double getPosition() {
         return servo.getPosition();
     }
-    public void scaleRange (double min, double max) {
+
+    public void setPosition(double position) {
+        this.position = position;
+        servo.setPosition(position);
+    }
+
+    public void scaleRange(double min, double max) {
         servo.scaleRange(min, max);
     }
-    public void sleep (int time) throws InterruptedException {
+
+    public void sleep(int time) throws InterruptedException {
         servo.wait(time);
     }
 
     public void toggle(boolean button, double pos1, double pos2) {
-        currState = false;
+        boolean currState = false;
 
         if (button) currState = true;
         else if (prevState) taskState = !taskState;
@@ -68,7 +79,11 @@ public class MidnightServo implements MidnightHardware {
         if (taskState) setPosition(pos1);
         else setPosition(pos2);
     }
-    public void toggle (boolean button) {toggle(button, 0, 1);}
+
+    public void toggle(boolean button) {
+        toggle(button, 0, 1);
+    }
+
     public void setPositionControlState(boolean positionControlState) {
         this.positionControlState = positionControlState;
     }

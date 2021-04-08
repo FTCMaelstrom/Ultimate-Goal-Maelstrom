@@ -2,9 +2,6 @@ package MidnightLibrary.MidnightResources;
 
 import java.util.Locale;
 
-import static java.lang.System.nanoTime;
-import static java.util.Locale.US;
-
 public class MidnightClock implements MidnightHardware {
 
     private long startTime;
@@ -13,10 +10,13 @@ public class MidnightClock implements MidnightHardware {
     private long pauseStart;
     private long pauseLength;
 
-    private String name = "CLOCK";
+    private final String name = "CLOCK";
 
 
-    public MidnightClock() {this.reset();}
+    public MidnightClock() {
+        this.reset();
+    }
+
     public void reset() {
         isPaused = false;
         pauseStart = 0L;
@@ -24,22 +24,20 @@ public class MidnightClock implements MidnightHardware {
         startTime = System.nanoTime();
     }
 
-    public long nanoseconds() {return System.nanoTime() - startTime - pauseLength;}
-    public double milliseconds() {return nanoseconds() * 1E-6;}
-    public double seconds() {return nanoseconds() * 1E-9;}
-
-
-    public enum Resolution {
-        NANOSECONDS (1),
-        MILLISECONDS (1E6),
-        SECONDS (1E9);
-        public final double multiplier;
-        Resolution (double multiplier) {this.multiplier = multiplier;}
+    public long nanoseconds() {
+        return System.nanoTime() - startTime - pauseLength;
     }
 
+    public double milliseconds() {
+        return nanoseconds() * 1E-6;
+    }
+
+    public double seconds() {
+        return nanoseconds() * 1E-9;
+    }
 
     public boolean elapsedTime(double time, Resolution resolution) {
-        return nanoseconds() > (long)(time * resolution.multiplier);
+        return nanoseconds() > (long) (time * resolution.multiplier);
     }
 
     public void pause() {
@@ -52,8 +50,14 @@ public class MidnightClock implements MidnightHardware {
         isPaused = false;
     }
 
-    public boolean isPaused() {return isPaused;}
-    public String getName() {return name;}
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public String[] getDash() {
         return new String[]{
                 String.format(Locale.US, "%.5f  %s", seconds(), isPaused() ? "PAUSED" : "")
@@ -63,8 +67,21 @@ public class MidnightClock implements MidnightHardware {
     public boolean hasNotPassed(double time, Resolution resolution) {
         return nanoseconds() < (long) (time * resolution.multiplier);
     }
-    public boolean hasNotPassed(double time) {return hasNotPassed(time, Resolution.SECONDS);}
 
+    public boolean hasNotPassed(double time) {
+        return hasNotPassed(time, Resolution.SECONDS);
+    }
+
+    public enum Resolution {
+        NANOSECONDS(1),
+        MILLISECONDS(1E6),
+        SECONDS(1E9);
+        public final double multiplier;
+
+        Resolution(double multiplier) {
+            this.multiplier = multiplier;
+        }
+    }
 
 
 }

@@ -11,31 +11,45 @@ import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
  */
 
 public class MidnightCRServo implements MidnightHardware {
-    private CRServo servo;
-    private String nameCr_Servo;
+    private final CRServo servo;
+    private final String nameCr_Servo;
     private MidnightLimitSwitch min, max = null;
     private boolean limitDetection;
-    public MidnightCRServo(String name, HardwareMap hardwareMap){
+
+    public MidnightCRServo(String name, HardwareMap hardwareMap) {
         this.nameCr_Servo = name;
         servo = hardwareMap.crservo.get(name);
         limitDetection = false;
     }
-    public MidnightCRServo(String name, CRServo.Direction direction, HardwareMap hardwareMap){
+
+    public MidnightCRServo(String name, CRServo.Direction direction, HardwareMap hardwareMap) {
         this.nameCr_Servo = name;
         servo = hardwareMap.crservo.get(name);
         servo.setDirection(direction);
         limitDetection = false;
     }
-    public void setLimits(MidnightLimitSwitch min, MidnightLimitSwitch max){
-        this.min = min; this.max = max;
+
+    public void setLimits(MidnightLimitSwitch min, MidnightLimitSwitch max) {
+        this.min = min;
+        this.max = max;
         limitDetection = true;
     }
+
     public void setLimit(MidnightLimitSwitch min) {
         this.min = min;
         this.max = null;
         limitDetection = false;
     }
-    public void setPower (double power) {
+
+    public void sleep(int time) throws InterruptedException {
+        servo.wait(time);
+    }
+
+    public double getPower() {
+        return servo.getPower();
+    }
+
+    public void setPower(double power) {
         double motorPower = power;
         if (limitDetection) {
             if (min != null && min.getState() && power < 0 ||
@@ -44,13 +58,14 @@ public class MidnightCRServo implements MidnightHardware {
         }
         servo.setPower(motorPower);
     }
-    public void sleep (int time) throws InterruptedException {servo.wait(time);}
-    public double getPower() {return servo.getPower();}
-    public String getName() {return nameCr_Servo;}
+
+    public String getName() {
+        return nameCr_Servo;
+    }
 
     public String[] getDash() {
         return new String[]{
-                "Current Power" + Double.toString(getPower())
+                "Current Power" + getPower()
         };
     }
 }

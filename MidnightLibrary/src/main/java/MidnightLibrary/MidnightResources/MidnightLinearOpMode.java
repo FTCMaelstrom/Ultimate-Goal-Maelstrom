@@ -17,6 +17,7 @@ import static MidnightLibrary.MidnightResources.MidnightUtils.setLinearOpMode;
 public abstract class MidnightLinearOpMode extends LinearOpMode {
     public MidnightDashBoard dash;
     protected MidnightClock timeoutClock = new MidnightClock();
+
     public final void runOpMode() throws InterruptedException {
         try {
             dash = new MidnightDashBoard(super.telemetry);
@@ -27,8 +28,12 @@ public abstract class MidnightLinearOpMode extends LinearOpMode {
             stopLinearOpMode();
         }
     }
+
     public abstract void runLinearOpMode();
-    public void stopLinearOpMode() {}
+
+    public void stopLinearOpMode() {
+    }
+
     public void runSimultaneously(Runnable... runnables) {
         List<Thread> threads = new ArrayList<>();
         int i = 0;
@@ -40,9 +45,15 @@ public abstract class MidnightLinearOpMode extends LinearOpMode {
         int count = 0;
         while (opModeIsActive() && count < i) {
             count = 0;
-            for(Thread t : threads) if (!t.isAlive()) count++;
+            for (Thread t : threads) if (!t.isAlive()) count++;
         }
     }
-    public void sleep() {sleep(DEFAULT_SLEEP_TIME);}
-    public Gamepad getDefaultController() {return gamepad1;}
+
+    public void sleep() {
+        sleep(DEFAULT_SLEEP_TIME);
+    }
+
+    public Gamepad getDefaultController() {
+        return gamepad1;
+    }
 }

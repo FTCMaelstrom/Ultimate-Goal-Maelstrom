@@ -10,12 +10,12 @@ import java.io.Writer;
 public class MidnightSerializer {
     private Writer writer;
     private StringBuffer lineBuffer;
-    private long msBase;
+    private final long msBase;
     private long nsBase;
 
     public MidnightSerializer(String fileName) {
-        @SuppressLint("SdCardPath") String directoryPath    = "/sdcard/FIRST/DataLogger";
-        String filePath         = directoryPath + "/" + fileName + ".csv";
+        @SuppressLint("SdCardPath") String directoryPath = "/sdcard/FIRST/DataLogger";
+        String filePath = directoryPath + "/" + fileName + ".csv";
         new File(directoryPath).mkdir();
         try {
             writer = new FileWriter(filePath);
@@ -29,40 +29,38 @@ public class MidnightSerializer {
     }
 
     @SuppressLint("DefaultLocale")
-    private void flushLineBuffer(){
-        long milliTime,nanoTime;
+    private void flushLineBuffer() {
+        long milliTime, nanoTime;
 
         try {
             lineBuffer.append('\n');
             writer.write(lineBuffer.toString());
             lineBuffer.setLength(0);
+        } catch (IOException ignored) {
         }
-        catch (IOException ignored){
-        }
-        milliTime   = System.currentTimeMillis();
-        nanoTime    = System.nanoTime();
-        addField(String.format("%.3f",(milliTime - msBase) / 1.0E3));
-        addField(String.format("%.3f",(nanoTime - nsBase) / 1.0E6));
-        nsBase      = nanoTime;
+        milliTime = System.currentTimeMillis();
+        nanoTime = System.nanoTime();
+        addField(String.format("%.3f", (milliTime - msBase) / 1.0E3));
+        addField(String.format("%.3f", (nanoTime - nsBase) / 1.0E6));
+        nsBase = nanoTime;
     }
 
     public void closeDataLogger() {
         try {
             writer.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
         }
     }
 
     public void addField(String s) {
-        if (lineBuffer.length()>0) {
+        if (lineBuffer.length() > 0) {
             lineBuffer.append(',');
         }
         lineBuffer.append(s);
     }
 
     public void addField(char c) {
-        if (lineBuffer.length()>0) {
+        if (lineBuffer.length() > 0) {
             lineBuffer.append(',');
         }
         lineBuffer.append(c);

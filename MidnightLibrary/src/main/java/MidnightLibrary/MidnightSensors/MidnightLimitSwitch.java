@@ -24,10 +24,12 @@ public class MidnightLimitSwitch implements MidnightHardware {
         limitSwitch = hardwareMap.digitalChannel.get(name);
         limitSwitch.setMode(DigitalChannel.Mode.INPUT);
     }
+
     public void updateState() {
         signalValue = limitSwitch.getState();
         logicalState = !signalValue;
     }
+
     public boolean getSignalValue() {
         updateState();
         return signalValue;
@@ -41,6 +43,7 @@ public class MidnightLimitSwitch implements MidnightHardware {
     public boolean isPressed() {
         return !getState();
     }
+
     public boolean pr() {
         boolean pressed = false, released = false;
         while (isPressed()) {
@@ -50,18 +53,23 @@ public class MidnightLimitSwitch implements MidnightHardware {
         while (!isPressed()) released = true;
         return pressed && released;
     }
-    public boolean isReleased () {
+
+    public boolean isReleased() {
         boolean released = false;
         while (isPressed()) released = false;
         while (!isPressed()) released = true;
         return released;
     }
-    public String getName() {return name;}
+
+    public String getName() {
+        return name;
+    }
+
     public String[] getDash() {
-        return new String[] {
-            "Is Pressed: " + isPressed(),
-            "Pressed and Released: " + pr(),
-            "Released: " + isReleased()
+        return new String[]{
+                "Is Pressed: " + isPressed(),
+                "Pressed and Released: " + pr(),
+                "Released: " + isReleased()
         };
     }
 }
