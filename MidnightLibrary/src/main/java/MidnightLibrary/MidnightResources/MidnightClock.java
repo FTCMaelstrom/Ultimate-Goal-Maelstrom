@@ -2,6 +2,8 @@ package MidnightLibrary.MidnightResources;
 
 import java.util.Locale;
 
+import static MidnightLibrary.MidnightResources.MidnightClock.Resolution.SECONDS;
+
 public class MidnightClock implements MidnightHardware {
 
     private long startTime;
@@ -69,7 +71,7 @@ public class MidnightClock implements MidnightHardware {
     }
 
     public boolean hasNotPassed(double time) {
-        return hasNotPassed(time, Resolution.SECONDS);
+        return hasNotPassed(time, SECONDS);
     }
 
     public enum Resolution {
@@ -82,6 +84,5 @@ public class MidnightClock implements MidnightHardware {
             this.multiplier = multiplier;
         }
     }
-
 
 }

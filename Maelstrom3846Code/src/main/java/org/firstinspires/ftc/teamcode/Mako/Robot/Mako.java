@@ -12,13 +12,13 @@ import MidnightLibrary.MidnightMotor.MidnightMotorModel;
 import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
 import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
 import MidnightLibrary.MidnightResources.MidnightDashBoard;
+import MidnightLibrary.MidnightResources.MidnightUtils;
 import MidnightLibrary.MidnightRobot;
 
-import static MidnightLibrary.MidnightResources.MidnightUtils.angleController;
 import static MidnightLibrary.MidnightResources.MidnightUtils.setTracker;
-import static MidnightLibrary.MidnightResources.MidnightUtils.turnController;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
+
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2
@@ -26,7 +26,7 @@ import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
  * Last Updated: 4/8/21 3:22 PM
  **/
 public class Mako extends MidnightRobot {
-    public MidnightMotor encoder1, encoder2, rotator;
+    public MidnightMotor encoder1, encoder2, rotator, intake;
     public MasqCamera cameraView;
     public Claw claw;
 
@@ -35,7 +35,7 @@ public class Mako extends MidnightRobot {
     public void mapHardware(HardwareMap hardwareMap) {
         driveTrain = new MidnightMechanumDriveTrain(hardwareMap, MidnightMotorModel.ORBITAL20);
 
-        //intake = new MidnightMotor("intake", MidnightMotorModel.ORBITAL20, hardwareMap);
+        intake = new MidnightMotor("intake", MidnightMotorModel.ORBITAL20, hardwareMap);
 
         rotator = new MidnightMotor("rotator", MidnightMotorModel.ORBITAL20, hardwareMap);
 
@@ -60,9 +60,9 @@ public class Mako extends MidnightRobot {
 
         setTracker(tracker);
 
-        //driveController = new MidnightPIDController(0.00);
-        angleController = new MidnightPIDController(0.00);
-        turnController = new MidnightPIDController(0.00);
+        MidnightUtils.driveController = new MidnightPIDController(0.00);
+        MidnightUtils.angleController = new MidnightPIDController(0.00);
+        MidnightUtils.turnController = new MidnightPIDController(0.00);
 
         driveTrain.resetEncoders();
 
