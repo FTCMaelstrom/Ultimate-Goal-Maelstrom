@@ -9,8 +9,8 @@ import MasqVision.RingDetector;
 import MidnightLibrary.MidnightMath.MidnightPIDController;
 import MidnightLibrary.MidnightMotor.MidnightMotor;
 import MidnightLibrary.MidnightMotor.MidnightMotorModel;
-import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
-import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
+import MidnightLibrary.MidnightDrivetrain.MidnightMechanumDriveTrain;
+import MidnightLibrary.MidnightDrivetrain.MidnightPositionTracker;
 import MidnightLibrary.MidnightResources.MidnightDashBoard;
 import MidnightLibrary.MidnightResources.MidnightUtils;
 import MidnightLibrary.MidnightRobot;
@@ -37,7 +37,7 @@ public class Mako extends MidnightRobot {
 
         intake = new MidnightMotor("intake", MidnightMotorModel.ORBITAL20, hardwareMap);
 
-        rotator = new MidnightMotor("rotator", MidnightMotorModel.ORBITAL20, hardwareMap);
+        rotator = new MidnightMotor("rotator", MidnightMotorModel.NEVEREST40, hardwareMap);
 
         claw = new Claw(hardwareMap);
 

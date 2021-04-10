@@ -16,6 +16,7 @@ public enum MidnightMotorModel {
             case REVHDHEX20:
                 return 560;
             case NEVEREST40:
+                return 1120;
             case REVHDHEX40:
                 return 1120;
             case NEVEREST60:

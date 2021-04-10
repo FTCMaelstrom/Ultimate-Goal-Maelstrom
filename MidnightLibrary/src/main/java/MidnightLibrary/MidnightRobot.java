@@ -10,8 +10,8 @@ import MidnightLibrary.MidnightMath.MidnightPIDController;
 import MidnightLibrary.MidnightMath.MidnightPoint;
 import MidnightLibrary.MidnightMath.MidnightVector;
 import MidnightLibrary.MidnightMath.MidnightWayPoint;
-import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
-import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
+import MidnightLibrary.MidnightDrivetrain.MidnightMechanumDriveTrain;
+import MidnightLibrary.MidnightDrivetrain.MidnightPositionTracker;
 import MidnightLibrary.MidnightResources.Direction;
 import MidnightLibrary.MidnightResources.MidnightClock;
 import MidnightLibrary.MidnightResources.MidnightDashBoard;
@@ -289,6 +289,7 @@ public abstract class MidnightRobot {
         float turn = c.right_stick_x * 0.7f;
         double left = move + turn;
         double right = move - turn;
+
         double max = Math.max(left, right);
         if (max > 1.0) {
             left /= max;
@@ -301,6 +302,7 @@ public abstract class MidnightRobot {
         driveTrain.rightDrive.setVelocity(c.right_stick_y);
         driveTrain.leftDrive.setVelocity(c.left_stick_y);
     }
+
 
     public void MECH(Gamepad c, boolean fieldCentric, double speedMultiplier, double turnMultiplier) {
         int disable = 0;
@@ -352,4 +354,5 @@ public abstract class MidnightRobot {
     public enum OpMode {
         AUTO, TELEOP
     }
+
 }

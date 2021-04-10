@@ -11,7 +11,7 @@ import java.util.Locale;
 
 import MidnightLibrary.MidnightMath.MidnightPIDController;
 import MidnightLibrary.MidnightMath.MidnightVector;
-import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
+import MidnightLibrary.MidnightDrivetrain.MidnightPositionTracker;
 
 import static java.lang.Double.valueOf;
 import static java.lang.Math.cos;
@@ -29,7 +29,6 @@ public class MidnightUtils {
     public static final double DEFAULT_SPEED_MULTIPLIER = Math.sqrt(2);
     public static final double BOOST_SPEED_MULTIPLIER = 2;
     public static final double DEFAULT_TURN_MULTIPLIER = 1;
-    public static final double ODS_WHITE = 0.7, ODS_BLACK = 0.3;
     public static final String VUFORIA_KEY = "Ac5sAIr/////AAABmeUEovYOek9pkuVkMLDtWVGIkr+aSwnxHoPcO" +
             "Wo55EZxWMznvy9o+sR4uE8cUkHfJ2QywQNfK9SgCKSgjjRXD1lJvl3xiT0ddSjfE8JT9NMvGojoFG3nkaQP+Sq" +
             "MGTgr25mUnTM3Y7v5kcetBEF1+vIcQL28SnoWDfGGMQ9Yt9IHo/W/72s5qWMCJLSS7/8X+Scybt98htjPVAOPI" +

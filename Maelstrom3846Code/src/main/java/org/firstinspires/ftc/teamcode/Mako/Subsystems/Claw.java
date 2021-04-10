@@ -29,7 +29,7 @@ public class Claw implements MidnightSubSystem {
     }
 
     public void reset() {
-        claw.scaleRange(0.1, 0.4);
+        claw.scaleRange(0.1, 0.8);
         close();
     }
 
