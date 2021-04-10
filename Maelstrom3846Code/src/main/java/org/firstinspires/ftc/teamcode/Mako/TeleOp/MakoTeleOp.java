@@ -16,27 +16,21 @@ import static org.firstinspires.ftc.teamcode.Mako.Subsystems.Constants.ROTATOR_P
 /**
  * Created by Amogh Mehta
  * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 4/9/21 2:51 PM
- * Last Updated: 4/9/21 2:55 PM
+ * Last Modified: 4/10/21 9:49 AM
+ * Last Updated: 4/10/21 9:53 AM
  **/
 @TeleOp(name = "MakoTeleOp", group = "Mako")
 
 public class MakoTeleOp extends MidnightLinearOpMode {
-    /**
-     * Define ROBOT
-     **/
+    //INFO: Define ROBOT
     private final Mako mako = new Mako();
 
-    /**
-     * Define VARIABLES
-     **/
+    //INFO: Define VARIABLES
     boolean endgameModeEnabled = false;
     ArrayList<Boolean> booleanArrayList = new ArrayList<Boolean>();
     int booleanIncrement = 0;
 
-    /**
-     * Define ifPressed Toggle Method for Gamepad Buttons
-     **/
+    //INFO: Define ifPressed State Machine Method for Gamepad Buttons
     private boolean ifPressed(boolean button) {
         boolean output = false;
         if (booleanArrayList.size() == booleanIncrement) {
@@ -51,9 +45,7 @@ public class MakoTeleOp extends MidnightLinearOpMode {
         return output;
     }
 
-    /**
-     * Define ifPressedAnalog Toggle Method for Analog Gamepad Buttons (i.e. Triggers)
-     **/
+    //INFO: Define ifPressedAnalog State Machine Method for Analog Gamepad Buttons (i.e. Triggers)
     private boolean ifPressedAnalog(double button) {
         boolean output = false;
         boolean buttonBoolean = false;
@@ -76,7 +68,7 @@ public class MakoTeleOp extends MidnightLinearOpMode {
     public void runLinearOpMode() {
         mako.init(hardwareMap, MidnightRobot.OpMode.TELEOP);
 
-        /**Run ONCE on init() **/
+        //INFO: Run ONCE on init()
         while (!opModeIsActive()) {
             dash.create("Ready to go");
             dash.update();
@@ -84,7 +76,7 @@ public class MakoTeleOp extends MidnightLinearOpMode {
 
         waitForStart();
 
-        /**Run REPEATEDLY in OpMode **/
+        //INFO: Run REPEATEDLY in OpMode
         while (opModeIsActive()) {
             mako.MECH();
 
@@ -106,10 +98,10 @@ public class MakoTeleOp extends MidnightLinearOpMode {
             dashboard.sendTelemetryPacket(packet);
 
 
-            boolean G1Pressed = ifPressed(gamepad1.a);
-            if (G1Pressed && !endgameModeEnabled) {
+            boolean G1APressed = ifPressed(gamepad1.a);
+            if (G1APressed && !endgameModeEnabled) {
                 endgameModeEnabled = true;
-            } else if (G1Pressed && endgameModeEnabled) {
+            } else if (G1APressed && endgameModeEnabled) {
                 endgameModeEnabled = false;
             }
 
@@ -117,11 +109,13 @@ public class MakoTeleOp extends MidnightLinearOpMode {
             dash.update();
 
             if (!endgameModeEnabled) {
-                /**Trigger based variable speed intake control with adjustable speed control via dpad **/
+                //INFO: Trigger based variable speed intake control with adjustable speed control via dpad
                 mako.intake.setPower(INTAKE_POWER * gamepad1.left_trigger - gamepad2.right_trigger);
-                if (gamepad1.dpad_left) {
+                boolean dpadLeftPressed = ifPressed(gamepad1.dpad_left);
+                boolean dpadRightPressed = ifPressed(gamepad1.dpad_right);
+                if (dpadLeftPressed && !dpadRightPressed) {
                     INTAKE_POWER -= 0.01;
-                } else if (gamepad1.dpad_right) {
+                } else if (dpadRightPressed & !dpadLeftPressed) {
                     INTAKE_POWER += 0.01;
                 }
 
@@ -137,17 +131,21 @@ public class MakoTeleOp extends MidnightLinearOpMode {
             } else {
                 mako.claw.driverControl(gamepad1);
 
-                /**Trigger based variable speed rotator control with adjustable speed control via dpad **/
+                //INFO: Trigger based variable speed rotator control with adjustable speed control via dpad
                 mako.rotator.setPower(ROTATOR_POWER * gamepad1.left_trigger - gamepad1.right_trigger);
-                if (gamepad1.dpad_down) {
+                boolean dpadDownPressed = ifPressed(gamepad1.dpad_down);
+                boolean dpadUpPressed = ifPressed(gamepad1.dpad_up);
+                if (dpadDownPressed && !dpadUpPressed) {
                     ROTATOR_POWER -= 0.01;
-                } else if (gamepad1.dpad_up) {
+                } else if (dpadUpPressed && !dpadDownPressed) {
                     ROTATOR_POWER += 0.01;
                 }
 
-                if (gamepad1.right_bumper) {
+                boolean rightBumperPressed = ifPressed(gamepad1.right_bumper);
+                boolean leftBumperPressed = ifPressed(gamepad1.left_bumper);
+                if (rightBumperPressed) {
                     mako.claw.close();
-                } else if (gamepad1.left_bumper) {
+                } else if (leftBumperPressed) {
                     mako.claw.open();
                 }
             }
