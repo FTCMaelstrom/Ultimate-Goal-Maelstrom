@@ -1,4 +1,4 @@
-package MasqVision;
+package MasqLibrary.MasqVision;
 
 import com.qualcomm.ftcrobotcontroller.R.id;
 import com.qualcomm.robotcore.hardware.HardwareMap;

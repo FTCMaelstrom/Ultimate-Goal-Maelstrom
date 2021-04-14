@@ -4,8 +4,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Mako.Subsystems.Claw;
 
-import MasqVision.MasqCamera;
-import MasqVision.RingDetector;
+import org.firstinspires.ftc.teamcode.Mako.Auto.RingDetector;
+
+import MasqLibrary.MasqVision.MasqCamera;
 import MidnightLibrary.MidnightMath.MidnightPIDController;
 import MidnightLibrary.MidnightMotor.MidnightMotor;
 import MidnightLibrary.MidnightMotor.MidnightMotorModel;

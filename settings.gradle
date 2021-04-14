@@ -1,1 +1,2 @@
+include ':MasqVisionModule'
 include ':FtcRobotController', ':Maelstrom3846Code', ':MidnightLibrary'

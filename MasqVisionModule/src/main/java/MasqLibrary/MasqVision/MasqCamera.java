@@ -1,11 +1,11 @@
-package MasqVision;
+package MasqLibrary.MasqVision;
 
 import androidx.annotation.NonNull;
 
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.*;
 
 import static MidnightLibrary.MidnightResources.MidnightUtils.getHardwareMap;
 import static java.util.Locale.US;
@@ -16,8 +16,8 @@ import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
  */
 
 public class MasqCamera {
+    private OpenCvInternalCamera camera;
     public MasqCVDetector detector;
-    private final OpenCvCamera camera;
     private boolean streaming = false;
 
     public MasqCamera(MasqCVDetector detector) {
@@ -28,15 +28,18 @@ public class MasqCamera {
         camera.setPipeline(detector);
     }
 
-    public void start(OpenCvCameraRotation rotation) {
+    public void start(int width, int height, OpenCvCameraRotation rotation) {
+        detector.setResolution(width, height);
         camera.openCameraDevice();
-        camera.startStreaming(176, 144, rotation);
+        camera.startStreaming(width, height, rotation);
         streaming = true;
     }
 
-    public void start() {
-        start(UPRIGHT);
+    public void start(OpenCvCameraRotation rotation) {
+        start(720, 480, rotation);
     }
+
+    public void start() {start(UPRIGHT);}
 
     public void stop() {
         camera.stopStreaming();
@@ -47,6 +50,6 @@ public class MasqCamera {
     @NonNull
     @Override
     public String toString() {
-        return String.format(US, "Webcam:\nStreaming: %s", streaming ? "Yes" : "No");
+        return String.format(US, "Phone Cam:\nStreaming: %s", streaming ? "Yes" :"No");
     }
 }

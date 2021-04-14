@@ -351,6 +351,8 @@ public abstract class MidnightRobot {
         return new MidnightWayPoint().setPoint(new MidnightPoint(tracker.getGlobalX(), tracker.getGlobalY(), tracker.getHeading())).setName("Inital WayPoint");
     }
 
+
+
     public enum OpMode {
         AUTO, TELEOP
     }
