@@ -4,7 +4,6 @@ apply from: '../build.dependencies.gradle'
 dependencies {
     implementation project(':FtcRobotController')
     implementation project(':MidnightLibrary')
-    implementation project(':MasqVisionModule')
     implementation 'org.openftc:easyopencv:1.4.1'
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 }

@@ -1,4 +1,4 @@
-package MasqLibrary.MasqVision;
+package MasqVision;
 
 import com.qualcomm.ftcrobotcontroller.R.id;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -32,6 +32,9 @@ import static org.firstinspires.ftc.robotcore.external.tfod.TfodCurrentGame.TFOD
 
 public class MasqVuforia {
     private final VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(id.cameraMonitorViewId);
+    private final List<VuforiaTrackable> allTrackables = new ArrayList<>();
+    private final float mmPerInch = 25.4f;
+    private final float mmBotWidth = 18 * mmPerInch;
     private VuforiaLocalizer vuforia;
     private VuforiaTrackables vuforiaTrackables;
     private VuforiaTrackable relicTemplate;
@@ -49,10 +52,7 @@ public class MasqVuforia {
             y1 = 0, y2 = 0, y3 = 0,
             z1 = 0, z2 = 0, z3 = 0;
     private List<VuforiaTrackable> trackables;
-    private final List<VuforiaTrackable> allTrackables = new ArrayList<>();
     private String targetOne, targetTwo, targetThree;
-    private final float mmPerInch = 25.4f;
-    private final float mmBotWidth = 18 * mmPerInch;
 
     public MasqVuforia(String t1, String t2, String t3, String asset) {
         parameters.vuforiaLicenseKey = VUFORIA_KEY;

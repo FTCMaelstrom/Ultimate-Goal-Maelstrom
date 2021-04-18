@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Mako.Auto;
+package MasqVision;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -8,15 +8,11 @@ import org.opencv.core.Scalar;
 
 import java.util.List;
 
-import MasqLibrary.MasqVision.LumaFilter;
-import MasqLibrary.MasqVision.MasqCVColorFilter;
-import MasqLibrary.MasqVision.MasqCVDetector;
 import MidnightLibrary.MidnightMath.MidnightVector;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
-import static java.lang.System.nanoTime;
 import static org.opencv.core.Core.extractChannel;
 import static org.opencv.core.Core.mean;
 import static org.opencv.imgproc.Imgproc.COLOR_RGB2YCrCb;
@@ -25,6 +21,7 @@ import static org.opencv.imgproc.Imgproc.cvtColor;
 /**
  * Created by Keval Kataria on 6/1/2020
  */
+
 public class RingDetector extends MasqCVDetector {
     private final MasqCVColorFilter lumaFilter = new LumaFilter(100);
     double top, control, bottom;
@@ -36,8 +33,8 @@ public class RingDetector extends MasqCVDetector {
     private double y0 = 0;
 
     @Override
-    public Mat process(Mat input) {
-        double time = nanoTime();
+    public Mat processFrame(Mat input) {
+        double time = System.nanoTime();
 
         if (time - prevTime > 1e9) {
             if (init) {

@@ -6,11 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Mako.Robot.Mako;
 
+import MasqVision.RingDetector;
 import MidnightLibrary.MidnightMath.MidnightWayPoint;
 import MidnightLibrary.MidnightResources.MidnightLinearOpMode;
 
-import static org.firstinspires.ftc.teamcode.Mako.Auto.RingDetector.TargetZone.B;
-import static org.firstinspires.ftc.teamcode.Mako.Auto.RingDetector.TargetZone.C;
+import static MasqVision.RingDetector.TargetZone.B;
+import static MasqVision.RingDetector.TargetZone.C;
 import static MidnightLibrary.MidnightMath.MidnightWayPoint.PointMode.SWITCH;
 import static MidnightLibrary.MidnightMath.MidnightWayPoint.PointMode.TANK;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;

@@ -1,4 +1,4 @@
-package MasqLibrary.MasqVision;
+package MasqVision;
 
 import org.opencv.core.Mat;
 

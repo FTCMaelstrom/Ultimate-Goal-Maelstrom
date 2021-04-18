@@ -1,4 +1,4 @@
-package MidnightLibrary.MidnightDrivetrain;
+package MidnightLibrary.MidnightMovement;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -24,6 +24,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADI
  **/
 
 public class MidnightPositionTracker implements MidnightHardware {
+    private final MidnightDashBoard dash = MidnightDashBoard.getDash();
     public MidnightAdafruitIMU imu;
     private MidnightMotor xSystem;
     private MidnightMotor yLSystem;
@@ -32,7 +33,6 @@ public class MidnightPositionTracker implements MidnightHardware {
     private double prevHeading, xDrift, yDrift;
     private double globalX, globalY, prevX, prevY, prevYR, prevYL, xRadius, yRadius, trackWidth;
     private DeadWheelPosition position;
-    private final MidnightDashBoard dash = MidnightDashBoard.getDash();
 
     public MidnightPositionTracker(MidnightMotor xSystem, MidnightMotor yLSystem, MidnightMotor yRSystem, HardwareMap hardwareMap) {
         this.xSystem = xSystem;

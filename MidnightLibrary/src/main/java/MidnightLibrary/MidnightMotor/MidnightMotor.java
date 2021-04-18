@@ -342,6 +342,7 @@ public class MidnightMotor {
         motor.setZeroPowerBehavior(BRAKE);
     }
 
+
     public void runWithoutEncoderNoZeroPowerSet() {
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }

@@ -4,22 +4,16 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Mako.Auto.RingDetector;
 import org.firstinspires.ftc.teamcode.Mako.Robot.Mako;
 import org.opencv.core.Rect;
 
+import MasqVision.RingDetector;
 import MidnightLibrary.MidnightMath.MidnightVector;
 import MidnightLibrary.MidnightResources.MidnightLinearOpMode;
 import MidnightLibrary.MidnightResources.MidnightUtils;
 
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 
-/**
- * Created by Amogh Mehta
- * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 4/14/21 3:55 PM
- * Last Updated: 4/14/21 3:55 PM
- **/
 @TeleOp(name = "VisionTester1", group = "Toolkit")
 public class VisionTester1 extends MidnightLinearOpMode {
     private final Mako mako = new Mako();

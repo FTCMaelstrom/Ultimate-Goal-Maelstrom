@@ -2,16 +2,12 @@ package org.firstinspires.ftc.teamcode.Mako.Robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Mako.Subsystems.Claw;
-
-import org.firstinspires.ftc.teamcode.Mako.Auto.RingDetector;
-
-import MasqLibrary.MasqVision.MasqCamera;
+import MasqVision.MasqCamera;
+import MasqVision.RingDetector;
 import MidnightLibrary.MidnightMath.MidnightPIDController;
-import MidnightLibrary.MidnightMotor.MidnightMotor;
 import MidnightLibrary.MidnightMotor.MidnightMotorModel;
-import MidnightLibrary.MidnightDrivetrain.MidnightMechanumDriveTrain;
-import MidnightLibrary.MidnightDrivetrain.MidnightPositionTracker;
+import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
+import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
 import MidnightLibrary.MidnightResources.MidnightDashBoard;
 import MidnightLibrary.MidnightResources.MidnightUtils;
 import MidnightLibrary.MidnightRobot;
@@ -27,24 +23,24 @@ import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
  * Last Updated: 4/8/21 3:22 PM
  **/
 public class Mako extends MidnightRobot {
-    public MidnightMotor encoder1, encoder2, rotator, intake;
+    //public MidnightMotor encoder1, encoder2, rotator, intake;
     public MasqCamera cameraView;
-    public Claw claw;
+    //public Claw claw;
 
 
     @Override
     public void mapHardware(HardwareMap hardwareMap) {
         driveTrain = new MidnightMechanumDriveTrain(hardwareMap, MidnightMotorModel.ORBITAL20);
 
-        intake = new MidnightMotor("intake", MidnightMotorModel.ORBITAL20, hardwareMap);
+        //intake = new MidnightMotor("intake", MidnightMotorModel.ORBITAL20, hardwareMap);
 
-        rotator = new MidnightMotor("rotator", MidnightMotorModel.NEVEREST40, hardwareMap);
+        //rotator = new MidnightMotor("rotator", MidnightMotorModel.ORBITAL20, hardwareMap);
 
-        claw = new Claw(hardwareMap);
+        //claw = new Claw(hardwareMap);
 
-        encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
-        encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
-        tracker = new MidnightPositionTracker(encoder1, encoder2, hardwareMap);
+        //encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
+        //encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
+        tracker = new MidnightPositionTracker(hardwareMap);
 
         dash = MidnightDashBoard.getDash();
 
