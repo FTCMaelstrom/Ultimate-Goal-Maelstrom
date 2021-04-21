@@ -16,6 +16,10 @@ import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
  * Modified 4/20/21 9:07 PM by Amogh Mehta
  */
 
+/*
+ * Modified 4/21/21 10:37 AM by Amogh Mehta
+ */
+
 @TeleOp(name = "VisionTester1", group = "Toolkit")
 public class VisionTester1 extends MidnightLinearOpMode {
     private final Mako robot = new Mako();
@@ -27,7 +31,6 @@ public class VisionTester1 extends MidnightLinearOpMode {
 
         detector = (RingDetector) robot.cameraView.detector;
 
-        /*
         while(!opModeIsActive()) {
             RingDetector.TargetZone zone = detector.findZone();
 
@@ -43,10 +46,8 @@ public class VisionTester1 extends MidnightLinearOpMode {
             }
         }
 
-*/
         waitForStart();
 
-        //detector.switchDetection();
 
         while (opModeIsActive()) {
 

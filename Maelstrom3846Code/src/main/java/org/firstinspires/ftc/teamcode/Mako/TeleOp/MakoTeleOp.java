@@ -10,12 +10,14 @@ import java.util.ArrayList;
 
 import MidnightLibrary.MidnightResources.MidnightLinearOpMode;
 import MidnightLibrary.MidnightRobot;
-/**
- * Created by Amogh Mehta
- * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 4/10/21 9:49 AM
- * Last Updated: 4/10/21 9:53 AM
- **/
+
+import static org.firstinspires.ftc.teamcode.Mako.Subsystems.Constants.INTAKE_POWER;
+import static org.firstinspires.ftc.teamcode.Mako.Subsystems.Constants.ROTATOR_POWER;
+
+/*
+ * Modified 4/21/21 10:37 AM by Amogh Mehta
+ */
+
 @TeleOp(name = "MakoTeleOp", group = "Mako")
 
 public class MakoTeleOp extends MidnightLinearOpMode {
@@ -24,7 +26,7 @@ public class MakoTeleOp extends MidnightLinearOpMode {
 
     //INFO: Define VARIABLES
     boolean endgameModeEnabled = false;
-    ArrayList<Boolean> booleanArrayList = new ArrayList<Boolean>();
+    ArrayList<Boolean> booleanArrayList = new ArrayList<>();
     int booleanIncrement = 0;
 
     //INFO: Define ifPressed State Machine Method for Gamepad Buttons
@@ -80,8 +82,8 @@ public class MakoTeleOp extends MidnightLinearOpMode {
             FtcDashboard dashboard = FtcDashboard.getInstance();
             TelemetryPacket packet = new TelemetryPacket();
 
-            //mako.rotator.accessoryMotorConditioner();
-            //mako.rotator.setClosedLoop(false);
+            mako.rotator.accessoryMotorConditioner();
+            mako.rotator.setClosedLoop(false);
 
             packet.put("LeftFrontPower: ", mako.driveTrain.getPowerLeftFront());
             packet.put("LeftBackPower: ", mako.driveTrain.getPowerLeftBack());
@@ -98,14 +100,14 @@ public class MakoTeleOp extends MidnightLinearOpMode {
             boolean G1APressed = ifPressed(gamepad1.a);
             if (G1APressed && !endgameModeEnabled) {
                 endgameModeEnabled = true;
-            } else if (G1APressed && endgameModeEnabled) {
+            } else if (G1APressed) {
                 endgameModeEnabled = false;
             }
 
             dash.create("endgameModeEnabled?: ", endgameModeEnabled);
             dash.update();
 
-            /*
+
             if (!endgameModeEnabled) {
                 //INFO: Trigger based variable speed intake control with adjustable speed control via dpad
                 mako.intake.setPower(INTAKE_POWER * gamepad1.left_trigger - gamepad2.right_trigger);
@@ -141,7 +143,7 @@ public class MakoTeleOp extends MidnightLinearOpMode {
             packet.put("Rotator Motor Power: ", mako.rotator.getPower());
             packet.put("Rotator Velocity: ", mako.rotator.getVelocity());
             dashboard.sendTelemetryPacket(packet);
-*/
+
             dash.clear();
             booleanIncrement = 0;
         }
