@@ -13,6 +13,10 @@ import static java.util.Locale.US;
  * Project: MidnightLib
  */
 
+/*
+ * Modified 4/20/21 9:06 PM by Amogh Mehta
+ */
+
 public class MidnightVector {
     private double x;
     private double y;
@@ -22,24 +26,6 @@ public class MidnightVector {
         this.x = x;
         this.y = y;
         this.name = name;
-    }
-
-    //private double x;
-    //private double y;
-    //private String name;
-    public MidnightVector(double x, double y, String name) {
-        this.x = x;
-        this.y = y;
-        this.name = name;
-    }
-
-    public MidnightVector(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public static MidnightVector multiply(double scalar, MidnightVector v) {
-        return new MidnightVector(v.getX() * scalar, v.getY() * scalar);
     }
 
     public double getX() {
@@ -112,26 +98,4 @@ public class MidnightVector {
     public String toString() {
         return String.format(US, "%s:\nX: %.2f\nY: %.2f", name, x, y);
     }
-
-    public MidnightPoint toPoint() {
-        return new MidnightPoint(getX(), getY());
-    }
-
-    public double angleRad(MidnightVector v) {
-        return (Math.acos(dotProduct(v) / (v.getMagnitude() * this.getMagnitude())));
-    }
-
-    public double angleDeg(MidnightVector v) {
-        double deg = Math.toDegrees(Math.acos(dotProduct(v) / (v.getMagnitude() * this.getMagnitude())));
-        if (Double.isNaN(deg)) return 0;
-        return deg;
-    }
-
-    public double angleTan(MidnightVector v) {
-        double atan1 = Math.atan2(v.getY(), v.getX());
-        double atan2 = Math.atan2(getY(), getX());
-        return Math.toDegrees(atan2 - atan1);
-    }
-
-
 }

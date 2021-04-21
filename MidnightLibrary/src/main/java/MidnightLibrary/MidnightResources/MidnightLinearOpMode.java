@@ -14,11 +14,15 @@ import static MidnightLibrary.MidnightResources.MidnightUtils.setLinearOpMode;
  * Custom Linear opMode
  */
 
+/*
+ * Modified 4/20/21 9:06 PM by Amogh Mehta
+ */
+
 public abstract class MidnightLinearOpMode extends LinearOpMode {
     public MidnightDashBoard dash;
     protected MidnightClock timeoutClock = new MidnightClock();
 
-    public final void runOpMode() throws InterruptedException {
+    public final void runOpMode() {
         try {
             dash = new MidnightDashBoard(super.telemetry);
             dash.setNewFirst();

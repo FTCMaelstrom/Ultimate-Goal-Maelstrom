@@ -2,12 +2,12 @@ package MidnightLibrary;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import MidnightLibrary.MidnightMath.MidnightPIDController;
-import MidnightLibrary.MidnightMath.MidnightPoint;
 import MidnightLibrary.MidnightMath.MidnightVector;
 import MidnightLibrary.MidnightMath.MidnightWayPoint;
 import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
@@ -39,7 +39,6 @@ import static java.lang.Math.atan2;
 import static java.lang.Math.cos;
 import static java.lang.Math.hypot;
 import static java.lang.Math.sin;
-import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 import static java.util.Arrays.asList;
 
@@ -50,6 +49,11 @@ import static java.util.Arrays.asList;
  * Unit Tests for all major functions
  * State Machine support
  */
+
+/*
+ * Modified 4/20/21 9:06 PM by Amogh Mehta
+ */
+
 public abstract class MidnightRobot {
     public MidnightMechanumDriveTrain driveTrain;
     public MidnightPositionTracker tracker;
@@ -214,45 +218,48 @@ public abstract class MidnightRobot {
         List<MidnightWayPoint> pointsWithRobot = new ArrayList<>(asList(points));
         pointsWithRobot.add(0, getCurrentWayPoint());
         MidnightPIDController speedController = new MidnightPIDController();
+        MidnightPIDController angleController = new MidnightPIDController();
+        ElapsedTime pointTimeout = new ElapsedTime();
         int index = 1;
-        MidnightClock pointTimeout = new MidnightClock();
+
         timeoutClock.reset();
-        while (timeoutClock.hasNotPassed(timeout, SECONDS) &&
-                index < pointsWithRobot.size()) {
-            double lookAheadDistance = pointsWithRobot.get(index).getLookAhead();
-            angleController.setKp(pointsWithRobot.get(index).getAngularCorrectionSpeed());
-            speedController.setKp(pointsWithRobot.get(index).getDriveCorrectionSpeed());
+        while (timeoutClock.seconds() < timeout && index < pointsWithRobot.size()) {
             MidnightWayPoint target = pointsWithRobot.get(index);
-            MidnightVector current = new MidnightVector(tracker.getGlobalX(), tracker.getGlobalY());
-            MidnightVector initial = new MidnightVector(pointsWithRobot.get(index - 1).getX(), pointsWithRobot.get(index - 1).getY());
+            MidnightVector current = new MidnightVector("Current", tracker.getGlobalX(), tracker.getGlobalY());
+            MidnightVector initial = new MidnightVector("Initial", pointsWithRobot.get(index - 1).getX(),
+                    pointsWithRobot.get(index - 1).getY());
+            angleController.setKp(target.getAngularCorrectionSpeed());
+            speedController.setKp(target.getDriveCorrectionSpeed());
+
             double speed = 1;
-            double pathAngle;
+            speedController.reset();
+            angleController.reset();
             pointTimeout.reset();
-            while (pointTimeout.hasNotPassed(pointsWithRobot.get(index).getTimeout(), SECONDS) &&
-                    !current.equal(pointsWithRobot.get(index).getTargetRadius(), target.getPoint()) && opModeIsActive() && speed > 0.1) {
+            while (pointTimeout.seconds() < target.getTimeout() &&
+                    !current.equal(target.getTargetRadius(), target.getPoint()) && opModeIsActive()
+                    && speed > 0.1 + target.getMinVelocity()) {
                 double heading = toRadians(tracker.getHeading());
-                MidnightVector headingUnitVector = new MidnightVector(sin(heading), cos(heading));
-                MidnightVector lookahead = getLookAhead(initial, current, target.getPoint(), lookAheadDistance);
-                MidnightVector pathDisplacement = initial.displacement(target.getPoint());
-                boolean closerThanLookAhead = initial.displacement(lookahead).getMagnitude() > pathDisplacement.getMagnitude();
-                boolean approachingFinalPos = index == pointsWithRobot.size() - 1;
-                if (closerThanLookAhead) {
-                    if (approachingFinalPos) lookahead = target.getPoint();
+                MidnightVector headingUnitVector = new MidnightVector("Heading Unit Vector", sin(heading), cos(heading));
+                MidnightVector lookahead = getLookAhead(initial, current, target.getPoint(), target.getLookAhead());
+                MidnightVector pathDisplacement = initial.displacement(target.getPoint()).setName("Path Displacement");
+
+                if (initial.displacement(lookahead).getMagnitude() > pathDisplacement.getMagnitude()) {
+                    if (index == pointsWithRobot.size() - 1) lookahead = target.getPoint();
                     else break;
                 }
-                MidnightVector lookaheadDisplacement = current.displacement(lookahead);
+                MidnightVector lookaheadDisplacement = current.displacement(lookahead).setName("Look Ahead Displacement");
                 speed = speedController.getOutput(current.displacement(target.getPoint()).getMagnitude());
                 speed = scaleNumber(speed, target.getMinVelocity(), target.getMaxVelocity());
+                double pathAngle = adjustAngle(headingUnitVector.angleTo(lookaheadDisplacement));
 
                 MidnightWayPoint.PointMode mode = target.getSwitchMode();
-                boolean mechMode = (current.equal(target.getModeSwitchRadius(), target.getPoint()) && mode == SWITCH) ||
-                        mode == MECH;
+                boolean mechMode = (current.equal(target.getModeSwitchRadius(), target.getPoint())
+                        && mode == SWITCH) || mode == MECH;
 
                 if (mechMode) {
-                    pathAngle = 90 - toDegrees(atan2(lookaheadDisplacement.getY(), lookaheadDisplacement.getX()));
-                    driveTrain.setVelocityMECH(pathAngle - tracker.getHeading(), speed, target.getH());
+                    double turnPower = angleController.getOutput(adjustAngle(target.getH() - tracker.getHeading()));
+                    driveTrain.setVelocityMECH(toRadians(pathAngle), speed, turnPower);
                 } else {
-                    pathAngle = adjustAngle(headingUnitVector.angleTan(lookaheadDisplacement));
                     double powerAdjustment = angleController.getOutput(pathAngle);
                     double leftPower = speed + powerAdjustment;
                     double rightPower = speed - powerAdjustment;
@@ -268,11 +275,13 @@ public abstract class MidnightRobot {
                 dash.create(tracker);
                 dash.create("Distance Left", target.getPoint().displacement(current).getMagnitude());
                 dash.create("Path Angle: ", pathAngle);
+                dash.create(lookaheadDisplacement);
                 dash.update();
 
-                current = new MidnightVector(tracker.getGlobalX(), tracker.getGlobalY());
+                current.setX(tracker.getGlobalX());
+                current.setY(tracker.getGlobalY());
             }
-            pointsWithRobot.get(index).getOnComplete().run();
+            target.getOnComplete().run();
             index++;
         }
         driveTrain.setVelocity(0);
@@ -346,7 +355,8 @@ public abstract class MidnightRobot {
     }
 
     public MidnightWayPoint getCurrentWayPoint() {
-        return new MidnightWayPoint().setPoint(new MidnightPoint(tracker.getGlobalX(), tracker.getGlobalY(), tracker.getHeading())).setName("Inital WayPoint");
+        return new MidnightWayPoint().setPoint(tracker.getGlobalX(), tracker.getGlobalY(), tracker.getHeading())
+                .setName("Initial WayPoint");
     }
 
     public enum OpMode {

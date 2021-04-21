@@ -18,11 +18,15 @@ import static MidnightLibrary.MidnightResources.MidnightDashBoard.getDash;
  * Created by Keval Kataria on 6/1/2020.
  */
 
+/*
+ * Modified 4/20/21 9:06 PM by Amogh Mehta
+ */
+
 public abstract class MasqCVDetector extends OpenCvPipeline {
     public int offset;
     protected int minimumArea = 1;
-    protected int imageWidth = 1280;
-    protected int imageHeight = 960;
+    protected int imageWidth = 720;
+    protected int imageHeight = 1280;
     protected Rect foundRect = new Rect();
     protected Rect secondRect = new Rect();
     protected Mat workingMat;
