@@ -15,12 +15,9 @@ import MidnightLibrary.MidnightRobot;
 import static MidnightLibrary.MidnightResources.MidnightUtils.setTracker;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
-/*
- * Modified 4/20/21 9:05 PM by Amogh Mehta
- */
 
 /*
- * Modified 4/20/21 9:06 PM by Amogh Mehta
+ * Modified 4/20/21 9:07 PM by Amogh Mehta
  */
 
 public class Mako extends MidnightRobot {

@@ -11,12 +11,9 @@ import MidnightLibrary.MidnightResources.MidnightLinearOpMode;
 
 import static MidnightLibrary.MidnightResources.MidnightUtils.getCenterPoint;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
-/*
- * Modified 4/20/21 9:04 PM by Amogh Mehta
- */
 
 /*
- * Modified 4/20/21 9:06 PM by Amogh Mehta
+ * Modified 4/20/21 9:07 PM by Amogh Mehta
  */
 
 @TeleOp(name = "VisionTester1", group = "Toolkit")
