@@ -7,7 +7,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
-import static MidnightLibrary.MidnightResources.MidnightUtils.getHardwareMap;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.getHardwareMap;
 import static java.util.Locale.US;
 import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
 

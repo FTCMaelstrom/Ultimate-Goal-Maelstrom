@@ -1,12 +1,12 @@
-package MidnightLibrary.MidnightMotor;
+package MidnightLibrary.MidnightMovement;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import MidnightLibrary.MidnightResources.MidnightHardware;
+import MidnightLibrary.MidnightAuxiliary.MidnightHardware;
 import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 
-import static MidnightLibrary.MidnightResources.MidnightUtils.opModeIsActive;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.opModeIsActive;
 
 /**
  * Created by Archish on 10/28/16.

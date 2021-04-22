@@ -1,12 +1,12 @@
-package MidnightLibrary.MidnightMovement;
+package MidnightLibrary.MidnightDrivetrain;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import MidnightLibrary.MidnightMotor.MidnightMotorModel;
-import MidnightLibrary.MidnightMotor.MidnightMotorSystem;
+import MidnightLibrary.MidnightMovement.MidnightMotorModel;
+import MidnightLibrary.MidnightMovement.MidnightMotorSystem;
 import MidnightLibrary.MidnightSensors.MidnightEncoder;
 
-import static MidnightLibrary.MidnightMotor.MidnightMotorModel.ORBITAL20;
+import static MidnightLibrary.MidnightMovement.MidnightMotorModel.ORBITAL20;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static java.lang.Math.abs;

@@ -1,17 +1,17 @@
-package MidnightLibrary.MidnightMovement;
+package MidnightLibrary.MidnightDrivetrain;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import MidnightLibrary.MidnightMotor.MidnightMotorModel;
-import MidnightLibrary.MidnightMotor.MidnightMotorSystem;
-import MidnightLibrary.MidnightResources.MidnightHardware;
-import MidnightLibrary.MidnightResources.MidnightUtils;
+import MidnightLibrary.MidnightAuxiliary.MidnightHardware;
+import MidnightLibrary.MidnightAuxiliary.MidnightUtils;
+import MidnightLibrary.MidnightMovement.MidnightMotorModel;
+import MidnightLibrary.MidnightMovement.MidnightMotorSystem;
 
-import static MidnightLibrary.MidnightResources.MidnightUtils.BOOST_SPEED_MULTIPLIER;
-import static MidnightLibrary.MidnightResources.MidnightUtils.DEFAULT_SPEED_MULTIPLIER;
-import static MidnightLibrary.MidnightResources.MidnightUtils.adjustAngle;
-import static MidnightLibrary.MidnightResources.MidnightUtils.angleController;
-import static MidnightLibrary.MidnightResources.MidnightUtils.getTracker;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.BOOST_SPEED_MULTIPLIER;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.DEFAULT_SPEED_MULTIPLIER;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.adjustAngle;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.angleController;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.getTracker;
 import static java.lang.Math.abs;
 import static java.lang.Math.cos;
 import static java.lang.Math.max;

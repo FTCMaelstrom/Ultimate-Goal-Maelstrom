@@ -6,16 +6,16 @@ import org.firstinspires.ftc.teamcode.Mako.Subsystems.Claw;
 
 import MasqVision.MasqCamera;
 import MasqVision.RingDetector;
+import MidnightLibrary.MidnightAuxiliary.MidnightDashBoard;
+import MidnightLibrary.MidnightAuxiliary.MidnightUtils;
+import MidnightLibrary.MidnightDrivetrain.MidnightMechanumDriveTrain;
+import MidnightLibrary.MidnightDrivetrain.MidnightPositionTracker;
 import MidnightLibrary.MidnightMath.MidnightPIDController;
-import MidnightLibrary.MidnightMotor.MidnightMotor;
-import MidnightLibrary.MidnightMotor.MidnightMotorModel;
-import MidnightLibrary.MidnightMovement.MidnightMechanumDriveTrain;
-import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
-import MidnightLibrary.MidnightResources.MidnightDashBoard;
-import MidnightLibrary.MidnightResources.MidnightUtils;
+import MidnightLibrary.MidnightMovement.MidnightMotor;
+import MidnightLibrary.MidnightMovement.MidnightMotorModel;
 import MidnightLibrary.MidnightRobot;
 
-import static MidnightLibrary.MidnightResources.MidnightUtils.setTracker;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.setTracker;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
 

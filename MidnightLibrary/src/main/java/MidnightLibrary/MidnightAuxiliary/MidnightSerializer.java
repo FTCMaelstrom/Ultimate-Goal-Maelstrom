@@ -1,4 +1,4 @@
-package MidnightLibrary.MidnightResources;
+package MidnightLibrary.MidnightAuxiliary;
 
 import android.annotation.SuppressLint;
 

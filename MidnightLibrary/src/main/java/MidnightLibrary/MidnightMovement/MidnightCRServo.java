@@ -1,9 +1,9 @@
-package MidnightLibrary.MidnightMotor;
+package MidnightLibrary.MidnightMovement;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import MidnightLibrary.MidnightResources.MidnightHardware;
+import MidnightLibrary.MidnightAuxiliary.MidnightHardware;
 import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 
 /**

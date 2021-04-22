@@ -1,4 +1,4 @@
-package MidnightLibrary.MidnightResources;
+package MidnightLibrary.MidnightAuxiliary;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 

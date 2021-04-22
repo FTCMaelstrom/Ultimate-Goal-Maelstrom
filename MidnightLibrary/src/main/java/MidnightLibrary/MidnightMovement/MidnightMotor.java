@@ -1,15 +1,15 @@
-package MidnightLibrary.MidnightMotor;
+package MidnightLibrary.MidnightMovement;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
-import MidnightLibrary.MidnightResources.MidnightUtils;
+import MidnightLibrary.MidnightAuxiliary.MidnightUtils;
 import MidnightLibrary.MidnightSensors.MidnightEncoder;
 import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 
-import static MidnightLibrary.MidnightResources.MidnightUtils.opModeIsActive;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.opModeIsActive;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 import static java.lang.Math.abs;

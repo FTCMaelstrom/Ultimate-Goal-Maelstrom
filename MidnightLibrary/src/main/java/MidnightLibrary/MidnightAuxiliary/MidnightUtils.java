@@ -1,4 +1,4 @@
-package MidnightLibrary.MidnightResources;
+package MidnightLibrary.MidnightAuxiliary;
 
 import android.graphics.Point;
 
@@ -9,9 +9,9 @@ import org.opencv.core.Rect;
 
 import java.util.Locale;
 
+import MidnightLibrary.MidnightDrivetrain.MidnightPositionTracker;
 import MidnightLibrary.MidnightMath.MidnightPIDController;
 import MidnightLibrary.MidnightMath.MidnightVector;
-import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
 
 import static java.lang.Double.valueOf;
 import static java.lang.Math.atan2;

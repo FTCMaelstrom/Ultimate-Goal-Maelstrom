@@ -6,10 +6,10 @@ import org.firstinspires.ftc.teamcode.Mako.Robot.Mako;
 import org.opencv.core.Rect;
 
 import MasqVision.RingDetector;
+import MidnightLibrary.MidnightAuxiliary.MidnightLinearOpMode;
 import MidnightLibrary.MidnightMath.MidnightVector;
-import MidnightLibrary.MidnightResources.MidnightLinearOpMode;
 
-import static MidnightLibrary.MidnightResources.MidnightUtils.getCenterPoint;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.getCenterPoint;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 /*
  * Modified 4/21/21 10:20 PM by Amogh Mehta

@@ -1,4 +1,4 @@
-package MidnightLibrary.MidnightResources;
+package MidnightLibrary.MidnightAuxiliary;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import java.util.ArrayList;
 import java.util.List;
 
-import static MidnightLibrary.MidnightResources.MidnightUtils.DEFAULT_SLEEP_TIME;
-import static MidnightLibrary.MidnightResources.MidnightUtils.setLinearOpMode;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.DEFAULT_SLEEP_TIME;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.setLinearOpMode;
 
 
 /**

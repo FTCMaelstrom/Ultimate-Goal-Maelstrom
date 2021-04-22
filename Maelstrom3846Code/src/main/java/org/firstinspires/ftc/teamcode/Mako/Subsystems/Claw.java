@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.Mako.Subsystems;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import MidnightLibrary.MidnightMotor.MidnightServo;
-import MidnightLibrary.MidnightResources.MidnightHardware;
-import MidnightLibrary.MidnightResources.MidnightSubSystem;
+import MidnightLibrary.MidnightAuxiliary.MidnightHardware;
+import MidnightLibrary.MidnightAuxiliary.MidnightSubSystem;
+import MidnightLibrary.MidnightMovement.MidnightServo;
 /*
  * Created by Amogh Mehta
  * Modified 4/21/21 10:56 AM by Amogh Mehta

@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import java.lang.reflect.Method;
 
-import MidnightLibrary.MidnightMotor.MidnightMotor;
+import MidnightLibrary.MidnightMovement.MidnightMotor;
 
 public class MidnightCurrentMonitor {
     LynxModule hubOne;

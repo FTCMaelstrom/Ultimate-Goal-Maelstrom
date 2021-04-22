@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static MidnightLibrary.MidnightResources.MidnightDashBoard.getDash;
+import static MidnightLibrary.MidnightAuxiliary.MidnightDashBoard.getDash;
 
 /**
  * Created by Keval Kataria on 6/1/2020.

@@ -1,4 +1,4 @@
-package MidnightLibrary.MidnightMotor;
+package MidnightLibrary.MidnightMovement;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.Arrays;
 import java.util.List;
 
-import MidnightLibrary.MidnightResources.MidnightHardware;
+import MidnightLibrary.MidnightAuxiliary.MidnightHardware;
 import MidnightLibrary.MidnightSensors.MidnightLimitSwitch;
 
 /**

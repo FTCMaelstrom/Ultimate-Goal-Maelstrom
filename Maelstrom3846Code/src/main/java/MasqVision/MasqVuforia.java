@@ -22,8 +22,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static MidnightLibrary.MidnightResources.MidnightUtils.VUFORIA_KEY;
-import static MidnightLibrary.MidnightResources.MidnightUtils.getHardwareMap;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.VUFORIA_KEY;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.getHardwareMap;
 import static org.firstinspires.ftc.robotcore.external.tfod.TfodCurrentGame.TFOD_MODEL_ASSET;
 
 /**

@@ -3,7 +3,7 @@ package MidnightLibrary.MidnightSensors;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import MidnightLibrary.MidnightResources.MidnightHardware;
+import MidnightLibrary.MidnightAuxiliary.MidnightHardware;
 
 
 /**

@@ -1,8 +1,8 @@
-package MidnightLibrary.MidnightResources;
+package MidnightLibrary.MidnightAuxiliary;
 
 import java.util.Locale;
 
-import static MidnightLibrary.MidnightResources.MidnightClock.Resolution.SECONDS;
+import static MidnightLibrary.MidnightAuxiliary.MidnightClock.Resolution.SECONDS;
 
 public class MidnightClock implements MidnightHardware {
 

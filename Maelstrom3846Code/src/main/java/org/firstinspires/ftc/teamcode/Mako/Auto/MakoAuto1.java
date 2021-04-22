@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.Mako.Robot.Mako;
 
 import MasqVision.RingDetector;
+import MidnightLibrary.MidnightAuxiliary.MidnightLinearOpMode;
 import MidnightLibrary.MidnightMath.MidnightWayPoint;
-import MidnightLibrary.MidnightResources.MidnightLinearOpMode;
 
 import static MasqVision.RingDetector.TargetZone.B;
 import static MasqVision.RingDetector.TargetZone.C;

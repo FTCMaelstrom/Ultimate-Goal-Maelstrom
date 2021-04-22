@@ -1,16 +1,16 @@
-package MidnightLibrary.MidnightMovement;
+package MidnightLibrary.MidnightDrivetrain;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import MidnightLibrary.MidnightMotor.MidnightMotor;
-import MidnightLibrary.MidnightResources.MidnightClock;
-import MidnightLibrary.MidnightResources.MidnightDashBoard;
-import MidnightLibrary.MidnightResources.MidnightHardware;
-import MidnightLibrary.MidnightResources.MidnightUtils;
+import MidnightLibrary.MidnightAuxiliary.MidnightClock;
+import MidnightLibrary.MidnightAuxiliary.MidnightDashBoard;
+import MidnightLibrary.MidnightAuxiliary.MidnightHardware;
+import MidnightLibrary.MidnightAuxiliary.MidnightUtils;
+import MidnightLibrary.MidnightMovement.MidnightMotor;
 import MidnightLibrary.MidnightSensors.MidnightAdafruitIMU;
 
-import static MidnightLibrary.MidnightResources.MidnightClock.Resolution.SECONDS;
-import static MidnightLibrary.MidnightResources.MidnightUtils.adjustAngle;
+import static MidnightLibrary.MidnightAuxiliary.MidnightClock.Resolution.SECONDS;
+import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.adjustAngle;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
