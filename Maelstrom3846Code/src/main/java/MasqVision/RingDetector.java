@@ -22,11 +22,15 @@ import static org.opencv.imgproc.Imgproc.cvtColor;
  * Created by Keval Kataria on 6/1/2020
  */
 
+/*
+ * Modified 4/20/21 9:06 PM by Amogh Mehta
+ */
+
 public class RingDetector extends MasqCVDetector {
+    private final MasqCVColorFilter lumaFilter = new LumaFilter(100);
     double top, control, bottom;
     double prevTime = 0;
-    private final MasqCVColorFilter lumaFilter = new LumaFilter(100);
-    private boolean init = true;
+    private final boolean init = true;
 
     private double ratio = 1;
     private double x0 = 0;
@@ -36,7 +40,7 @@ public class RingDetector extends MasqCVDetector {
     public Mat processFrame(Mat input) {
         double time = System.nanoTime();
 
-        if (time - prevTime > 1e5) {
+        if (time - prevTime > 1e10) {
             if (init) {
                 prevTime = time;
                 workingMat = input.clone();
@@ -104,9 +108,11 @@ public class RingDetector extends MasqCVDetector {
         return control;
     }
 
+    /*
     public void switchDetection() {
         init = false;
     }
+    */
 
     public TargetZone findZone() {
         if (abs(getTop() - getBottom()) > 10) return TargetZone.B;

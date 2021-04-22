@@ -14,6 +14,7 @@ import MidnightLibrary.MidnightMath.MidnightVector;
 import MidnightLibrary.MidnightMovement.MidnightPositionTracker;
 
 import static java.lang.Double.valueOf;
+import static java.lang.Math.atan2;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
@@ -21,6 +22,10 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGR
 
 /**
  * Created by Archish on 10/16/17.
+ */
+
+/*
+ * Modified 4/20/21 9:06 PM by Amogh Mehta
  */
 
 public class MidnightUtils {
@@ -119,15 +124,11 @@ public class MidnightUtils {
 
     public static MidnightVector getLookAhead(MidnightVector initial, MidnightVector current, MidnightVector finalPos, double lookAhead) {
         MidnightVector pathDisplacement = initial.displacement(finalPos);
-        MidnightVector untransformedProjection = new MidnightVector(
+        MidnightVector projection = new MidnightVector("Projection",
                 current.projectOnTo(pathDisplacement).getX() - initial.getX(),
-                current.projectOnTo(pathDisplacement).getY() - initial.getY()).projectOnTo(pathDisplacement);
-        MidnightVector projection = new MidnightVector(
-                untransformedProjection.getX() + initial.getX(),
-                untransformedProjection.getY() + initial.getY());
-        double theta = Math.atan2(pathDisplacement.getY(), pathDisplacement.getX());
-        return new MidnightVector(
-                projection.getX() + (lookAhead * cos(theta)),
+                current.projectOnTo(pathDisplacement).getY() - initial.getY()).projectOnTo(pathDisplacement).add(initial);
+        double theta = atan2(pathDisplacement.getY(), pathDisplacement.getX());
+        return new MidnightVector("Look Ahead", projection.getX() + (lookAhead * cos(theta)),
                 projection.getY() + (lookAhead * sin(theta)));
     }
 

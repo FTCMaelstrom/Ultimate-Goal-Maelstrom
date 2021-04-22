@@ -15,12 +15,10 @@ import static MasqVision.RingDetector.TargetZone.C;
 import static MidnightLibrary.MidnightMath.MidnightWayPoint.PointMode.SWITCH;
 import static MidnightLibrary.MidnightMath.MidnightWayPoint.PointMode.TANK;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
-/**
+/*
  * Created by Amogh Mehta
- * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 4/8/21 3:17 PM
- * Last Updated: 4/8/21 3:22 PM
- **/
+ * Modified 4/21/21 10:57 AM by Amogh Mehta
+ */
 @Autonomous(name = "Red", group = "MakoAuto")
 public class MakoAuto1 extends MidnightLinearOpMode {
     int iterations;

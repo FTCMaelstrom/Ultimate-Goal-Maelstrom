@@ -19,12 +19,10 @@ import static MidnightLibrary.MidnightResources.MidnightUtils.setTracker;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
 
-/**
- * Created by Amogh Mehta
- * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 4/8/21 3:17 PM
- * Last Updated: 4/8/21 3:22 PM
- **/
+/*
+ * Modified 4/21/21 10:20 PM by Amogh Mehta
+ */
+
 public class Mako extends MidnightRobot {
     public MidnightMotor encoder1, encoder2, rotator, intake;
     public MasqCamera cameraView;
@@ -84,8 +82,12 @@ public class Mako extends MidnightRobot {
         1280x960, 1280x720, 960x720, 960x540, 864x480, 768x432, 720x480, 640x480, 320x240, 176x144
          */
         RingDetector ringFinder = new RingDetector();
-        ringFinder.setClippingMargins(96, 55, 70, 55);
+        ringFinder.setClippingMargins(700, 522, 150, 570);
         cameraView = new MasqCamera(ringFinder);
         cameraView.start(UPRIGHT);
+    }
+
+    private void initServos() {
+        claw.reset();
     }
 }

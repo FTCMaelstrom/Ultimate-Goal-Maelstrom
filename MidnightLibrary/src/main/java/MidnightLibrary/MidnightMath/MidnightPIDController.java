@@ -1,11 +1,15 @@
 package MidnightLibrary.MidnightMath;
 
-import MidnightLibrary.MidnightResources.MidnightClock;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static com.qualcomm.robotcore.util.Range.clip;
 
 /**
  * Created by Archish on 4/9/18.
+ */
+
+/*
+ * Modified 4/20/21 9:06 PM by Amogh Mehta
  */
 
 public class MidnightPIDController {
@@ -14,17 +18,12 @@ public class MidnightPIDController {
     private double ki = 0;
     private double kd = 0;
     private double prevError = 0;
-    private final MidnightClock clock = new MidnightClock();
+    private final ElapsedTime clock = new ElapsedTime();
 
     public MidnightPIDController(double kp, double ki, double kd) {
         this.kp = kp;
         this.ki = ki;
         this.kd = kd;
-    }
-
-    public MidnightPIDController(double kp, double ki) {
-        this.kp = kp;
-        this.ki = ki;
     }
 
     public MidnightPIDController(double kp) {
@@ -38,8 +37,10 @@ public class MidnightPIDController {
         double timeChange = clock.seconds();
         double derivative = (error - prevError) / timeChange;
         double integral = integrator.getIntegral(error);
+
         clock.reset();
         prevError = error;
+
         return clip((error * kp) +
                 (ki * integral) +
                 (kd * derivative), -1, 1);
@@ -49,15 +50,21 @@ public class MidnightPIDController {
         return new double[]{kp, ki, kd};
     }
 
-    public void setConstants(int[] constants) {
+    public void setConstants(double[] constants) {
         this.kp = constants[0];
         this.ki = constants[1];
         this.kd = constants[2];
     }
 
-    public void setConstants(double kp, double ki, double kd) {
+    public void setKp(double kp) {
         this.kp = kp;
+    }
+
+    public void setKi(double ki) {
         this.ki = ki;
+    }
+
+    public void setKd(double kd) {
         this.kd = kd;
     }
 
@@ -65,24 +72,17 @@ public class MidnightPIDController {
         return kp;
     }
 
-    public void setKp(double kp) {
-        this.kp = kp;
-    }
-
     public double getKi() {
         return ki;
-    }
-
-    public void setKi(double ki) {
-        this.ki = ki;
     }
 
     public double getKd() {
         return kd;
     }
 
-    public void setKd(double kd) {
-        this.kd = kd;
+    public void reset() {
+        clock.reset();
+        prevError = 0;
+        integrator.reset();
     }
-
 }

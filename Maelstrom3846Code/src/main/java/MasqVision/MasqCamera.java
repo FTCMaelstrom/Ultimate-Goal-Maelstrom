@@ -15,9 +15,13 @@ import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
  * Created by Keval Kataria on 6/1/2020
  */
 
+/*
+ * Modified 4/21/21 10:20 PM by Amogh Mehta
+ */
+
 public class MasqCamera {
-    public MasqCVDetector detector;
     private final OpenCvCamera camera;
+    public MasqCVDetector detector;
     private boolean streaming = false;
 
     public MasqCamera(MasqCVDetector detector) {
@@ -30,7 +34,7 @@ public class MasqCamera {
 
     public void start(OpenCvCameraRotation rotation) {
         camera.openCameraDevice();
-        camera.startStreaming(176, 144, rotation);
+        camera.startStreaming(1280, 960, rotation);
         streaming = true;
     }
 

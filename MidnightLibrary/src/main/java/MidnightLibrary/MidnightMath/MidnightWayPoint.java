@@ -1,25 +1,26 @@
 package MidnightLibrary.MidnightMath;
 
-import MidnightLibrary.MidnightResources.MidnightHardware;
+import androidx.annotation.NonNull;
+
+import static java.util.Locale.US;
 
 /**
  * Created by Archishmaan Peyyety on 2020-01-23.
  * Project: MidnightLib
  */
 
-public class MidnightWayPoint implements MidnightHardware {
+/*
+ * Modified 4/20/21 9:06 PM by Amogh Mehta
+ */
+
+public class MidnightWayPoint {
     private double x, y, h, targetRadius = 1, modeSwitchRadius = 10, pointSwitchRadius = 10,
             minVelocity = 0.5, maxVelocity = 1, timeout = 2, lookAhead = 10,
-            angularCorrectionSpeed = 0.08, speedBias = 0.5, driveCorrectionSpeed = 0.07,
-            turnRadius = 5;
-
-
-    private String name;
+            angularCorrectionSpeed = 0.08, driveCorrectionSpeed = 0.12;
+    private String name = "WayPoint";
     private PointMode switchMode = PointMode.MECH;
-
     private Runnable onComplete = () -> {
     };
-
 
     public MidnightWayPoint() {
     }
@@ -30,6 +31,14 @@ public class MidnightWayPoint implements MidnightHardware {
         this.h = h;
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
     public MidnightWayPoint setPoint(double x, double y, double h) {
         this.x = x;
         this.y = y;
@@ -37,17 +46,9 @@ public class MidnightWayPoint implements MidnightHardware {
         return this;
     }
 
-    public double getX() {
-        return x;
-    }
-
     public MidnightWayPoint setX(double x) {
         this.x = x;
         return this;
-    }
-
-    public double getY() {
-        return y;
     }
 
     public MidnightWayPoint setY(double y) {
@@ -55,17 +56,9 @@ public class MidnightWayPoint implements MidnightHardware {
         return this;
     }
 
-    public double getH() {
-        return h;
-    }
-
     public MidnightWayPoint setH(double h) {
         this.h = h;
         return this;
-    }
-
-    public double getTargetRadius() {
-        return targetRadius;
     }
 
     public MidnightWayPoint setTargetRadius(double targetRadius) {
@@ -75,17 +68,9 @@ public class MidnightWayPoint implements MidnightHardware {
         return this;
     }
 
-    public double getModeSwitchRadius() {
-        return modeSwitchRadius;
-    }
-
     public MidnightWayPoint setModeSwitchRadius(double modeSwitchRadius) {
         this.modeSwitchRadius = modeSwitchRadius;
         return this;
-    }
-
-    public double getPointSwitchRadius() {
-        return pointSwitchRadius;
     }
 
     public MidnightWayPoint setPointSwitchRadius(double pointSwitchRadius) {
@@ -93,17 +78,13 @@ public class MidnightWayPoint implements MidnightHardware {
         return this;
     }
 
-    public double getMinVelocity() {
-        return minVelocity;
-    }
-
     public MidnightWayPoint setMinVelocity(double minVelocity) {
         this.minVelocity = minVelocity;
         return this;
     }
 
-    public double getMaxVelocity() {
-        return maxVelocity;
+    public double getH() {
+        return h;
     }
 
     public MidnightWayPoint setMaxVelocity(double maxVelocity) {
@@ -111,17 +92,9 @@ public class MidnightWayPoint implements MidnightHardware {
         return this;
     }
 
-    public double getTimeout() {
-        return timeout;
-    }
-
     public MidnightWayPoint setTimeout(double timeout) {
         this.timeout = timeout;
         return this;
-    }
-
-    public double getLookAhead() {
-        return lookAhead;
     }
 
     public MidnightWayPoint setLookAhead(double lookAhead) {
@@ -129,12 +102,54 @@ public class MidnightWayPoint implements MidnightHardware {
         return this;
     }
 
+    public MidnightWayPoint setAngularCorrectionSpeed(double angularCorrectionSpeed) {
+        this.angularCorrectionSpeed = angularCorrectionSpeed;
+        return this;
+    }
+
+    public MidnightWayPoint setOnComplete(Runnable onComplete) {
+        this.onComplete = onComplete;
+        return this;
+    }
+
+    public double getTargetRadius() {
+        return targetRadius;
+    }
+
+    public double getModeSwitchRadius() {
+        return modeSwitchRadius;
+    }
+
+    public double getPointSwitchRadius() {
+        return pointSwitchRadius;
+    }
+
+    public double getMinVelocity() {
+        return minVelocity;
+    }
+
+    public double getMaxVelocity() {
+        return maxVelocity;
+    }
+
+    public double getTimeout() {
+        return timeout;
+    }
+
+    public double getLookAhead() {
+        return lookAhead;
+    }
+
     public double getAngularCorrectionSpeed() {
         return angularCorrectionSpeed;
     }
 
-    public MidnightWayPoint setAngularCorrectionSpeed(double angularCorrectionSpeed) {
-        this.angularCorrectionSpeed = angularCorrectionSpeed;
+    public double getDriveCorrectionSpeed() {
+        return driveCorrectionSpeed;
+    }
+
+    public MidnightWayPoint setDriveCorrectionSpeed(double driveCorrectionSpeed) {
+        this.driveCorrectionSpeed = driveCorrectionSpeed;
         return this;
     }
 
@@ -147,55 +162,18 @@ public class MidnightWayPoint implements MidnightHardware {
         return this;
     }
 
-    public double getDriveCorrectionSpeed() {
-        return driveCorrectionSpeed;
-    }
-
-    public MidnightWayPoint setDriveCorrectionSpeed(double driveCorrectionSpeed) {
-        this.driveCorrectionSpeed = driveCorrectionSpeed;
-        return this;
-    }
-
-    public double getSpeedBias() {
-        return speedBias;
-    }
-
-    public MidnightWayPoint setSpeedBias(double speedBias) {
-        this.speedBias = speedBias;
-        return this;
-    }
-
     public Runnable getOnComplete() {
         return onComplete;
     }
 
-    public MidnightWayPoint setOnComplete(Runnable onComplete) {
-        this.onComplete = onComplete;
-        return this;
-    }
-
-    public double getTurnRadius() {
-        return turnRadius;
-    }
-
-    public void setTurnRadius(double turnRadius) {
-        this.turnRadius = turnRadius;
-    }
-
     public MidnightVector getPoint() {
-        return new MidnightVector(x, y);
+        return new MidnightVector(name, x, y);
     }
 
-    public MidnightWayPoint setPoint(MidnightPoint p) {
-        this.x = p.getX();
-        this.y = p.getY();
-        this.h = p.getH();
-        return this;
-    }
-
+    @NonNull
     @Override
-    public String getName() {
-        return name;
+    public String toString() {
+        return String.format(US, "%s:\nX: %.2f\nY: %.2f\nH: %.1f\n", name, x, y, h);
     }
 
     public MidnightWayPoint setName(String name) {
@@ -203,12 +181,5 @@ public class MidnightWayPoint implements MidnightHardware {
         return this;
     }
 
-    @Override
-    public String[] getDash() {
-        return new String[0];
-    }
-
-    public enum PointMode {
-        MECH, TANK, SWITCH
-    }
+    public enum PointMode {MECH, TANK, SWITCH}
 }
