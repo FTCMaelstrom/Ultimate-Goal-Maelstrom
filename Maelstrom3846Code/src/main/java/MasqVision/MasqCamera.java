@@ -16,7 +16,7 @@ import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
  */
 
 /*
- * Modified 4/20/21 9:06 PM by Amogh Mehta
+ * Modified 4/21/21 10:20 PM by Amogh Mehta
  */
 
 public class MasqCamera {
@@ -34,7 +34,7 @@ public class MasqCamera {
 
     public void start(OpenCvCameraRotation rotation) {
         camera.openCameraDevice();
-        camera.startStreaming(1280, 720, rotation);
+        camera.startStreaming(1280, 960, rotation);
         streaming = true;
     }
 

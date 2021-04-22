@@ -6,12 +6,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import MidnightLibrary.MidnightMotor.MidnightServo;
 import MidnightLibrary.MidnightResources.MidnightHardware;
 import MidnightLibrary.MidnightResources.MidnightSubSystem;
-/**
+/*
  * Created by Amogh Mehta
- * Project: FtcRobotController_Ultimate-Goal_prod2
- * Last Modified: 4/8/21 3:17 PM
- * Last Updated: 4/8/21 3:22 PM
- **/
+ * Modified 4/21/21 10:56 AM by Amogh Mehta
+ */
 public class Claw implements MidnightSubSystem {
     private final MidnightServo claw;
 
@@ -29,7 +27,7 @@ public class Claw implements MidnightSubSystem {
     }
 
     public void reset() {
-        claw.scaleRange(0.1, 0.4);
+        claw.scaleRange(0.1, 0.8);
         close();
     }
 

@@ -19,14 +19,14 @@ import static MidnightLibrary.MidnightResources.MidnightDashBoard.getDash;
  */
 
 /*
- * Modified 4/20/21 9:06 PM by Amogh Mehta
+ * Modified 4/21/21 10:20 PM by Amogh Mehta
  */
 
 public abstract class MasqCVDetector extends OpenCvPipeline {
     public int offset;
     protected int minimumArea = 1;
-    protected int imageWidth = 720;
-    protected int imageHeight = 1280;
+    protected int imageWidth = 1280;
+    protected int imageHeight = 960;
     protected Rect foundRect = new Rect();
     protected Rect secondRect = new Rect();
     protected Mat workingMat;
@@ -124,9 +124,9 @@ public abstract class MasqCVDetector extends OpenCvPipeline {
 
     public void setClippingMargins(int top, int left, int bottom, int right) {
         tl = new Point(left, top);
-        br = new Point(176 - right, 144 - bottom);
-        imageWidth = 176 - right - left;
-        imageHeight = 144 - top - bottom;
+        br = new Point(1280 - right, 960 - bottom);
+        imageWidth = 1280 - right - left;
+        imageHeight = 960 - top - bottom;
         offset = left;
     }
 

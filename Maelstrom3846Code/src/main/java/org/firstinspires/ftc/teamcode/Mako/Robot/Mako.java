@@ -20,7 +20,7 @@ import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
 
 /*
- * Modified 4/21/21 10:37 AM by Amogh Mehta
+ * Modified 4/21/21 10:20 PM by Amogh Mehta
  */
 
 public class Mako extends MidnightRobot {
@@ -82,8 +82,12 @@ public class Mako extends MidnightRobot {
         1280x960, 1280x720, 960x720, 960x540, 864x480, 768x432, 720x480, 640x480, 320x240, 176x144
          */
         RingDetector ringFinder = new RingDetector();
-        ringFinder.setClippingMargins(100, 100, 100, 100);
+        ringFinder.setClippingMargins(700, 522, 150, 570);
         cameraView = new MasqCamera(ringFinder);
         cameraView.start(UPRIGHT);
+    }
+
+    private void initServos() {
+        claw.reset();
     }
 }
