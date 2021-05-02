@@ -13,9 +13,11 @@ import MidnightLibrary.MidnightRobot;
 
 import static org.firstinspires.ftc.teamcode.Mako.Subsystems.Constants.INTAKE_POWER;
 import static org.firstinspires.ftc.teamcode.Mako.Subsystems.Constants.ROTATOR_POWER;
+import static org.firstinspires.ftc.teamcode.Mako.Subsystems.Constants.SHOOTER_POWER;
+
 /*
  * Created by Amogh Mehta
- * Modified 4/21/21 10:41 AM by Amogh Mehta
+ * Modified 5/1/21 8:25 PM by Amogh Mehta
  */
 @TeleOp(name = "MakoTeleOp", group = "Mako")
 
@@ -27,6 +29,7 @@ public class MakoTeleOp extends MidnightLinearOpMode {
     boolean endgameModeEnabled = false;
     ArrayList<Boolean> booleanArrayList = new ArrayList<>();
     int booleanIncrement = 0;
+    boolean shooterIdleMode = false;
 
     //INFO: Define ifPressed State Machine Method for Gamepad Buttons
     private boolean ifPressed(boolean button) {
@@ -107,7 +110,7 @@ public class MakoTeleOp extends MidnightLinearOpMode {
 
             if (!endgameModeEnabled) {
                 //INFO: Trigger based variable speed intake control with adjustable speed control via dpad
-                mako.intake.setPower(INTAKE_POWER * gamepad1.left_trigger - gamepad2.right_trigger);
+                mako.intake.setVelocity(INTAKE_POWER * gamepad1.left_trigger - gamepad2.right_trigger);
                 boolean dpadLeftPressed = ifPressed(gamepad1.dpad_left);
                 boolean dpadRightPressed = ifPressed(gamepad1.dpad_right);
                 if (dpadLeftPressed && !dpadRightPressed) {
@@ -115,6 +118,24 @@ public class MakoTeleOp extends MidnightLinearOpMode {
                 } else if (dpadRightPressed & !dpadLeftPressed) {
                     INTAKE_POWER += 0.01;
                 }
+
+                mako.shooter.setVelocity(SHOOTER_POWER);
+                boolean G1YPressed = ifPressed(gamepad1.y);
+                if (G1YPressed && !shooterIdleMode) {
+                    SHOOTER_POWER = -0.30;
+                    shooterIdleMode = true;
+                } else if (G1YPressed) {
+                    SHOOTER_POWER = -1.0;
+                    shooterIdleMode = false;
+                }
+
+                if (gamepad1.b) {
+                    mako.flicker.setPosition(0);
+                }
+                if (gamepad1.x) {
+                    mako.flicker.setPosition(1);
+                }
+
             } else {
                 //INFO: Trigger based variable speed rotator control with adjustable speed control via dpad
                 mako.rotator.setPower(ROTATOR_POWER * gamepad1.left_trigger - gamepad1.right_trigger);

@@ -13,6 +13,7 @@ import MidnightLibrary.MidnightDrivetrain.MidnightPositionTracker;
 import MidnightLibrary.MidnightMath.MidnightPIDController;
 import MidnightLibrary.MidnightMovement.MidnightMotor;
 import MidnightLibrary.MidnightMovement.MidnightMotorModel;
+import MidnightLibrary.MidnightMovement.MidnightServo;
 import MidnightLibrary.MidnightRobot;
 
 import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.setTracker;
@@ -20,28 +21,32 @@ import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
 
 /*
- * Modified 4/21/21 10:20 PM by Amogh Mehta
+ * Modified 5/1/21 12:21 PM by Amogh Mehta
  */
 
 public class Mako extends MidnightRobot {
-    public MidnightMotor encoder1, encoder2, rotator, intake;
+    public MidnightMotor encoder1, rotator, intake, shooter;
     public MasqCamera cameraView;
     public Claw claw;
+    public MidnightServo flicker;
 
 
     @Override
     public void mapHardware(HardwareMap hardwareMap) {
         driveTrain = new MidnightMechanumDriveTrain(hardwareMap, MidnightMotorModel.ORBITAL20);
 
-        intake = new MidnightMotor("intake", MidnightMotorModel.ORBITAL20, hardwareMap);
+        intake = new MidnightMotor("intake", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
 
         rotator = new MidnightMotor("rotator", MidnightMotorModel.ORBITAL20, hardwareMap);
 
         claw = new Claw(hardwareMap);
 
         encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
-        encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
-        tracker = new MidnightPositionTracker(encoder1, encoder2, hardwareMap);
+        //encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
+        tracker = new MidnightPositionTracker(encoder1, intake, hardwareMap);
+
+        flicker = new MidnightServo("flicker", hardwareMap);
+        shooter = new MidnightMotor("shooter", MidnightMotorModel.NEVERREST_CLASSIC, hardwareMap);
 
         dash = MidnightDashBoard.getDash();
 
@@ -85,9 +90,5 @@ public class Mako extends MidnightRobot {
         ringFinder.setClippingMargins(700, 522, 150, 570);
         cameraView = new MasqCamera(ringFinder);
         cameraView.start(UPRIGHT);
-    }
-
-    private void initServos() {
-        claw.reset();
     }
 }
