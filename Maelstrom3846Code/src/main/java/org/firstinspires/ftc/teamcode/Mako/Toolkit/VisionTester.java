@@ -12,11 +12,11 @@ import MidnightLibrary.MidnightMath.MidnightVector;
 import static MidnightLibrary.MidnightAuxiliary.MidnightUtils.getCenterPoint;
 import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 /*
- * Modified 4/21/21 10:20 PM by Amogh Mehta
+ * Modified 5/9/21 10:08 PM by Amogh Mehta
  */
 
-@TeleOp(name = "VisionTester1", group = "Toolkit")
-public class VisionTester1 extends MidnightLinearOpMode {
+@TeleOp(name = "VisionTester", group = "Toolkit")
+public class VisionTester extends MidnightLinearOpMode {
     private final Mako robot = new Mako();
     RingDetector detector;
 

@@ -21,9 +21,9 @@ import static MidnightLibrary.MidnightRobot.OpMode.AUTO;
 import static org.openftc.easyopencv.OpenCvCameraRotation.UPRIGHT;
 
 /*
- * Modified 5/1/21 12:21 PM by Amogh Mehta
+ * Created by Amogh Mehta
+ * Modified 5/9/21 10:06 PM by Amogh Mehta
  */
-
 public class Mako extends MidnightRobot {
     public MidnightMotor encoder1, rotator, intake, shooter;
     public MasqCamera cameraView;
@@ -42,7 +42,6 @@ public class Mako extends MidnightRobot {
         claw = new Claw(hardwareMap);
 
         encoder1 = new MidnightMotor("xEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
-        //encoder2 = new MidnightMotor("yEncoder", MidnightMotorModel.REVTHROUGHBORE, hardwareMap);
         tracker = new MidnightPositionTracker(encoder1, intake, hardwareMap);
 
         flicker = new MidnightServo("flicker", hardwareMap);
@@ -71,13 +70,9 @@ public class Mako extends MidnightRobot {
 
         if (opMode == AUTO) {
             driveTrain.setKp(1e-9);
-            //driveTrain.setKi(0);
-            //driveTrain.setKd(0);
             initCamera();
         } else {
             driveTrain.setKp(1e-8);
-            //driveTrain.setKi(0);
-            //driveTrain.setKd(0);
         }
     }
 

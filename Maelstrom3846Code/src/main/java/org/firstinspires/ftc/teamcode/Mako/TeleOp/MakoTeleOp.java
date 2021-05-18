@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Mako.TeleOp;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Mako.Robot.Mako;
@@ -17,7 +15,7 @@ import static org.firstinspires.ftc.teamcode.Mako.Subsystems.Constants.SHOOTER_P
 
 /*
  * Created by Amogh Mehta
- * Modified 5/1/21 8:25 PM by Amogh Mehta
+ * Modified 5/9/21 10:07 PM by Amogh Mehta
  */
 @TeleOp(name = "MakoTeleOp", group = "Mako")
 
@@ -80,12 +78,12 @@ public class MakoTeleOp extends MidnightLinearOpMode {
         //INFO: Run REPEATEDLY in OpMode
         while (opModeIsActive()) {
             mako.MECH();
-
-            FtcDashboard dashboard = FtcDashboard.getInstance();
-            TelemetryPacket packet = new TelemetryPacket();
-
             mako.rotator.accessoryMotorConditioner();
             mako.rotator.setClosedLoop(false);
+
+            /*
+            FtcDashboard dashboard = FtcDashboard.getInstance();
+            TelemetryPacket packet = new TelemetryPacket();
 
             packet.put("LeftFrontPower: ", mako.driveTrain.getPowerLeftFront());
             packet.put("LeftBackPower: ", mako.driveTrain.getPowerLeftBack());
@@ -97,6 +95,7 @@ public class MakoTeleOp extends MidnightLinearOpMode {
             packet.put("RightFrontVelocity: ", mako.driveTrain.getVelocityRightFront());
             packet.put("RightBackVelocity: ", mako.driveTrain.getVelocityRightBack());
             dashboard.sendTelemetryPacket(packet);
+             */
 
             boolean G1APressed = ifPressed(gamepad1.a);
             if (G1APressed && !endgameModeEnabled) {
@@ -155,10 +154,12 @@ public class MakoTeleOp extends MidnightLinearOpMode {
                     mako.claw.close();
                 }
             }
+            /*
             packet.put("Rotator Speed: ", ROTATOR_POWER);
             packet.put("Rotator Motor Power: ", mako.rotator.getPower());
             packet.put("Rotator Velocity: ", mako.rotator.getVelocity());
             dashboard.sendTelemetryPacket(packet);
+             */
 
             dash.clear();
             booleanIncrement = 0;

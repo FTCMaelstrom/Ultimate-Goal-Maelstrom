@@ -23,13 +23,15 @@ android {
 repositories {
     maven { url = "https://dl.bintray.com/first-tech-challenge/ftcsdk/" }
 
+    /*
     flatDir {
         dirs '../libs'
     }
+     */
 }
 dependencies {
     implementation project(':FtcRobotController')
-    implementation 'org.openftc:easyopencv:1.4.1'
+    implementation 'org.openftc:easyopencv:1.4.4'
     implementation files('../libs/Jama-1.0.3.jar')
     implementation files('../libs/commons-math3-3.6.1.jar')
 }
